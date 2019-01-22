@@ -7,16 +7,17 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    expose:
-      - 4040
+    ports:
+      - 4040:4040
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
       PORT: 4040
       JWT_SECRET: 0a6b944d-d2fb-46fc-a85e-0295c986cd9f
       MONGO_HOST: mongodb://mongo/foodbyte
     restart: always
     depends_on:
       - mongo
+    command: "yarn start"
 
   mongo:
     image: mongo:3.6
