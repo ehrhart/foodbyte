@@ -30,7 +30,7 @@ const Product = require('../models/product.model');
       ingredients_text: offDoc.ingredients_text || '',
       ingredients: offDoc.ingredients || [],
       nutriments: offDoc.nutriments || [],
-      images: []
+      images: offDoc.images
     });
     delete product._id;
 
@@ -39,11 +39,6 @@ const Product = require('../models/product.model');
     }
     if (offDoc.stores) {
       product.stores = offDoc.stores.split(',');
-    }
-    if (offDoc.images) {
-      Object.keys(offDoc.images).forEach(imageKey => {
-        product.images.push(`https://static.openfoodfacts.org/images/products/${offDoc.id}/${imageKey}.jpg`);
-      });
     }
 
     try {
