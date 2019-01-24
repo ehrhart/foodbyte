@@ -1,16 +1,24 @@
 <header>
   <mat-toolbar color="primary">
     <a [routerLink]="['/']" class="logo"></a>
-    <span class="example-spacer"></span>
-    <a class="links side" [routerLink]="['/auth/login']" *ngIf="!user">Login</a>
-    <div>
-      <a class="links side" *ngIf="user" [matMenuTriggerFor]="menu">
-        <mat-icon>account_circle</mat-icon>{{user.fullname}}
-      </a>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item *ngIf="user && user.isAdmin" [routerLink]="['/admin']">admin</button>
-        <button mat-menu-item (click)="logout()">logout</button>
-      </mat-menu>
+    <span>FoodByte</span>
+
+    <!-- This fills the remaining space of the current row -->
+    <span class="fill-remaining-space"></span>
+    <div fxLayout="row" fxShow="false" fxShow.gt-sm>
+      <button mat-button routerLink="/statistics">Recette</button>
+      <button mat-button routerLink="/statistics">Magasins</button>
+      <button mat-button routerLink="/statistics">Produits</button>
+      <button mat-button routerLink="/command">Contact</button>
+      <button mat-button routerLink="/profile">Profile</button>
     </div>
+    <button mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
+      <mat-icon>menu</mat-icon>
+    </button>
+
   </mat-toolbar>
+  <mat-menu x-position="before" #menu="matMenu">
+    <button mat-menu-item routerLink="/login">Déconnexion</button>
+  </mat-menu>
+
 </header>
