@@ -1,0 +1,54 @@
+@mixin mat-icon-size($size: 24px) {
+  font-size: $size;
+  height: $size;
+  width: $size;
+  line-height: $size;
+}
+
+.example-card {
+  width: 300px;
+  margin: 20px;
+}
+
+.cards {
+  min-width: 1000px;
+  display: inline-flex;
+  margin-top: 3%;
+}
+
+.card-image {
+  height: 250px;
+  width: 280px;
+}
+
+.custom-icon {
+  @include mat-icon-size(86px);
+  background-size: 100% auto;
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.custom-card-header {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+ .blue {
+   color: dodgerblue ;
+ }
+
+ .red {
+   color: red;
+ }
+
+ .green {
+   color: lawngreen;
+ }
+
+ .orange {
+   color: orange;
+ }

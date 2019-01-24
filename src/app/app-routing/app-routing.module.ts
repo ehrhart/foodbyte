@@ -12,7 +12,10 @@ const routes: Routes = [{
 }, {
   path: 'admin',
   loadChildren: 'app/admin/admin.module#AdminModule'
-}];
+}, {
+    path: 'recipe',
+    loadChildren: 'app/recipe/recipe.module#RecipeModule'
+  }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
