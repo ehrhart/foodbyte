@@ -6,11 +6,11 @@ module.exports = {
 };
 
 async function getAll(req, res) {
-  const page = req.query.p || 1;
-  const limit = 20;
-  const offset = (page - 1 ) * limit;
+  const page = Math.max(1, parseInt(req.query.page) || 1);
+  const perPage = Math.max(0, Math.min(200, parseInt(req.query.per_page) || 20));
+  const offset = (page - 1 ) * perPage;
   try {
-    return res.json(await Product.find().skip(offset).limit(limit).exec());
+    return res.json(await Product.find().skip(offset).limit(perPage).exec());
   } catch (e) {
     return res.json(e);
   }
