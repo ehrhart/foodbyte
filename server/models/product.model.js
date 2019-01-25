@@ -14,9 +14,6 @@ const ProductSchema = new mongoose.Schema({
   brands: {
     type: [String]
   },
-  stores: {
-    type: [String]
-  },
   ingredients_text: {
     type: String
   },
