@@ -26,7 +26,6 @@ const Product = require('../models/product.model');
       name: offDoc.product_name_fr || '',
       nutrition_grade: offDoc.nutrition_grade_fr || '',
       brands: [],
-      stores: [],
       ingredients_text: offDoc.ingredients_text || '',
       ingredients: offDoc.ingredients || [],
       nutriments: offDoc.nutriments || [],
@@ -36,9 +35,6 @@ const Product = require('../models/product.model');
 
     if (offDoc.brands) {
       product.brands = offDoc.brands.split(',');
-    }
-    if (offDoc.stores) {
-      product.stores = offDoc.stores.split(',');
     }
 
     try {
