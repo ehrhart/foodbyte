@@ -9,3 +9,4 @@ module.exports = router;
 
 router.post('/register', asyncHandler(authCtrl.register), authCtrl.login);
 router.post('/login', passport.authenticate('local', { session: false }), authCtrl.login);
+router.get('/me', passport.authenticate('jwt', { session: false }), authCtrl.login);
