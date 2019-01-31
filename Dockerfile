@@ -8,4 +8,4 @@ RUN yarn build
 
 EXPOSE 4040
 
-CMD ["yarn", "serve"]
+CMD ["yarn", "start"]
