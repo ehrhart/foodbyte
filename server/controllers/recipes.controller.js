@@ -1,3 +1,5 @@
+const nlp = require('compromise');
+const Product = require('../models/product.model');
 const Recipe = require('../models/recipe.model');
 
 module.exports = {
@@ -5,7 +7,8 @@ module.exports = {
   getById,
   create,
   update,
-  remove
+  remove,
+  parseIngredients
 };
 
 async function getAll(req, res, next) {
@@ -57,4 +60,28 @@ async function remove(req, res, next) {
   })
   .then(() => res.status(204)) // 204 No Content
   .catch(next);
+}
+
+async function parseIngredients(req, res, next) {
+  const lexicon= {};
+
+  let recipeText = '';
+  if (req.params.id) {
+    const recipe = Recipe.findById(req.params.id);
+    recipeText = recipe.text;
+  } else {
+    recipeText = req.body.text;
+  }
+
+  const products = await Product.find();
+  products.forEach(product => {
+    if (product.name) {
+      lexicon[product.name] = 'Ingredient'; // Singular form
+      lexicon[nlp(product.name).tag('Singular').nouns().toPlural().out()] = 'Ingredient'; // Plural form
+    }
+  });
+
+  doc = nlp(recipeText, lexicon);
+  const out = doc.match('#Ingredient');
+  return res.json(out.out('offset'));
 }
