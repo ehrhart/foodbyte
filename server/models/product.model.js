@@ -24,7 +24,7 @@ const ProductSchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.Mixed]
   },
   images: {
-    type: [String]
+    type: [mongoose.Schema.Types.Mixed]
   }
 }, {
   versionKey: false,
