@@ -14,9 +14,6 @@ const ProductSchema = new mongoose.Schema({
   brands: {
     type: [String]
   },
-  stores: {
-    type: [String]
-  },
   ingredients_text: {
     type: String
   },
@@ -27,7 +24,7 @@ const ProductSchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.Mixed]
   },
   images: {
-    type: [String]
+    type: [mongoose.Schema.Types.Mixed]
   }
 }, {
   versionKey: false,
