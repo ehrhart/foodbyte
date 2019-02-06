@@ -6,7 +6,7 @@ import { map, catchError, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ProductsService {
-   endpoint = 'http://localhost:/api/';
+   endpoint = 'http://localhost:4040/api/';
    httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json'
@@ -18,13 +18,8 @@ private extractData(res: Response) {
 }
 
   constructor(private http: HttpClient) { }
-<<<<<<< Updated upstream
-  getProducts(pageID): Observable<any> {
-    return this.http.get(this.endpoint + 'products?page='+pageID).pipe(
-=======
-  getProducts(id): Observable<any> {
-    return this.http.get(this.endpoint + 'products?page='+id).pipe(
->>>>>>> Stashed changes
+  getProducts(): Observable<any> {
+    return this.http.get(this.endpoint + 'products').pipe(
       map(this.extractData));
   }
   
