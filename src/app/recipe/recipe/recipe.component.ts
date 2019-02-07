@@ -1,4 +1,5 @@
 import {Component, OnInit, VERSION} from '@angular/core';
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-recipe',
@@ -7,6 +8,7 @@ import {Component, OnInit, VERSION} from '@angular/core';
 })
 export class RecipeComponent implements OnInit {
 
+  public form: FormGroup
   recipes: any [];
   rows: number[] ;
   ElementNumber: number;

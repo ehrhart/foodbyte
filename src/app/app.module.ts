@@ -1,39 +1,40 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
-import { RouterModule, PreloadAllModules } from '@angular/router';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {AuthModule} from './auth/auth.module';
 
-import { SharedModule } from './shared/shared.module';
-import { AuthModule } from './auth/auth.module';
+import {AppComponent} from './app.component';
+import {AdminModule} from './admin/admin.module';
+import {AuthHeaderInterceptor} from './interceptors/header.interceptor';
+import {CatchErrorInterceptor} from './interceptors/http-error.interceptor';
 
-import { AppComponent } from './app.component';
-import { AdminModule } from './admin/admin.module';
-import { AuthHeaderInterceptor } from './interceptors/header.interceptor';
-import { CatchErrorInterceptor } from './interceptors/http-error.interceptor';
+import {AppRoutingModule} from './app-routing/app-routing.module';
+import {HeaderComponent} from './header/header.component';
+import {HomeComponent} from './home/home.component';
+import {ProductsModule} from "./products/products.module";
+import {RecipeModule} from "./recipe/recipe.module";
+import {SharedModule} from "./shared/shared.module";
 
-import { AppRoutingModule } from './app-routing/app-routing.module';
-import { HeaderComponent } from './header/header.component';
-import { HomeComponent } from './home/home.component';
-import { ProductsComponent } from './products/products/products.component';
-import { RecipeComponent } from './recipe/recipe/recipe.component';
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent,
-    ProductsComponent,
-    RecipeComponent,
+    HomeComponent
   ],
+
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    SharedModule,
     HttpClientModule,
     RouterModule,
-    SharedModule,
     AuthModule,
     AdminModule,
     AppRoutingModule,
+    ProductsModule,
+    RecipeModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
@@ -47,4 +48,5 @@ import { RecipeComponent } from './recipe/recipe/recipe.component';
   entryComponents: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

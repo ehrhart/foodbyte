@@ -3,10 +3,10 @@
   <div fxLayout="column" fxLayoutAlign="space-around center" style="display: inline-flex;">
     <div style="margin-right: 350px ">
       <mat-button-toggle-group name="fontStyle" aria-label="Font Style" fxLayoutAlign="center">
-        <mat-button-toggle value="bold" (click)="initialize()"><mat-icon>view_module</mat-icon>Tous les produits</mat-button-toggle>
-        <mat-button-toggle value="bold" (click)="filterAccordingtoEconomique()"><mat-icon>euro_symbol</mat-icon>Economique</mat-button-toggle>
-        <mat-button-toggle value="italic" (click)="filterAccordingtoBiologique()"><mat-icon>date_range</mat-icon>Biologique</mat-button-toggle>
-        <mat-button-toggle value="underline" (click)="filterAccordingtoFavorite()" ><mat-icon>star_rate</mat-icon>Favoris</mat-button-toggle>
+        <mat-button-toggle value="bold"><mat-icon>view_module</mat-icon>Tous les produits</mat-button-toggle>
+        <mat-button-toggle value="bold"><mat-icon>euro_symbol</mat-icon>Economique</mat-button-toggle>
+        <mat-button-toggle value="italic"><mat-icon>date_range</mat-icon>Biologique</mat-button-toggle>
+        <mat-button-toggle value="underline"><mat-icon>star_rate</mat-icon>Favoris</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
 
@@ -18,7 +18,7 @@
           <mat-hint>Rechercher votre produits</mat-hint>
         </mat-form-field>
       </form>
-      <button mat-icon-button (click)="searchProduct()">
+      <button mat-icon-button>
         <mat-icon aria-label="Example icon-button with a heart icon">youtube_searched_for</mat-icon>
       </button>
     </div>
