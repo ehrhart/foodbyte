@@ -1,0 +1,48 @@
+
+@mixin mat-icon-size($size: 24px) {
+  font-size: $size;
+  height: $size;
+  width: $size;
+  line-height: $size;
+}
+
+.example-card {
+  width: 200px;
+  margin: 20px;
+
+}
+
+.cards {
+  min-width: 1000px;
+  display: -ms-inline-flexbox;
+}
+
+.card-image {
+  height: 100px;
+  width: 80px;
+  position: center;
+  margin-left: 15px;
+}
+
+.span-tag-bio {
+  color: red;
+}
+
+.span-tag-eco {
+  color: green;
+}
+
+
+.cart-icone {
+  color: dodgerblue;
+  @include mat-icon-size(44px);
+  background-size: 100% auto;
+}
+
+quantity-icone {
+  color: dodgerblue;
+  @include mat-icon-size(14px);
+  background-size: 70% auto;
+}
+
+
