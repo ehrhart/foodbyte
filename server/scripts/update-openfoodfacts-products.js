@@ -1,6 +1,7 @@
 // config should be imported before importing any other file
 const config = require('../config/config');
 require('../config/mongoose');
+const axios = require('axios');
 
 const mongoose = require('mongoose');
 const Product = require('../models/product.model');
@@ -21,6 +22,7 @@ const Product = require('../models/product.model');
   console.log(`Found ${offDocs.length} documents in OpenFoodFacts collection`);
 
   for (const offDoc of offDocs) {
+    const productData = (await axios.get(`https://openfoodfacts.org/api/v0/product/${offDoc.id}.json`)).data;
     const product = new Product({
       off_id: offDoc.id || '',
       name: offDoc.product_name_fr || '',
@@ -29,8 +31,12 @@ const Product = require('../models/product.model');
       ingredients_text: offDoc.ingredients_text || '',
       ingredients: offDoc.ingredients || [],
       nutriments: offDoc.nutriments || [],
-      images: offDoc.images
     });
+    if (productData && productData.status === 1) {
+      product.images = productData.product.selected_images || {};
+      product.image_url = productData.product.image_url;
+      product.image_thumb_url = productData.product.image_thumb_url;
+    }
     delete product._id;
 
     if (offDoc.brands) {
