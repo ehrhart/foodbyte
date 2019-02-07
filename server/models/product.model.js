@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Product = require('../models/price.model');
 
 const ProductSchema = new mongoose.Schema({
   off_id: {
@@ -26,12 +27,22 @@ const ProductSchema = new mongoose.Schema({
   images: {
     type: [mongoose.Schema.Types.Mixed]
   },
+<<<<<<< HEAD
   image_url: {
     type: String
   },
   image_thumb_url: {
     type: String
   }
+=======
+  prices: [
+    {
+      type:mongoose.Schema.ObjectId,
+      ref:'Price',
+      required: true
+    } 
+  ]
+>>>>>>> rechercher un produit selon des critères
 }, {
   versionKey: false,
   timestamps: true
