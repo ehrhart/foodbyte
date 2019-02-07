@@ -22,7 +22,6 @@ const Product = require('../models/product.model');
   console.log(`Found ${offDocs.length} documents in OpenFoodFacts collection`);
 
   for (const offDoc of offDocs) {
-    const productData = (await axios.get(`https://openfoodfacts.org/api/v0/product/${offDoc.id}.json`)).data;
     const product = new Product({
       off_id: offDoc.id || '',
       name: offDoc.product_name_fr || '',
@@ -32,11 +31,17 @@ const Product = require('../models/product.model');
       ingredients: offDoc.ingredients || [],
       nutriments: offDoc.nutriments || [],
     });
-    if (productData && productData.status === 1) {
-      product.images = productData.product.selected_images || {};
-      product.image_url = productData.product.image_url;
-      product.image_thumb_url = productData.product.image_thumb_url;
+    try {
+      const productData = (await axios.get(`https://openfoodfacts.org/api/v0/product/${offDoc.id}.json`)).data;
+      if (productData && productData.status === 1) {
+        product.images = productData.product.selected_images || {};
+        product.image_url = productData.product.image_url;
+        product.image_thumb_url = productData.product.image_thumb_url;
+      }
+    } catch (e) {
+      console.error(e);
     }
+
     delete product._id;
 
     if (offDoc.brands) {
