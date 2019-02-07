@@ -32,6 +32,7 @@
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.2",
     "compression": "^1.7.2",
+    "compromise": "^11.13.0",
     "cookie-parser": "^1.4.3",
     "core-js": "2.6.3",
     "cors": "^2.8.4",
