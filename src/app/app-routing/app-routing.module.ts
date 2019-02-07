@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/auth-guard.service';
 import { HomeComponent } from '../home/home.component';
+import { ProductsComponent } from '../products/products/products.component';
 
 const routes: Routes = [{
   path: '',
@@ -15,6 +16,13 @@ const routes: Routes = [{
 }, {
     path: 'recipe',
     loadChildren: 'app/recipe/recipe.module#RecipeModule'
+  },
+  {
+    path: 'products',
+    component: ProductsComponent
+  },
+ { path: 'recipes',
+    component: ProductsComponent
   }];
 
 @NgModule({
