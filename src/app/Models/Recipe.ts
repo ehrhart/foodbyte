@@ -1,20 +1,32 @@
 export interface IRecipe {
-  id: number;
-  title: string;
-  category: string;
-  tag: string;
+  _id: number;
+  name: string;
+  text: string;
+  ingredients: string[];
+  createdAt: string;
+  updatedAt: string;
+  user: string;
 }
 
-export class Product {
-  id: number;
-  title: string;
-  category: string;
-  tag: string;
-  constructor(product) {
+export class Recipe {
+  _id: number;
+  name: string;
+  text: string;
+  ingredients: string[];
+  createdAt: string;
+  updatedAt: string;
+  user: string;
+
+  constructor(_id: number, name: string, text: string, ingredients: string[], createdAt: string, updatedAt: string, user: string ) {
     {
-      this.id = product.id;
-      this.title = product.title;
-      this.category = product.category;
+      this._id = _id;
+      this.name = name;
+      this.text = text;
+      this.ingredients = ingredients;
+      this.createdAt = createdAt;
+      this.updatedAt = updatedAt;
+      this.user = user;
+
     }
   }
 }

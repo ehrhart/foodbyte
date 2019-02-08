@@ -1,0 +1,33 @@
+@mixin mat-icon-size($size: 24px) {
+  font-size: $size;
+  height: $size;
+  width: $size;
+  line-height: $size;
+}
+
+.user-icon{
+  color: white;
+  @include mat-icon-size(55px);
+  background-size: 100% auto;
+}
+
+.user-compose-dialog {
+  .mat-dialog-container {
+    padding: 0;
+    .compose-form {
+      .mat-form-field {
+        width: 100%;
+      }
+      .show-hide-extra-fields {
+        text-align: right;
+        cursor: pointer;
+        font-size: 12px;
+      }
+    }
+  }
+  .dialog-content-wrapper {
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+  }
+}

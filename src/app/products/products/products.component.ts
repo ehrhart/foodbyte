@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductsService } from '../../service/products.service'
+import { ProductsService } from '../../service/api/products.service'
 import { ActivatedRoute, Router } from '@angular/router';
 
 export interface ProductFeature {

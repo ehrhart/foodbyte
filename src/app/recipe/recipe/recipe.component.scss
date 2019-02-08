@@ -7,12 +7,13 @@
 }
 
 .example-card {
-  width: 200px;
-  margin: 20px;
+  width: 350px;
+  margin-left: 20px;
 
 }
 
 .cards {
+  margin-top: 20px ;
   min-width: 1000px;
   display: -ms-inline-flexbox;
 }
@@ -45,4 +46,20 @@ quantity-icone {
   background-size: 70% auto;
 }
 
+#add-recipe-button {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  padding: 0;
+  z-index: 99;
+}
+
+.corner-fap-button{
+  top: auto;
+  right: 20px;
+  bottom: 20px;
+  left: auto;
+  position: fixed;
+
+}
 

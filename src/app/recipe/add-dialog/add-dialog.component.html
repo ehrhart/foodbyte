@@ -1,0 +1,37 @@
+<div class="dialog-content-wrapper">
+
+  <mat-toolbar matDialogTitle class="mat-accent m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title"><small>Créer un compte utilisateur</small></span>
+      <button mat-button class="mat-icon-button"
+              (click)="dialogRef.close()"
+              aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <div mat-dialog-content class="p-24 m-0">
+
+
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="center center">
+    <div>
+      <button mat-raised-button
+              class="save-button mat-accent"
+              aria-label="SAVE">
+        Créer
+      </button>
+
+
+      <button mat-button
+              (click)="onNoClick()"
+              class="save-button mat-accent"
+              aria-label="CLOSE">
+        Annuler
+      </button>
+    </div>
+
+  </div>
+</div>
