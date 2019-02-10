@@ -8,6 +8,7 @@ import {Recipe} from "../../Models/Recipe";
 import {MatSnackBar} from "@angular/material";
 import {httpOptions} from "./api-http.config";
 import {handleError} from "./api-services.utils";
+import {TokenStorage} from "../../auth/token.storage";
 
 
 @Injectable()
@@ -20,7 +21,8 @@ export class RecipesService {
 
   constructor(
     private http: HttpClient,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private tockenStorage : TokenStorage
   ) {
   }
 
@@ -35,8 +37,12 @@ export class RecipesService {
     return this.http.get(this.endpoint).catch(handleError);
   }
 
-  postRecipes(recipe: Recipe) {
-    this.http.post<Recipe>(this.endpoint, recipe, httpOptions).subscribe(
+  postRecipes(recipe: Recipe){
+    console.log('post: '+ JSON.stringify(recipe));
+    let headers = new Headers();
+    headers.append('Authorization', this.tockenStorage.getToken());
+    headers.append('Content-Type', 'application/json');
+    this.http.post<Recipe>(this.endpoint , recipe , httpOptions).subscribe(
       (response) => {
         this.openSnackBar('Ajout de la recette aved succée', recipe.name);
        // this.communicationService.filter('refresh');

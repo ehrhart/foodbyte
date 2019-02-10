@@ -23,8 +23,12 @@ export class RecipeDetailsDialogComponent implements OnInit {
 
   }
 
-  onNoClick(): void {
+  public onNoClick(): void {
     this.dialogRef.close(['cancel-details']);
+  }
+
+  public parseRecipe(recipeDesciption: string): string[] {
+    return recipeDesciption.split('Etape');
   }
 
 }

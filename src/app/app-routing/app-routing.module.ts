@@ -4,6 +4,7 @@ import { AuthGuard } from '../auth/auth-guard.service';
 import { HomeComponent } from '../home/home.component';
 import { ProductsComponent } from '../products/products/products.component';
 import {RecipeComponent} from "../recipe/recipe/recipe.component";
+import {RegisterComponent} from "../auth/register/register.component";
 
 const routes: Routes = [{
   path: '',
@@ -17,6 +18,10 @@ const routes: Routes = [{
   path: 'admin',
   loadChildren: 'app/admin/admin.module#AdminModule'
    },
+  {
+    path: 'register',
+    component: RegisterComponent
+  },
   {
     path: 'products',
     component: ProductsComponent

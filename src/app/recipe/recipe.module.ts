@@ -6,6 +6,7 @@ import {RecipesService} from "../service/api/recipes.services";
 import { AddDialogComponent } from './add-dialog/add-dialog.component';
 import { RecipeDetailsDialogComponent } from './recipe-details-dialog/recipe-details-dialog.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {BrowserModule} from "@angular/platform-browser";
 
 @NgModule({
   declarations: [RecipeComponent, AddDialogComponent, RecipeDetailsDialogComponent],
@@ -13,6 +14,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     CommonModule,
     SharedModule,
     BrowserAnimationsModule,
+    BrowserModule,
   ],
   providers: [RecipesService],
   entryComponents: [

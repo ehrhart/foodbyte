@@ -9,13 +9,31 @@
 .example-card {
   width: 350px;
   margin-left: 20px;
-
 }
 
+.cardList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+/* Column Gap */
+.cardList > * {
+  box-sizing: border-box;
+}
+.cardList > *:not(:last-child) {
+  margin-right: 32px;
+}
+/* Item sizing */
+.cardListItem {
+  flex: 0 1 calc(33.3% - 32px);
+  margin-top: 15px;
+}
+
+
 .cards {
-  margin-top: 20px ;
+  margin-top: 20px;
   min-width: 1000px;
-  display: -ms-inline-flexbox;
 }
 
 .card-image {

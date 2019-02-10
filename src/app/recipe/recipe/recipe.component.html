@@ -10,11 +10,11 @@
     </div>
   </div>
 
-  <div fxLayout="row" class="cards">
-        <div *ngFor="let recipe of recipes" class="example-card"
+  <div class="cardList">
+        <ng-container *ngFor="let recipe of recipes"
              Style="border-style: dot-dash; height: 100%"
         >
-          <mat-card [class.mat-elevation-z8]="true">
+          <mat-card [class.mat-elevation-z8]="true"  class="cardListItem">
             <mat-card-header>
 
               <mat-card-title>{{recipe.name}}</mat-card-title> :
@@ -28,19 +28,25 @@
                 </div>
               </mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content>
+            <mat-card-content fxLayout="row" fxLayoutAlign="center space-between">
+              <img src="http://www.restaurant-le-bourguignon.fr/sites/default/files/ICONE-chef-BLANC-ombre.png" width="150" height="150">
             </mat-card-content>
             <mat-card-actions>
 
               <div fxLayout="row" fxLayoutAlign="center space-between">
                 <button mat-button>
-                  <mat-icon matTooltip="Afficher préparation" (click)="openRecipeDetailDialog(recipe)" style="color: blue">local_grocery_store</mat-icon>
+                  <mat-icon matTooltip="Afficher préparation" (click)="openRecipeDetailDialog(recipe)" style="color: blue">fastfood</mat-icon>
                 </button>
+
+                <button mat-button>
+                  <mat-icon matTooltip="Editer la recette" (click)="openRecipeDetailDialog(recipe)" style="color: blue">edit</mat-icon>
+                </button>
+
               </div>
 
             </mat-card-actions>
           </mat-card>
-        </div>
+        </ng-container>
   </div>
 
 
