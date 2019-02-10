@@ -80,8 +80,8 @@ export class AddDialogComponent implements OnInit {
     let recipeToPost: Recipe = new Recipe(null, formData['name'],
       formData['desciption'],
       selectedIngrdientsText,
-        "27/05/2006",
-        "27/09/2018",
+        null,
+        null,
         "haroun");
    console.log(recipeToPost);
     this.recipeService.postRecipes(recipeToPost);

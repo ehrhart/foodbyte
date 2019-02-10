@@ -28,6 +28,7 @@
 .cardListItem {
   flex: 0 1 calc(33.3% - 32px);
   margin-top: 15px;
+  max-width: 350px;
 }
 
 
@@ -37,7 +38,7 @@
 }
 
 .card-image {
-  height: 100px;
+  height: 80px;
   width: 80px;
   position: center;
   margin-left: 15px;
@@ -79,5 +80,18 @@ quantity-icone {
   left: auto;
   position: fixed;
 
+}
+
+.wrapper {
+  max-width: 90%;
+  margin:auto ;
+}
+
+.pager-container {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
 }
 

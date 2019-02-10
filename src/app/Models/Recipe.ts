@@ -13,11 +13,11 @@ export class Recipe {
   name: string;
   text: string;
   ingredients: string[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   user: string;
 
-  constructor(_id: number = null, name: string, text: string, ingredients: string[], createdAt: string, updatedAt: string, user: string ) {
+  constructor(_id: number = null, name: string, text: string, ingredients: string[], createdAt: Date, updatedAt: Date, user: string ) {
     {
       this._id = _id;
       this.name = name;

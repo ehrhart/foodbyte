@@ -3,60 +3,113 @@
   <div fxLayout="row" fxLayoutAlign="space-around center">
     <div>
       <mat-button-toggle-group name="fontStyle" aria-label="Font Style" fxLayoutAlign="center">
-        <mat-button-toggle value="bold"><mat-icon>date_range</mat-icon>Date de création</mat-button-toggle>
-        <mat-button-toggle value="bold"><mat-icon>date_range</mat-icon>Date de modificaton </mat-button-toggle>
-        <mat-button-toggle value="italic"><mat-icon>date_range</mat-icon>Nom</mat-button-toggle>
+        <mat-button-toggle value="bold" (click)="filterCreationDate()">
+          <mat-icon>add_alarm</mat-icon>
+          Date de création
+          <mat-icon *ngIf="!ascendantCreationSort">arrow_downward</mat-icon>
+          <mat-icon *ngIf="ascendantCreationSort">arrow_upward</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="bold" (click)="filterUpdateDate()">
+          <mat-icon>update</mat-icon>
+          Date de modificaton
+          <mat-icon *ngIf="!ascendantUpdateSort">arrow_downward</mat-icon>
+          <mat-icon *ngIf="ascendantUpdateSort">arrow_upward</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="italic" (click)="filterAlphabeticName()">
+          <mat-icon>sort_by_alpha</mat-icon>
+          Nom
+          <mat-icon *ngIf="!ascendantAlphabetciSort">arrow_downward</mat-icon>
+          <mat-icon *ngIf="ascendantAlphabetciSort">arrow_upward</mat-icon>
+        </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
   </div>
 
   <div class="cardList">
-        <ng-container *ngFor="let recipe of recipes"
-             Style="border-style: dot-dash; height: 100%"
-        >
-          <mat-card [class.mat-elevation-z8]="true"  class="cardListItem">
-            <mat-card-header>
+    <ng-container *ngFor="let recipe of pagedItems"
+                  Style="border-style: dot-dash; height: 100%"
+    >
+      <mat-card [class.mat-elevation-z8]="true" class="cardListItem">
+        <mat-card-header fxLayout="column" fxLayoutAlign="center center">
 
-              <mat-card-title>{{recipe.name}}</mat-card-title> :
+          <mat-card-title>{{recipe.name}}</mat-card-title>
+          :
 
-              <mat-card-subtitle>
-                <div>
-                <span>crée le: {{recipe.createdAt}}</span>
-                </div>
-                <div>
-                <span>modifié le: {{recipe.updatedAt}}</span>
-                </div>
-              </mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content fxLayout="row" fxLayoutAlign="center space-between">
-              <img src="http://www.restaurant-le-bourguignon.fr/sites/default/files/ICONE-chef-BLANC-ombre.png" width="150" height="150">
-            </mat-card-content>
-            <mat-card-actions>
+          <mat-card-subtitle>
+            <div>
+              <span>crée le: {{recipe.createdAt}}</span>
+            </div>
+            <div>
+              <span>modifié le: {{recipe.updatedAt}}</span>
+            </div>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content fxLayout="row" fxLayoutAlign="center space-between">
+          <img src="https://www.freeiconspng.com/uploads/recipe-icon--16.png" width="80"
+               height="80">
+        </mat-card-content>
+        <mat-card-actions>
 
-              <div fxLayout="row" fxLayoutAlign="center space-between">
-                <button mat-button>
-                  <mat-icon matTooltip="Afficher préparation" (click)="openRecipeDetailDialog(recipe)" style="color: blue">fastfood</mat-icon>
-                </button>
+          <div fxLayout="row" fxLayoutAlign="center space-between">
+            <button mat-button>
+              <mat-icon matTooltip="Afficher préparation" (click)="openRecipeDetailDialog(recipe)"
+                        style="color: blue">fastfood
+              </mat-icon>
+            </button>
 
-                <button mat-button>
-                  <mat-icon matTooltip="Editer la recette" (click)="openRecipeDetailDialog(recipe)" style="color: blue">edit</mat-icon>
-                </button>
+            <button mat-button>
+              <mat-icon matTooltip="Editer la recette" (click)="openRecipeDetailDialog(recipe)"
+                        style="color: blue">edit
+              </mat-icon>
+            </button>
 
-              </div>
+          </div>
 
-            </mat-card-actions>
-          </mat-card>
-        </ng-container>
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
+    <div>
+
+
+      <div class="pager-container">
+
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" fxLayoutAlign="center" *ngIf="pager.pages && pager.pages.length">
+
+          <mat-button-toggle value="First" [ngClass]="{disabled:pager.currentPage === 1}" (click)="setPage(1)">
+            <mat-icon>chevron_left</mat-icon>Premiére Page
+          </mat-button-toggle>
+
+          <mat-button-toggle value="Previous" [ngClass]="{disabled:pager.currentPage === 1}" (click)="setPage(pager.currentPage - 1)" >
+            <mat-icon>arrow_back</mat-icon>Précédent
+          </mat-button-toggle>
+
+          <mat-button-toggle value="{{page}}" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}" (click)="setPage(page)">
+            {{page}}
+          </mat-button-toggle>
+
+          <mat-button-toggle value="Next" [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="setPage(pager.currentPage + 1)">
+            <mat-icon>arrow_forward</mat-icon>Suivant
+          </mat-button-toggle>
+
+          <mat-button-toggle value="bold" [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="setPage(pager.totalPages)">
+            <mat-icon>chevron_right</mat-icon>Derniére Page
+          </mat-button-toggle>
+
+        </mat-button-toggle-group>
+
+      </div>
+
+    </div>
   </div>
 
 
   <!-- ADD RECIPE BUTTON -->
-  <button mat-fab class="mat-accent-bg corner-fap-button compose-dialog-button" id="add-recipe-button" (click)="openAddRecipeDialog()" aria-label="Nouvel Recette"
-           [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+  <button mat-fab class="mat-accent-bg corner-fap-button compose-dialog-button"
+          id="add-recipe-button" (click)="openAddRecipeDialog()" aria-label="Nouvel Recette"
+          [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
     <mat-icon>add</mat-icon>
   </button>
   <!-- / ADD RECIPE BUTTON -->
-
 
 
 </div>

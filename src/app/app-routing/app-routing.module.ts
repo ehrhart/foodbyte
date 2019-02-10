@@ -8,6 +8,7 @@ import {RegisterComponent} from "../auth/register/register.component";
 
 const routes: Routes = [{
   path: '',
+  canActivate: [AuthGuard],
   component: HomeComponent
    },
   {
@@ -16,7 +17,8 @@ const routes: Routes = [{
    },
   {
   path: 'admin',
-  loadChildren: 'app/admin/admin.module#AdminModule'
+    canActivate: [AuthGuard],
+    loadChildren: 'app/admin/admin.module#AdminModule'
    },
   {
     path: 'register',
@@ -24,10 +26,12 @@ const routes: Routes = [{
   },
   {
     path: 'products',
+    canActivate: [AuthGuard],
     component: ProductsComponent
   },
  { path: 'recipes',
-    component: RecipeComponent
+   canActivate: [AuthGuard],
+   component: RecipeComponent
   }];
 
 @NgModule({

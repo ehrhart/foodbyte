@@ -16,6 +16,8 @@ import {HomeComponent} from './home/home.component';
 import {ProductsModule} from "./products/products.module";
 import {RecipeModule} from "./recipe/recipe.module";
 import {SharedModule} from "./shared/shared.module";
+import {CommunicationService} from "./service/communication.service";
+import {PagerService} from "./service/pager.service";
 
 @NgModule({
   declarations: [
@@ -44,7 +46,7 @@ import {SharedModule} from "./shared/shared.module";
     provide: HTTP_INTERCEPTORS,
     useClass: CatchErrorInterceptor,
     multi: true,
-  }],
+  },CommunicationService,PagerService],
   entryComponents: [],
   bootstrap: [AppComponent]
 })

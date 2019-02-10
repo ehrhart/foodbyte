@@ -1,29 +1,38 @@
+<div fxLayout="column" class="custom-wrapper">
 <mat-card class="example-card">
-  <mat-card-header>
-    <mat-card-title>Login</mat-card-title>
+  <mat-card-header fxLayout="column" fxLayoutAlign="center center">
+    <mat-card-title>S'authentifier</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <form class="example-form">
-      <table cellspacing="0">
-        <tr>
-          <td>
-            <mat-form-field>
-              <input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <mat-form-field>
-              <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
-            </mat-form-field>
-          </td>
-        </tr>
-      </table>
+         <div fxLayout="column">
+
+
+           <mat-form-field appearance="outline" fxFlex="100">
+             <mat-label>Email</mat-label>
+             <input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
+             <mat-icon matSuffix>account_circle</mat-icon>
+             <mat-hint>Votre email</mat-hint>
+           </mat-form-field>
+
+           <mat-form-field appearance="outline" fxFlex="100">
+             <mat-label>Mot de passe</mat-label>
+             <input matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
+             <mat-icon matSuffix>lock</mat-icon>
+             <mat-hint>Votre Mot de passe</mat-hint>
+           </mat-form-field>
+
+         </div>
     </form>
   </mat-card-content>
   <mat-card-actions>
+    <div fxLayout="column" fxLayoutAlign="center center">
     <button mat-raised-button (click)="login()" color="primary">Login</button>
-    <span>Don't have an account ? <a [routerLink]="['/auth/register']" >register</a> here</span>
+    <span class="register-section">Si vous avez pas un compte ? <a [routerLink]="['/auth/register']" >Enregistrez-vous </a> Ici</span>
+    </div>
   </mat-card-actions>
+  <div>
+    <img src="../../../assets/foodByte.png" width="300" height="200">
+  </div>
 </mat-card>
+</div>

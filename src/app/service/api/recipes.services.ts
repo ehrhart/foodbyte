@@ -9,6 +9,7 @@ import {MatSnackBar} from "@angular/material";
 import {httpOptions} from "./api-http.config";
 import {handleError} from "./api-services.utils";
 import {TokenStorage} from "../../auth/token.storage";
+import {CommunicationService} from "../communication.service";
 
 
 @Injectable()
@@ -22,7 +23,8 @@ export class RecipesService {
   constructor(
     private http: HttpClient,
     private snackBar: MatSnackBar,
-    private tockenStorage : TokenStorage
+    private tockenStorage : TokenStorage,
+    private communicationService: CommunicationService
   ) {
   }
 
@@ -44,6 +46,7 @@ export class RecipesService {
     headers.append('Content-Type', 'application/json');
     this.http.post<Recipe>(this.endpoint , recipe , httpOptions).subscribe(
       (response) => {
+        this.communicationService.filter('refresh');
         this.openSnackBar('Ajout de la recette aved succée', recipe.name);
        // this.communicationService.filter('refresh');
       },

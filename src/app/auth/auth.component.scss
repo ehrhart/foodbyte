@@ -8,9 +8,30 @@
 
 .example-card {
   width: 400px;
-  margin: 10% auto;
+  margin: 3% auto;
 }
 
 .mat-card-title {
   font-size: 16px;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+::ng-deep .mat-input-wrapper{
+  width:400px !important;
+}
+
+.custom-wrapper {
+  background-image: url("../../assets/wp.jpg");
+  background-size:     100%;
+  background-repeat:   no-repeat;
+  background-position: center center;
+}
+
+.register-section {
+  margin-top: 40px;
 }
