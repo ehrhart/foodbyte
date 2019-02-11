@@ -17,8 +17,13 @@ export class AddDialogComponent implements OnInit {
   public recipeSteps: string[] = [""];
 
   ingredientsList: Ingridient[] = [];
+  slectedIngrdient:Ingridient[]= [];
+  selectedIngrdientsText: string[] = [""];
 
-  constructor(public dialogRef: MatDialogRef<AddDialogComponent>, public productsService: ProductsService, private recipeService: RecipesService,
+
+  constructor(public dialogRef: MatDialogRef<AddDialogComponent>,
+              public productsService: ProductsService,
+              private recipeService: RecipesService,
               @Inject(MAT_DIALOG_DATA) public data: any,) {
   }
 
@@ -28,13 +33,10 @@ export class AddDialogComponent implements OnInit {
       console.log(data);
       for (let entry of data) {
         for (let entryLevel2 of entry.map(e => e)) {
-          this.ingredientsList.push(entryLevel2); // 1, "string", false
+          this.ingredientsList.push(entryLevel2);
 
         }
-        console.log(entry);
       }
-
-      // this.ingredientsList = data.map(e => e.text)
     });
 
     this.dialogRef.afterClosed().subscribe(dialogResult => {
@@ -61,28 +63,42 @@ export class AddDialogComponent implements OnInit {
     return this.data.form.controls.desciption as FormControl;
   }
 
-  removeRecipeStep(i) {
-    console.log(this.recipeSteps);
-    this.recipeSteps.slice(i, 1);
+  removeRecipeStep(key) {
+    const index = this.recipeSteps.indexOf(key, 0);
+    if (index > -1) {
+      this.recipeSteps.splice(index, 1);
+    }
   }
 
-  addRecipeStep() {
+  addRecipeStep(i:number) {
     const formData = this.data.form.getRawValue();
-    this.recipeSteps.push(formData['desciption']);
+    this.recipeSteps.push(' Etape '+i+formData['desciption']);
+
   }
 
   public addRecipe(): void {
     const formData = this.data.form.getRawValue();
-    let slectedIngrdient: Ingridient[] = formData['ingredients'];
-    let selectedIngrdientsText: string[] = slectedIngrdient.map(e => e.text);
+    if(formData['ingredients']) {
+      this.slectedIngrdient = formData['ingredients'];
+      this.selectedIngrdientsText = this.slectedIngrdient.map(e => e.text);
+    }
     this.recipeSteps.push(formData['desciption']);
     let recipeToPost: Recipe = new Recipe(null, formData['name'],
-      formData['desciption'],
+      this.concatinateStringArray(),
       null,
       null,
       null,
       "haroun");
-    console.log(recipeToPost);
+    console.log(this.recipeSteps);
     this.recipeService.postRecipes(recipeToPost);
+    this.onNoClick();
+  }
+
+  public concatinateStringArray() {
+    let result = "";
+    for (let string of this.recipeSteps) {
+      result = result + string;
+    }
+    return result;
   }
 }

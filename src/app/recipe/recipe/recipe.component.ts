@@ -58,19 +58,28 @@ export class RecipeComponent implements OnInit {
       this.getRecipes();
       this.ascendantCreationSort = false;
       this.filterCreationDate();
-      this.allItems = this.recipes;
-      this.setPage(1);
+      // this.allItems = this.recipes;
+      // this.setPage(1);
     }
   }
 
 
   public openRecipeDetailDialog(recipe: Recipe) {
-    let dialogRef = this.dialog.open(RecipeDetailsDialogComponent, {
+    this.dialog.open(RecipeDetailsDialogComponent, {
       width: '1000px',
       height: '800px',
       data: {recipe: recipe}
     });
   }
+
+  public openAddRecipeDialog() {
+    this.dialog.open(AddDialogComponent, {
+      width: '1000px',
+      height: '800px',
+      data: {form: this.generateRecipeForm()}
+    })
+  }
+
 
   public getRecipes() {
     this.recipeService.getRecipes().subscribe(recipes => {
@@ -83,18 +92,10 @@ export class RecipeComponent implements OnInit {
     });
   }
 
-  public openAddRecipeDialog() {
-    let dialogRef = this.dialog.open(AddDialogComponent, {
-      width: '1000px',
-      height: '800px',
-      data: {form: this.generateRecipeForm()}
-    })
-  }
-
    public filterCreationDate() {
      this.ascendantCreationSort = !this.ascendantCreationSort;
      if(this.ascendantCreationSort) {
-      this.recipes = this.recipes.sort((a: Recipe, b: Recipe) => {
+      this.pagedItems = this.pagedItems.sort((a: Recipe, b: Recipe) => {
         console.log("acendant sort");
         let date1 = new Date(a.createdAt);
         let date2 = new Date(b.createdAt);
@@ -103,7 +104,7 @@ export class RecipeComponent implements OnInit {
       });
     }
     else{
-      this.recipes = this.recipes.sort((a: Recipe, b: Recipe) => {
+      this.pagedItems = this.pagedItems.sort((a: Recipe, b: Recipe) => {
         console.log("descendant sort")
         let date1 = new Date(a.createdAt);
         let date2 = new Date(b.createdAt);
@@ -116,7 +117,7 @@ export class RecipeComponent implements OnInit {
   public filterUpdateDate() {
     this.ascendantUpdateSort = !this.ascendantUpdateSort;
     if(this.ascendantUpdateSort) {
-      this.recipes = this.recipes.sort((a: Recipe, b: Recipe) => {
+      this.pagedItems = this.pagedItems.sort((a: Recipe, b: Recipe) => {
         console.log("acendant sort");
         let date1 = new Date(a.updatedAt);
         let date2 = new Date(b.updatedAt);
@@ -125,7 +126,7 @@ export class RecipeComponent implements OnInit {
       });
     }
     else{
-      this.recipes = this.recipes.sort((a: Recipe, b: Recipe) => {
+      this.pagedItems = this.pagedItems.sort((a: Recipe, b: Recipe) => {
         console.log("descendant sort")
         let date1 = new Date(a.updatedAt);
         let date2 = new Date(b.updatedAt);
@@ -137,7 +138,7 @@ export class RecipeComponent implements OnInit {
   filterAlphabeticName() {
     this.ascendantAlphabetciSort = !this.ascendantAlphabetciSort;
     if(this.ascendantAlphabetciSort) {
-      this.recipes = this.recipes.sort(function (a, b) {
+      this.pagedItems = this.pagedItems.sort(function (a, b) {
         if (a.name < b.name) {
           return -1;
         }
@@ -148,7 +149,7 @@ export class RecipeComponent implements OnInit {
       })
     }
     else {
-      this.recipes = this.recipes.sort(function (a, b) {
+      this.pagedItems = this.pagedItems.sort(function (a, b) {
         if (a.name > b.name) {
           return -1;
         }

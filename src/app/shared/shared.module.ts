@@ -21,7 +21,7 @@ import {
   MatProgressBarModule,
   MatFormFieldModule,
   MatSelectModule,
-  MatGridListModule, MatGridTile,MatButtonToggleModule
+  MatGridListModule, MatGridTile, MatButtonToggleModule, MatTooltipModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
@@ -50,7 +50,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     FlexLayoutModule,
     MatGridListModule,
     MatButtonToggleModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatTooltipModule,
+
   ],
   exports: [
     MatToolbarModule,
@@ -75,6 +77,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     FlexLayoutModule,
     MatGridListModule,
     MatButtonToggleModule,
+    MatTooltipModule,
+
   ],
   declarations: [],
 })
