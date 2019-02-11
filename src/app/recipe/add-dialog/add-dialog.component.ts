@@ -75,15 +75,14 @@ export class AddDialogComponent implements OnInit {
     const formData = this.data.form.getRawValue();
     let slectedIngrdient: Ingridient[] = formData['ingredients'];
     let selectedIngrdientsText: string[] = slectedIngrdient.map(e => e.text);
-
-      this.recipeSteps.push(formData['desciption']);
+    this.recipeSteps.push(formData['desciption']);
     let recipeToPost: Recipe = new Recipe(null, formData['name'],
       formData['desciption'],
-      selectedIngrdientsText,
-        null,
-        null,
-        "haroun");
-   console.log(recipeToPost);
+      null,
+      null,
+      null,
+      "haroun");
+    console.log(recipeToPost);
     this.recipeService.postRecipes(recipeToPost);
   }
 }

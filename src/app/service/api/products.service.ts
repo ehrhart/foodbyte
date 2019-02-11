@@ -11,7 +11,7 @@ import {Ingridient} from "../../Models/Ingridient";
   providedIn: 'root'
 })
 export class ProductsService {
-  endpoint = 'http://localhost:4040/api/';
+  endpoint = '/api/';
   headers = new HttpHeaders({
     'Cache-Control': 'no-cache',
     'Pragma': 'no-cache',

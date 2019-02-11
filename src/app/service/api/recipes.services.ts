@@ -18,7 +18,7 @@ export class RecipesService {
     'Cache-Control': 'no-cache',
     'Pragma': 'no-cache',
   });
-  private endpoint = 'http://localhost:4040/api/recipes';
+  private endpoint = '/api/recipes';
 
   constructor(
     private http: HttpClient,
