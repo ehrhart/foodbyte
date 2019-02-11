@@ -17,10 +17,17 @@ module.exports = {
 async function getAll(req, res, next) {
   const page = Math.max(1, parseInt(req.query.page) || 1);
   const perPage = Math.max(0, Math.min(200, parseInt(req.query.per_page) || 20));
+  const keywords = req.query.q;
+
+  const filterParams = {};
+  if (keywords) {
+    filterParams.name = { $regex: new RegExp(keywords.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi') };
+  }
+
   const offset = (page - 1 ) * perPage;
   try {
     return res.json(await Recipe
-      .find()
+      .find(filterParams)
       .skip(offset)
       .limit(perPage)
       .select('-comments')
