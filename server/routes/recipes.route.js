@@ -12,3 +12,5 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), recipesCtrl
 router.delete('/:id', passport.authenticate('jwt', { session: false }), recipesCtrl.remove);
 router.post('/ingredients', recipesCtrl.parseIngredients);
 router.get('/:id/ingredients', recipesCtrl.parseIngredients);
+router.post('/:id/comments', passport.authenticate('jwt', { session: false }), recipesCtrl.addComment);
+router.get('/:id/comments', recipesCtrl.getComments);
