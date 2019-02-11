@@ -1,0 +1,30 @@
+@mixin md-icon-size($size: 24px) {
+  font-size: $size;
+  height: $size;
+  width: $size;
+  line-height: $size;
+}
+
+.confirm-icon{
+  color: #2C93FF;
+  @include md-icon-size(35px);
+  background-size: 100% auto;
+  position: fixed;
+}
+
+.notif-text{
+  text-align: center;
+}
+
+.notif-container {
+  border: 2px solid #2C93FF;
+}
+
+.mat-dialog-container {
+  padding: 0px !important;
+}
+
+.header-image {
+  display: block;
+  margin: 0 auto;
+}

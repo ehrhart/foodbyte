@@ -5,20 +5,22 @@
 
     <!-- This fills the remaining space of the current row -->
     <span class="fill-remaining-space"></span>
-    <div fxLayout="row" fxShow="false" fxShow.gt-sm>
-      <button mat-button routerLink="/statistics">Recette</button>
+    <div fxLayout="row" fxShow="false" fxShow.gt-sm class="example-spacer">
+      <button mat-button routerLink="/recipes">Recette</button>
       <button mat-button routerLink="/statistics">Magasins</button>
-      <button mat-button routerLink="/statistics">Produits</button>
+      <button mat-button routerLink="/products">Produits</button>
       <button mat-button routerLink="/command">Contact</button>
       <button mat-button routerLink="/profile">Profile</button>
     </div>
-    <button mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
-      <mat-icon>menu</mat-icon>
-    </button>
+    <div>
+      <button mat-button routerLink="/profile" *ngIf="user"> <mat-icon color="info">account_circle</mat-icon>{{user.fullname}}</button>
+      <button mat-button (click)="logout()">Déconnexion</button>
+    </div>
+
+
+
 
   </mat-toolbar>
-  <mat-menu x-position="before" #menu="matMenu">
-    <button mat-menu-item routerLink="/login">Déconnexion</button>
-  </mat-menu>
+
 
 </header>

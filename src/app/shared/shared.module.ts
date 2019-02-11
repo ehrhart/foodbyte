@@ -21,7 +21,9 @@ import {
   MatProgressBarModule,
   MatFormFieldModule,
   MatSelectModule,
+  MatGridListModule, MatGridTile,MatButtonToggleModule
 } from '@angular/material';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   imports: [
@@ -46,6 +48,9 @@ import {
     MatFormFieldModule,
     MatSelectModule,
     FlexLayoutModule,
+    MatGridListModule,
+    MatButtonToggleModule,
+    BrowserAnimationsModule
   ],
   exports: [
     MatToolbarModule,
@@ -68,6 +73,8 @@ import {
     MatFormFieldModule,
     MatSelectModule,
     FlexLayoutModule,
+    MatGridListModule,
+    MatButtonToggleModule,
   ],
   declarations: [],
 })

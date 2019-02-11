@@ -45,3 +45,6 @@ Thumbs.db
 
 # Env file
 *.env
+/france.bson.gz
+/get-docker.sh
+/package-lock.json

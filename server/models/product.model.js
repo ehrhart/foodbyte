@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Product = require('../models/price.model');
 
 const ProductSchema = new mongoose.Schema({
   off_id: {
@@ -14,9 +15,6 @@ const ProductSchema = new mongoose.Schema({
   brands: {
     type: [String]
   },
-  stores: {
-    type: [String]
-  },
   ingredients_text: {
     type: String
   },
@@ -27,8 +25,21 @@ const ProductSchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.Mixed]
   },
   images: {
-    type: [String]
-  }
+    type: [mongoose.Schema.Types.Mixed]
+  },
+  image_url: {
+    type: String
+  },
+  image_thumb_url: {
+    type: String
+  },
+  prices: [
+    {
+      type:mongoose.Schema.ObjectId,
+      ref:'Price',
+      required: true
+    } 
+  ]
 }, {
   versionKey: false,
   timestamps: true
