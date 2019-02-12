@@ -1,6 +1,10 @@
 <div fxLayout="column" fxLayoutAlign="center center" class="wrapper">
 
-  <div fxLayout="row" fxLayoutAlign="space-around center">
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex style="width: 100%">
+
+    <div>
+    </div>
+
     <div>
       <mat-button-toggle-group name="fontStyle" aria-label="Font Style" fxLayoutAlign="center">
         <mat-button-toggle value="bold" (click)="filterCreationDate()">
@@ -23,6 +27,24 @@
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
+
+
+    <div>
+    <form class="example-form">
+      <mat-form-field appearance="outline" fxFlex="100">
+      <input matInput placeholder="Rechercher votre recette" aria-label="Rechercher votre recette"
+             [formControl]="recipeSearch">
+        <!--<mat-autocomplete #auto="matAutocomplete">-->
+          <!--<mat-option *ngFor="let recipe of recipes | async" [value]="recipe.name">-->
+            <!--<img class="example-option-img"  height="25">-->
+            <!--<span>{{recipe.name}}</span> |-->
+          <!--</mat-option>-->
+        <!--</mat-autocomplete>-->
+      </mat-form-field>
+    </form>
+    </div>
+
+
   </div>
 
   <div class="cardList">
@@ -62,6 +84,13 @@
                         style="color: blue">edit
               </mat-icon>
             </button>
+
+            <button mat-button>
+              <mat-icon matTooltip="commentaire" (click)="openRecipeCommentDialog(recipe)"
+                        style="color: blue">forum
+              </mat-icon>
+            </button>
+
 
           </div>
 

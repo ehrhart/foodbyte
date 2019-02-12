@@ -21,7 +21,7 @@ import {
   MatProgressBarModule,
   MatFormFieldModule,
   MatSelectModule,
-  MatGridListModule, MatGridTile, MatButtonToggleModule, MatTooltipModule
+  MatGridListModule, MatGridTile, MatButtonToggleModule, MatTooltipModule, MatAutocompleteModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
@@ -52,6 +52,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     MatButtonToggleModule,
     BrowserAnimationsModule,
     MatTooltipModule,
+    MatAutocompleteModule
 
   ],
   exports: [
@@ -78,6 +79,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     MatGridListModule,
     MatButtonToggleModule,
     MatTooltipModule,
+    MatAutocompleteModule
 
   ],
   declarations: [],

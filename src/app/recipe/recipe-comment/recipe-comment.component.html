@@ -1,0 +1,81 @@
+<div class="dialog-content-wrapper">
+
+  <mat-toolbar matDialogTitle class="mat-accent m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">
+                Commentaires de la recette {{data.recipe.name}}
+            </span>
+      <button mat-button class="mat-icon-button"
+              (click)="dialogRef.close()"
+              aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <div mat-dialog-content class="p-24 m-0">
+    <div fxLayout="column">
+
+      <div class="header-image" fxLayout="column" fxLayoutAlign="space-between center">
+        <img src="https://icons-for-free.com/free-icons/svg/128/1737374.svg" width="100"
+             height="100">
+      </div>
+
+
+      <mat-card *ngFor="let comment of recipeComments" class="dialog-card">
+        <div fxLayout="column" fxLayoutAlign="start space-between">
+          <div fxLayout="row" fxLayoutAlign="space-between center" >
+            <div><span  class="name-section"><mat-icon color="primary">account_circle</mat-icon>{{comment.user.fullname}} </span></div>
+            <div><span>crée le : <small>{{comment.createdAt}}</small></span></div>
+
+          </div>
+          <div>{{comment.content}} </div>
+        </div>
+      </mat-card>
+
+      <div class="desciption-section">
+        <form class="form-field" [formGroup]="data.form">
+          <div fxLayout="column" fxLayoutAlign="center space-between">
+
+            <mat-card class="mat-elevation-z8" class="card-section">
+              <mat-label><strong>Ajouter un commentaire: </strong></mat-label>
+              <div>
+                <mat-form-field appearance="outline" fxFlex="100">
+                  <mat-label>Contenu de votre commentaire</mat-label>
+                  <input matInput placeholder="Placeholder" formControlName="content" required>
+                  <mat-icon matSuffix>forum</mat-icon>
+                  <mat-hint>Veuillez saisir un commentaire</mat-hint>
+                </mat-form-field>
+                <button mat-icon-button>
+                  <mat-icon matTooltip="Supprimer commentaire" class="close">cancel</mat-icon>
+                </button>
+
+                <button mat-icon-button (click)="addComment()"
+                        [disableRipple]="true">
+                  <mat-icon matTooltip="Ajouter commentaire" class="add">add</mat-icon>
+                </button>
+              </div>
+            </mat-card>
+          </div>
+        </form>
+
+
+
+
+      </div>
+
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="space-between center">
+    <div>
+      <button mat-button
+              class="save-button mat-accent"
+              (click)="onNoClick()"
+              aria-label="CLOSE">
+        Annuler
+      </button>
+    </div>
+  </div>
+
+</div>

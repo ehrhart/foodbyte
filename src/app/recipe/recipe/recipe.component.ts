@@ -1,5 +1,5 @@
 import {Component, OnInit, VERSION, ViewEncapsulation} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {recipeMock} from "./fake-recipe.mock";
 import {Recipe} from "../../Models/Recipe";
 import {RecipesService} from "../../service/api/recipes.services";
@@ -9,6 +9,7 @@ import {AddDialogComponent} from "../add-dialog/add-dialog.component";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CommunicationService} from "../../service/communication.service";
 import {PagerService} from "../../service/pager.service";
+import {RecipeCommentComponent} from "../recipe-comment/recipe-comment.component";
 
 @Component({
   selector: 'app-recipe',
@@ -32,6 +33,7 @@ export class RecipeComponent implements OnInit {
   allItems: any[] = [];
   pager: any = {};
   pagedItems: any[] = [];
+  recipeSearch = new FormControl();
 
 
   constructor(private recipeService: RecipesService,
@@ -58,8 +60,6 @@ export class RecipeComponent implements OnInit {
       this.getRecipes();
       this.ascendantCreationSort = false;
       this.filterCreationDate();
-      // this.allItems = this.recipes;
-      // this.setPage(1);
     }
   }
 
@@ -69,6 +69,14 @@ export class RecipeComponent implements OnInit {
       width: '1000px',
       height: '800px',
       data: {recipe: recipe}
+    });
+  }
+
+  public openRecipeCommentDialog(recipe: Recipe) {
+    this.dialog.open(RecipeCommentComponent, {
+      width: '1000px',
+      height: '800px',
+      data: {recipe: recipe, form: this.genrateCommentForm}
     });
   }
 
@@ -170,6 +178,13 @@ export class RecipeComponent implements OnInit {
       user: [],
       ingredients: [''],
       desciption: ['']
+    })
+  }
+
+  public genrateCommentForm(): FormGroup {
+    return this.formBuilder.group({
+      _id: [],
+      content: [''],
     })
   }
 

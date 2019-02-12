@@ -7,20 +7,22 @@ import { AddDialogComponent } from './add-dialog/add-dialog.component';
 import { RecipeDetailsDialogComponent } from './recipe-details-dialog/recipe-details-dialog.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from "@angular/platform-browser";
-import {CommunicationService} from "../service/communication.service";
+import { RecipeCommentComponent } from './recipe-comment/recipe-comment.component';
+import {CommentsService} from "../service/api/comments.service";
 
 @NgModule({
-  declarations: [RecipeComponent, AddDialogComponent, RecipeDetailsDialogComponent],
+  declarations: [RecipeComponent, AddDialogComponent, RecipeDetailsDialogComponent, RecipeCommentComponent],
   imports: [
     CommonModule,
     SharedModule,
     BrowserAnimationsModule,
     BrowserModule,
   ],
-  providers: [RecipesService],
+  providers: [RecipesService, CommentsService],
   entryComponents: [
     RecipeDetailsDialogComponent,
-    AddDialogComponent
+    AddDialogComponent,
+    RecipeCommentComponent
   ],
 })
 export class RecipeModule { }
