@@ -184,6 +184,11 @@ Il existe de nombreuses recettes de tiramisu. Celle-ci est la recette originale 
       location: {
         type: 'Point',
         coordinates: [7.0730066, 43.6178208]
+      },
+      address: {
+        street: 'Avenue Roumanille',
+        postalCode: '06410',
+        locality: 'Biot',
       }
     }),
     new Shop({
@@ -191,6 +196,11 @@ Il existe de nombreuses recettes de tiramisu. Celle-ci est la recette originale 
       location: {
         type: 'Point',
         coordinates: [7.0892186, 43.6038184]
+      },
+      address: {
+        street: 'Chemin de Saint-Claude',
+        postalCode: '06600',
+        locality: 'Antibes',
       }
     }),
     new Shop({
@@ -198,6 +208,11 @@ Il existe de nombreuses recettes de tiramisu. Celle-ci est la recette originale 
       location: {
         type: 'Point',
         coordinates: [7.0404749, 43.5921753]
+      },
+      address: {
+        street: '1750 Chemin de Saint-Bernard',
+        postalCode: '06220',
+        locality: 'Vallauris'
       }
     })
   ];
