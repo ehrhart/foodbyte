@@ -9,6 +9,9 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  score: {
+    type: Number
+  },
   nutrition_grade: {
     type: String
   },
@@ -38,7 +41,7 @@ const ProductSchema = new mongoose.Schema({
       type:mongoose.Schema.ObjectId,
       ref:'Price',
       required: true
-    } 
+    }
   ]
 }, {
   versionKey: false,
