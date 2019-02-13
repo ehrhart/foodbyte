@@ -151,16 +151,6 @@ function calculateScore(offDoc) {
       ingredients: offDoc.ingredients || [],
       nutriments: offDoc.nutriments || [],
     });
-    try {
-      const productData = (await axios.get(`https://openfoodfacts.org/api/v0/product/${offDoc.id}.json`)).data;
-      if (productData && productData.status === 1) {
-        product.images = productData.product.selected_images || {};
-        product.image_url = productData.product.image_url;
-        product.image_thumb_url = productData.product.image_thumb_url;
-      }
-    } catch (e) {
-      console.error(e);
-    }
 
     delete product._id;
 
