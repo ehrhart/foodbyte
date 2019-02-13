@@ -9,7 +9,7 @@ module.exports = {
   create,
   update,
   remove,
-  parseIngredients,
+  parseProducts,
   addComment,
   getComments
 };
@@ -85,7 +85,7 @@ async function remove(req, res, next) {
   .catch(next);
 }
 
-async function parseIngredients(req, res, next) {
+async function parseProducts(req, res, next) {
   const lexicon= {};
 
   let recipeText = '';
@@ -99,13 +99,13 @@ async function parseIngredients(req, res, next) {
   const products = await Product.find();
   products.forEach(product => {
     if (product.name) {
-      lexicon[product.name] = 'Ingredient'; // Singular form
-      lexicon[nlp(product.name).tag('Singular').nouns().toPlural().out()] = 'Ingredient'; // Plural form
+      lexicon[product.name] = 'Product'; // Singular form
+      lexicon[nlp(product.name).tag('Singular').nouns().toPlural().out()] = 'Product'; // Plural form
     }
   });
 
   doc = nlp(recipeText, lexicon);
-  const out = doc.match('#Ingredient');
+  const out = doc.match('#Product');
   return res.json(out.out('offset'));
 }
 
