@@ -30,7 +30,6 @@ const routes: Routes = [{
     component: ProductsComponent
   },
  { path: 'recipes',
-   canActivate: [AuthGuard],
    component: RecipeComponent
   }];
 

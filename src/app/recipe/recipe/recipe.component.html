@@ -102,29 +102,13 @@
 
       <div class="pager-container">
 
-        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" fxLayoutAlign="center" *ngIf="pager.pages && pager.pages.length">
-
-          <mat-button-toggle value="First" [ngClass]="{disabled:pager.currentPage === 1}" (click)="setPage(1)">
-            <mat-icon>chevron_left</mat-icon>Premiére Page
-          </mat-button-toggle>
-
-          <mat-button-toggle value="Previous" [ngClass]="{disabled:pager.currentPage === 1}" (click)="setPage(pager.currentPage - 1)" >
-            <mat-icon>arrow_back</mat-icon>Précédent
-          </mat-button-toggle>
-
-          <mat-button-toggle value="{{page}}" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}" (click)="setPage(page)">
-            {{page}}
-          </mat-button-toggle>
-
-          <mat-button-toggle value="Next" [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="setPage(pager.currentPage + 1)">
-            <mat-icon>arrow_forward</mat-icon>Suivant
-          </mat-button-toggle>
-
-          <mat-button-toggle value="bold" [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="setPage(pager.totalPages)">
-            <mat-icon>chevron_right</mat-icon>Derniére Page
-          </mat-button-toggle>
-
-        </mat-button-toggle-group>
+        <mat-paginator [length]="allItems.length"
+                       [pageIndex]="actualPage"
+                       [pageSize]="defaultPageSize"
+                       [showFirstLastButtons]="true"
+                       [pageSizeOptions]="[8, 16, 24, 32]"
+                       fxLayoutAlign="center center">
+        </mat-paginator>
 
       </div>
 
@@ -134,8 +118,7 @@
 
   <!-- ADD RECIPE BUTTON -->
   <button mat-fab class="mat-accent-bg corner-fap-button compose-dialog-button"
-          id="add-recipe-button" (click)="openAddRecipeDialog()" aria-label="Nouvel Recette"
-          [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+          id="add-recipe-button" (click)="openAddRecipeDialog()" aria-label="Nouvel Recette">
     <mat-icon>add</mat-icon>
   </button>
   <!-- / ADD RECIPE BUTTON -->
