@@ -66,7 +66,7 @@ export class RecipeCommentComponent implements OnInit {
   }
 
   get content(): FormControl {
-    return this.data.form.controls.content as FormControl;
+    return this.data.form.get('content') as FormControl;
   }
 
   addComment() {

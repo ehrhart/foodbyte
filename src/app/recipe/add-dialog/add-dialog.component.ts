@@ -30,7 +30,6 @@ export class AddDialogComponent implements OnInit {
   ngOnInit() {
 
     this.productsService.getIngridents().subscribe((data: any[]) => {
-      console.log(data);
       for (let entry of data) {
         for (let entryLevel2 of entry.map(e => e)) {
           this.ingredientsList.push(entryLevel2);
@@ -89,7 +88,6 @@ export class AddDialogComponent implements OnInit {
       null,
       null,
       "haroun");
-    console.log(this.recipeSteps);
     this.recipeService.postRecipes(recipeToPost);
     this.onNoClick();
   }

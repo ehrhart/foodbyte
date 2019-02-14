@@ -1,5 +1,8 @@
 <div fxLayout="column" fxLayoutAlign="center center" class="wrapper">
-
+    <mat-form-field class="table-search-input">
+      <input matInput #search placeholder="Rechercher">
+      <mat-icon style="font-size:120%;" matPrefix>search</mat-icon>
+    </mat-form-field>
   <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex style="width: 100%">
 
     <div>
@@ -28,22 +31,8 @@
       </mat-button-toggle-group>
     </div>
 
-
     <div>
-    <form class="example-form">
-      <mat-form-field appearance="outline" fxFlex="100">
-      <input matInput placeholder="Rechercher votre recette" aria-label="Rechercher votre recette"
-             [formControl]="recipeSearch">
-        <!--<mat-autocomplete #auto="matAutocomplete">-->
-          <!--<mat-option *ngFor="let recipe of recipes | async" [value]="recipe.name">-->
-            <!--<img class="example-option-img"  height="25">-->
-            <!--<span>{{recipe.name}}</span> |-->
-          <!--</mat-option>-->
-        <!--</mat-autocomplete>-->
-      </mat-form-field>
-    </form>
     </div>
-
 
   </div>
 
@@ -102,29 +91,13 @@
 
       <div class="pager-container">
 
-        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" fxLayoutAlign="center" *ngIf="pager.pages && pager.pages.length">
-
-          <mat-button-toggle value="First" [ngClass]="{disabled:pager.currentPage === 1}" (click)="setPage(1)">
-            <mat-icon>chevron_left</mat-icon>Premiére Page
-          </mat-button-toggle>
-
-          <mat-button-toggle value="Previous" [ngClass]="{disabled:pager.currentPage === 1}" (click)="setPage(pager.currentPage - 1)" >
-            <mat-icon>arrow_back</mat-icon>Précédent
-          </mat-button-toggle>
-
-          <mat-button-toggle value="{{page}}" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}" (click)="setPage(page)">
-            {{page}}
-          </mat-button-toggle>
-
-          <mat-button-toggle value="Next" [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="setPage(pager.currentPage + 1)">
-            <mat-icon>arrow_forward</mat-icon>Suivant
-          </mat-button-toggle>
-
-          <mat-button-toggle value="bold" [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="setPage(pager.totalPages)">
-            <mat-icon>chevron_right</mat-icon>Derniére Page
-          </mat-button-toggle>
-
-        </mat-button-toggle-group>
+        <mat-paginator [length]="allItems.length"
+                       [pageIndex]="actualPage"
+                       [pageSize]="defaultPageSize"
+                       [showFirstLastButtons]="true"
+                       [pageSizeOptions]="[8, 16, 24, 32]"
+                       fxLayoutAlign="center center">
+        </mat-paginator>
 
       </div>
 
@@ -134,8 +107,7 @@
 
   <!-- ADD RECIPE BUTTON -->
   <button mat-fab class="mat-accent-bg corner-fap-button compose-dialog-button"
-          id="add-recipe-button" (click)="openAddRecipeDialog()" aria-label="Nouvel Recette"
-          [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+          id="add-recipe-button" (click)="openAddRecipeDialog()" aria-label="Nouvel Recette">
     <mat-icon>add</mat-icon>
   </button>
   <!-- / ADD RECIPE BUTTON -->

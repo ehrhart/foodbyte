@@ -30,7 +30,6 @@ export class ProductsService {
 
   private extratIngidients(res: any) {
     let body = res.map(e => e.ingredients);
-    console.log(body);
     return body || [];
   }
 

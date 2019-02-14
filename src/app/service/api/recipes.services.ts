@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
@@ -35,8 +35,19 @@ export class RecipesService {
       .catch(handleError);
   }
 
-  getPaginatedRecipess(start: number, end: number): Observable<Object> {
-    return this.http.get(this.endpoint).catch(handleError);
+  getRecipesPaginated(page: number, perPage: number, Keywords: string = null): Observable<Array<Recipe>> {
+    let httpParams: HttpParams = new HttpParams()
+    .set('page', page.toString())
+    .set('per_page', perPage.toString())
+    .set('Keywords', Keywords);
+
+
+    return this.http.get(this.endpoint,  {
+      headers: this.headers,
+      params: httpParams
+    })
+    .map(this.extractData)
+    .catch(handleError);
   }
 
   postRecipes(recipe: Recipe){
@@ -51,7 +62,7 @@ export class RecipesService {
        // this.communicationService.filter('refresh');
       },
       response => {
-        this.openSnackBar('Erreur lors de l ajout de la rectte', recipe.name);
+        this.communicationService.filter('refresh');
       }
     );
   }

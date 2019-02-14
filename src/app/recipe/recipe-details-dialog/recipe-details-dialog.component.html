@@ -23,7 +23,7 @@
 
       <div class="desciption-section">
         <mat-list role="list">
-          <mat-list-item role="listitem" *ngFor="let step of parseRecipe(data.recipe.text) , let i = index"> <span  *ngIf="i != 0"> <strong>Etape</strong>{{step}}</span></mat-list-item>
+          <mat-list-item class="step-container" role="listitem" *ngFor="let step of parseRecipe(data.recipe.text) , let i = index"> <span  *ngIf="i != 0"> <strong>Etape</strong>{{step}}</span></mat-list-item>
         </mat-list>
         <!--{{data.recipe.text}}-->
       </div>

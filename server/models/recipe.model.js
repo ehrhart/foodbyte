@@ -14,9 +14,10 @@ const RecipeSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  ingredients: {
-    type: [String]
-  },
+  products: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product'
+  }],
   comments: [RecipeComment.schema]
 }, {
   versionKey: false,

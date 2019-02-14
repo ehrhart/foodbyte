@@ -22,6 +22,7 @@
       </div>
 
 
+      <ng-container *ngIf="recipeComments">
       <mat-card *ngFor="let comment of recipeComments" class="dialog-card">
         <div fxLayout="column" fxLayoutAlign="start space-between">
           <div fxLayout="row" fxLayoutAlign="space-between center" >
@@ -32,6 +33,7 @@
           <div>{{comment.content}} </div>
         </div>
       </mat-card>
+      </ng-container>
 
       <div class="desciption-section">
         <form class="form-field" [formGroup]="data.form">
@@ -58,9 +60,6 @@
             </mat-card>
           </div>
         </form>
-
-
-
 
       </div>
 

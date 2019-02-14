@@ -1,7 +1,6 @@
-const nlp = require('compromise');
-const Product = require('../models/product.model');
 const Recipe = require('../models/recipe.model');
 const RecipeComment = require('../models/recipe-comment.model');
+const nlpHelper = require('../helpers/nlp.helper');
 
 module.exports = {
   getAll,
@@ -9,7 +8,7 @@ module.exports = {
   create,
   update,
   remove,
-  parseIngredients,
+  getRecipeProducts,
   addComment,
   getComments
 };
@@ -33,6 +32,7 @@ async function getAll(req, res, next) {
       .select('-comments')
       .populate('comments.user', '_id fullname')
       .populate('user', '_id fullname')
+      .populate('products', '_id name')
       .exec()
     );
   } catch (e) {
@@ -46,6 +46,7 @@ async function getById(req, res, next) {
       .findById(req.params.id)
       .populate('comments.user', '_id fullname')
       .populate('user', '_id fullname')
+      .populate('products', '_id name')
       .exec()
     );
   } catch (e) {
@@ -60,7 +61,11 @@ async function create(req, res, next) {
     text,
     user: req.user
   })
-  .then(recipe => res.json(recipe))
+  .then(recipe => {
+    parseRecipeText
+
+    res.json(recipe);
+  })
   .catch(next);
 }
 
@@ -85,28 +90,15 @@ async function remove(req, res, next) {
   .catch(next);
 }
 
-async function parseIngredients(req, res, next) {
-  const lexicon= {};
-
+async function getRecipeProducts(req, res, next) {
   let recipeText = '';
   if (req.params.id) {
     const recipe = Recipe.findById(req.params.id);
     recipeText = recipe.text;
   } else {
-    recipeText = req.body.text;
+    recipeText = req.body.content;
   }
-
-  const products = await Product.find();
-  products.forEach(product => {
-    if (product.name) {
-      lexicon[product.name] = 'Ingredient'; // Singular form
-      lexicon[nlp(product.name).tag('Singular').nouns().toPlural().out()] = 'Ingredient'; // Plural form
-    }
-  });
-
-  doc = nlp(recipeText, lexicon);
-  const out = doc.match('#Ingredient');
-  return res.json(out.out('offset'));
+  return res.json({ products: await nlpHelper.getProductsFromRecipeText(recipeText) });
 }
 
 async function addComment(req, res, next) {

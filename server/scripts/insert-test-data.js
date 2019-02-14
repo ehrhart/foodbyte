@@ -2,17 +2,19 @@
 const config = require('../config/config');
 require('../config/mongoose');
 const bcrypt = require('bcrypt');
-
 const mongoose = require('mongoose');
+
 const Recipe = require('../models/recipe.model');
 const User = require('../models/user.model');
 const Product = require('../models/product.model');
 const Shop = require('../models/shop.model');
 const Price = require('../models/price.model');
 
+const nlpHelper = require('../helpers/nlp.helper');
+
 (async() => {
   // Insert a user
-  await User.update({
+  await User.updateOne({
     email: 'demo@foodbyte.io'
   }, {
     fullname: 'John Doe',
@@ -46,7 +48,8 @@ Etape 6
 Si nécessaire, ajouter de l'eau de temps en temps.
 
 Etape 7
-Dans un bol, bien mélanger la crème fraîche, le jaune d’oeuf et le jus de citron. Ajouter ce mélange au dernier moment, bien remuer et servir tout de suite.`
+Dans un bol, bien mélanger la crème fraîche, le jaune d’oeuf et le jus de citron. Ajouter ce mélange au dernier moment, bien remuer et servir tout de suite.
+`,
     },
     {
       name: 'Filet mignon en croûte',
@@ -79,7 +82,7 @@ Replier la pâte autour de la viande et souder les bords à l'aide du jaune d'oe
 
 Etape 10
 Enfourner pour 45 minutes de cuisson à 200°C (thermostat 6-7).
-`
+`,
     },
     {
       name: 'Lasagnes à la bolognaise',
@@ -127,7 +130,7 @@ Enfourner pour environ 25 minutes de cuisson.
 
 Etape 14
 Déguster
-`
+`,
     },
     {
       name: 'Tiramisu (recette originale)',
@@ -161,15 +164,24 @@ Il existe de nombreuses recettes de tiramisu. Celle-ci est la recette originale 
 `
     }
   ];
+
+  // Load the lexicon
+  await nlpHelper.load();
+
   for (const recipeData of recipesData) {
     // Set the owner of the recipe to our new user
     const recipe = new Recipe(recipeData);
     recipe.user = user._id;
 
+    // Parse recipe text and get products
+    recipe.products = (await nlpHelper.getProductsFromRecipeText(recipeData.text)).map(product => {
+      return product._id;
+    });
+
     const recipeObject = recipe.toObject();
     delete recipeObject._id;
 
-    await Recipe.update({
+    await Recipe.updateOne({
       name: recipe.name,
       user: recipe.user
     }, recipeObject, {
@@ -184,6 +196,11 @@ Il existe de nombreuses recettes de tiramisu. Celle-ci est la recette originale 
       location: {
         type: 'Point',
         coordinates: [7.0730066, 43.6178208]
+      },
+      address: {
+        street: 'Avenue Roumanille',
+        postalCode: '06410',
+        locality: 'Biot',
       }
     }),
     new Shop({
@@ -191,6 +208,11 @@ Il existe de nombreuses recettes de tiramisu. Celle-ci est la recette originale 
       location: {
         type: 'Point',
         coordinates: [7.0892186, 43.6038184]
+      },
+      address: {
+        street: 'Chemin de Saint-Claude',
+        postalCode: '06600',
+        locality: 'Antibes',
       }
     }),
     new Shop({
@@ -198,13 +220,18 @@ Il existe de nombreuses recettes de tiramisu. Celle-ci est la recette originale 
       location: {
         type: 'Point',
         coordinates: [7.0404749, 43.5921753]
+      },
+      address: {
+        street: '1750 Chemin de Saint-Bernard',
+        postalCode: '06220',
+        locality: 'Vallauris'
       }
     })
   ];
   for (const shop of shops) {
     const shopData = shop.toObject();
     delete shopData._id;
-    await Shop.update({
+    await Shop.updateOne({
       location: shop.location
     }, shopData, {
       upsert: true

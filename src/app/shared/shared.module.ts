@@ -21,12 +21,18 @@ import {
   MatProgressBarModule,
   MatFormFieldModule,
   MatSelectModule,
-  MatGridListModule, MatGridTile, MatButtonToggleModule, MatTooltipModule, MatAutocompleteModule
+  MatGridListModule,
+  MatGridTile,
+  MatButtonToggleModule,
+  MatTooltipModule,
+  MatAutocompleteModule,
+  MatPaginatorModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   imports: [
+    BrowserAnimationsModule,
     CommonModule,
     MatToolbarModule,
     MatMenuModule,
@@ -52,10 +58,12 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     MatButtonToggleModule,
     BrowserAnimationsModule,
     MatTooltipModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatPaginatorModule
 
   ],
   exports: [
+    BrowserAnimationsModule,
     MatToolbarModule,
     MatMenuModule,
     MatTabsModule,
@@ -79,7 +87,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     MatGridListModule,
     MatButtonToggleModule,
     MatTooltipModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatPaginatorModule
 
   ],
   declarations: [],

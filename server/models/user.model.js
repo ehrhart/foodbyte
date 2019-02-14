@@ -16,15 +16,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
   roles: [{
     type: String,
   }]
 }, {
-  versionKey: false
+  versionKey: false,
+  timestamps: true
 });
 
 
