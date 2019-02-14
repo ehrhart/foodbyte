@@ -8,7 +8,7 @@ import {RegisterComponent} from "../auth/register/register.component";
 
 const routes: Routes = [{
   path: '',
-  canActivate: [AuthGuard],
+  //canActivate: [AuthGuard],
   component: HomeComponent
    },
   {
@@ -26,11 +26,11 @@ const routes: Routes = [{
   },
   {
     path: 'products',
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     component: ProductsComponent
   },
  { path: 'recipes',
-   canActivate: [AuthGuard],
+   //canActivate: [AuthGuard],
    component: RecipeComponent
   }];
 

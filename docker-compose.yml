@@ -21,3 +21,5 @@ services:
 
   mongo:
     image: mongo:3.6
+    ports:
+      - 27018:27017
