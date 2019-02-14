@@ -30,6 +30,10 @@ const ProductSchema = new mongoose.Schema({
   avgPrice:{
     type: [Number],
   },
+  prices :[{
+    type:mongoose.Schema.ObjectId,
+    ref:'Price',
+  }],
   images: {
     type: [mongoose.Schema.Types.Mixed]
   },

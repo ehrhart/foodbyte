@@ -21,31 +21,68 @@ async function getAll(req, res, next) {
     };    
   }
   if(query.shop != null){
-    filters.prices.shopName = {
-      $regex: ".*" + query.shop + ".*", 
-      $options:"i"
-    };   
+    filters.prices={
+      'shopId': query.shop
+    };
+    
   }
-  if((query.minP != null)&&(query.maxP != null)){
-    filters.prices.price = {$gte : query.minP , $lt : query.maxP}
+  if((query.minP)&&(query.maxP)){
+    filters.prices.price = {$gte : query.minP , $lt : query.maxP};
   }
-  
+
     try {
       return res.json({
         totalPages: (await Product.countDocuments(filters)),
-        results: await Product.find(filters).skip(offset).limit(perPage).exec()
+        results: await Product.find({"prices.shopId":  query.shop })
+                                .populate({path: 'prices', select: 'price date',model: 'Price',match: { shopId: query.shop},
+                                  populate: {
+                                    path: 'shopId',
+                                    model: 'Shop',
+                                    select:'name'
+                                  }})
+                                  .skip(offset)
+                                  .limit(perPage)
+                                  .exec()
       });
     } catch (e) {
       next(e);
     }
-  
-     
+/*
+ try {
+  return res.json({results :  await Product.aggregate([
+    {
+    $lookup:
+      {
+        from: Price.collection.name,
+        localField: "prices",
+        foreignField: "_id",
+        as: "prices"
+      }},
+    
+    {$unwind :{
+      path :"$prices" ,
+      }},
+      {$match: {$and: [
+        {'prices.price' : { $gte: query.minp}},
+        {'prices.price' : {$lt: query.maxp}}]
+      }}
+      
+     ]).skip(offset)
+     .limit(perPage).exec().catch(next)});
+    }catch(e){
+      next(e);
+    } */
 
   
 }
 async function getPrice(req, res, next) {
   try {
-    return res.json(await Price.find({productId : req.params.id}));
+    return res.json(await Product
+      .findById(req.params.id)
+      .select('-_id prices')
+      .populate('prices')
+      .exec()
+    );
   } catch (e) {
     next(e);
   }
@@ -53,45 +90,55 @@ async function getPrice(req, res, next) {
 
 async function getById(req, res, next) {
   try {
-    return res.json(await Product.findById(req.params.id));
+    return res.json(await Product.findById(req.params.id)
+                          .populate({path: 'prices', select: 'price date',model: 'Price',
+                          populate: {
+                            path: 'shopId',
+                            model: 'Shop',
+                            select:'name'
+                          }}));
   } catch (e) {
     next(e);
   }
 }
 
-async function editPrice(req,res,next ){
-  try{
-  return Price.findOne({shopId : req.query.shopId , productId:req.params.id},function(err, price,next) {
-    if(!err){
-      if(price){
-        console.log("not error in findOne");
-        const da = new Date(price.date);
-        const d = new Date(req.query.date);
-        if(da < d){
-          console.log("date test ok");
-          let newvalues = {
-            price : req.query.price, 
-            date : req.query.date
-          };
-          Price.updateOne({"_id": price._id},newvalues)
-          .then(price => res.json(price))
-          .catch(next);
+async function editPrice(req,res,next){
+  const price = (await Price.findOne({shopId : req.query.shopId , productId:req.params.id}));
+  if(price){
+    console.log("not error in findOne");
+    const da = new Date(price.date);
+    const d = new Date(req.query.date);
+    if(da < d){
+      console.log("date test ok");
+      let newvalues = {
+        price : req.query.price, 
+        date : req.query.date
+      };
+      Price.updateOne({"_id": price._id},newvalues)
+      .then(price => res.json(price))
+      .catch(next);
+    }else{
+      res.status(304).send('error  le prix n est pas modifié ');
+      next(res);
+    }
+  }else {
+    Price.create({
+      shopId: req.query.shopId,
+      productId : req.params.id,
+      price: req.query.price,
+      date:req.query.date
+    },function(err,price){
+      if(!err){
+        Product.findOneAndUpdate({
+          _id: req.params.id
+        }, {
+          '$push': {
+              prices : price._id
         }
-      }
-      else {
-        Price.create({
-          shopId: req.query.shopId,
-          productId : req.params.id,
-          price: req.query.price,
-          date:req.query.date
         })
-        .then(price => res.json(price))
+        .then(product => res.json(product))
         .catch(next);
       }
     }
- })
-}catch(err){
-  next(e);
-}
-
+    )}
 }
