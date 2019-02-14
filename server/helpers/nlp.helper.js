@@ -37,6 +37,11 @@ async function load() {
 }
 
 async function getProductsFromRecipeText(recipeText) {
+  if (Object.keys(lexicon).length === 0) {
+    console.warn('Warning: NLP lexicon is empty!');
+    return [];
+  }
+
   doc = nlp(recipeText, lexicon);
   const occurrences = doc.clauses().match('#Product+').out('offset');
   const foundProducts = {};
