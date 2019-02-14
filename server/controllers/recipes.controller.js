@@ -56,26 +56,31 @@ async function getById(req, res, next) {
 
 async function create(req, res, next) {
   const { name, text } = req.body;
+  const products = (await nlpHelper.getProductsFromRecipeText(text)).map(product => {
+    return product._id;
+  });
   Recipe.create({
     name,
     text,
-    user: req.user
+    user: req.user,
+    products
   })
-  .then(recipe => {
-    parseRecipeText
-
-    res.json(recipe);
-  })
+  .then(recipe => res.json(recipe))
   .catch(next);
 }
 
 async function update(req, res, next) {
+  const { name, text } = req.body;
+  const products = (await nlpHelper.getProductsFromRecipeText(text)).map(product => {
+    return product._id;
+  });
   Recipe.updateOne({
     _id: req.params.id,
     user: req.user
   }, {
     name,
-    text
+    text,
+    products
   })
   .then(recipe => res.json(recipe))
   .catch(next);
