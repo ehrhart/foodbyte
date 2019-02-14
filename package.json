@@ -6,8 +6,7 @@
     "ng": "ng",
     "serve": "node server",
     "start": "concurrently -c \"yellow.bold,green.bold\" -n \"SERVER,BUILD\" \"nodemon server\" \"ng build --watch\"",
-    "build": "ng build --prod",
-    "postinstall": "ng build --prod",
+    "build": "ng build",
     "test": "mocha server/tests --exit && ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -35,7 +34,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "compression": "^1.7.2",
-    "compromise": "^11.13.0",
+    "compromise": "^11.13.1",
     "cookie-parser": "^1.4.3",
     "core-js": "2.6.3",
     "cors": "^2.8.4",

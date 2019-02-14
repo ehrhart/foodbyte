@@ -1,8 +1,10 @@
 const Product = require('../models/product.model');
-
+const Price = require('../models/price.model');
 module.exports = {
   getAll,
-  getById
+  getById,
+  editPrice,
+  getPrice
 };
 
 async function getAll(req, res, next) {
@@ -12,9 +14,6 @@ async function getAll(req, res, next) {
   const query = req.query ;
 
   let filters = {} ;
-  let shop = req.query.shop ;
-  let minPrice = req.query.minprice ;
-  let maxPrice = req.query.maxprice ;
   if(query.name != null) {
     filters.name = {
       $regex: ".*" + query.name + ".*", 
@@ -44,7 +43,13 @@ async function getAll(req, res, next) {
 
   
 }
-
+async function getPrice(req, res, next) {
+  try {
+    return res.json(await Price.find({productId : req.params.id}));
+  } catch (e) {
+    next(e);
+  }
+}
 
 async function getById(req, res, next) {
   try {
@@ -54,3 +59,39 @@ async function getById(req, res, next) {
   }
 }
 
+async function editPrice(req,res,next ){
+  try{
+  return Price.findOne({shopId : req.query.shopId , productId:req.params.id},function(err, price,next) {
+    if(!err){
+      if(price){
+        console.log("not error in findOne");
+        const da = new Date(price.date);
+        const d = new Date(req.query.date);
+        if(da < d){
+          console.log("date test ok");
+          let newvalues = {
+            price : req.query.price, 
+            date : req.query.date
+          };
+          Price.updateOne({"_id": price._id},newvalues)
+          .then(price => res.json(price))
+          .catch(next);
+        }
+      }
+      else {
+        Price.create({
+          shopId: req.query.shopId,
+          productId : req.params.id,
+          price: req.query.price,
+          date:req.query.date
+        })
+        .then(price => res.json(price))
+        .catch(next);
+      }
+    }
+ })
+}catch(err){
+  next(e);
+}
+
+}

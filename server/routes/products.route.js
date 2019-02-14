@@ -7,3 +7,5 @@ module.exports = router;
 
 router.get('/', productsCtrl.getAll);
 router.get('/:id', productsCtrl.getById);
+router.get('/:id/price', productsCtrl.getPrice);
+router.post('/:id/editPrice', productsCtrl.editPrice);
