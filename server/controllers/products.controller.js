@@ -33,8 +33,8 @@ async function getAll(req, res, next) {
     try {
       return res.json({
         totalPages: (await Product.countDocuments(filters)),
-        results: await Product.find({"prices.shopId":  query.shop })
-                                .populate({path: 'prices', select: 'price date',model: 'Price',match: { shopId: query.shop},
+        results: await Product.find(filters)
+                                .populate({path: 'prices', select: 'price date',model: 'Price',
                                   populate: {
                                     path: 'shopId',
                                     model: 'Shop',
