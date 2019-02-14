@@ -58,32 +58,44 @@ async function getById(req, res, next) {
 
 async function create(req, res, next) {
   const { name, text } = req.body;
+  const image = req.file;
   const products = (await nlpHelper.getProductsFromRecipeText(text)).map(product => {
     return product._id;
   });
-  Recipe.create({
+  const recipeData = {
     name,
     text,
     user: req.user,
     products
-  })
+  };
+  if (image) {
+    recipeData.image_url = `${req.protocol}://${req.host}/${req.file.path}`;
+    recipeData.image_front_url = `${req.protocol}://${req.host}/${req.file.path}`;
+  }
+  Recipe.create(recipeData)
   .then(recipe => res.json(recipe))
   .catch(next);
 }
 
 async function update(req, res, next) {
   const { name, text } = req.body;
+  const image = req.file;
   const products = (await nlpHelper.getProductsFromRecipeText(text)).map(product => {
     return product._id;
   });
-  Recipe.updateOne({
-    _id: req.params.id,
-    user: req.user
-  }, {
+  const recipeData = {
     name,
     text,
     products
-  })
+  };
+  if (image) {
+    recipeData.image_url = `${req.protocol}://${req.host}/${req.file.path}`;
+    recipeData.image_front_url = `${req.protocol}://${req.host}/${req.file.path}`;
+  }
+  Recipe.updateOne({
+    _id: req.params.id,
+    user: req.user
+  }, recipeData)
   .then(recipe => res.json(recipe))
   .catch(next);
 }
