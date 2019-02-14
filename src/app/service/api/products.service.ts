@@ -41,14 +41,14 @@ export class ProductsService {
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
   }
 
-  getProducts(): Observable<any> {
-    return this.http.get(this.endpoint + 'products').pipe(
-      map(this.extractData));
+  getProducts(pageId): Observable<any> {
+    return this.http.get(this.endpoint + 'products?page='+pageId).pipe(
+      map(this.extractData)).catch(handleError);
   }
 
   getProduct(id): Observable<any> {
     return this.http.get(this.endpoint + 'products/' + id).pipe(
-      map(this.extractData));
+      map(this.extractData)).catch(handleError);;
   }
 
   updateProduct(id, product): Observable<any> {

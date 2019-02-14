@@ -1,5 +1,5 @@
 
-export interface IIngridient {
+export interface IIngredient {
   text: string;
   id: string;
   rank: number;
