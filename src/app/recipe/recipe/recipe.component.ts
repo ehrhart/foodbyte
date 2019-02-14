@@ -1,6 +1,6 @@
 import {
   AfterViewInit,
-  Component,
+  Component, ElementRef,
   OnInit,
   VERSION,
   ViewChild,
@@ -37,6 +37,9 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator)
   public paginator: MatPaginator;
 
+  @ViewChild('search')
+  public search: ElementRef;
+
   animState = 'active';
 
   toggleState() {
@@ -54,6 +57,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   recipeSearch = new FormControl();
   defaultPageSize: number = 8;
   actualPage: number = 1;
+  public readonly SEARCH_DELAY_IN_MILLISECONDS: number = 400;
 
 
   constructor(private recipeService: RecipesService,
@@ -113,7 +117,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   }
 
 
-  public getRecipes(page: number = 1) {
+  public getRecipes() {
     this.recipeService.getRecipesPaginated(this.actualPage, this.defaultPageSize).subscribe(recipes => {
       for (let recipe of recipes) {
         this.pagedItems.push(recipe);
@@ -206,15 +210,20 @@ export class RecipeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getRecipes();
+
     this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
       const valueToAddToTotalPages = length % pageSize > 0 ? 1 : 0;
       return length + ' entrée(s) - Page ' + (page + 1) + ' sur ' + Math.min(1, (Math.trunc(length / pageSize) + valueToAddToTotalPages));
     };
     this.paginator._intl.itemsPerPageLabel = 'Entrées par page :';
+    this.defaultPageSize = this.paginator.pageSize;
+    this.actualPage = this.paginator._pageIndex;
     this.paginator.page.subscribe(() => {
       this.getRecipes();
     });
   }
+
+
 
 
 }
