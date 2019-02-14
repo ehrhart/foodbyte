@@ -32,7 +32,10 @@ async function getAll(req, res, next) {
   }
   
     try {
-      return res.json(await Product.find(filters).skip(offset).limit(perPage).exec());
+      return res.json({
+        totalPages: (await Product.countDocuments(filters)),
+        results: await Product.find(filters).skip(offset).limit(perPage).exec()
+      });
     } catch (e) {
       next(e);
     }

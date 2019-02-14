@@ -25,16 +25,18 @@ async function getAll(req, res, next) {
 
   const offset = (page - 1 ) * perPage;
   try {
-    return res.json(await Recipe
-      .find(filterParams)
-      .skip(offset)
-      .limit(perPage)
-      .select('-comments')
-      .populate('comments.user', '_id fullname')
-      .populate('user', '_id fullname')
-      .populate('products', '_id name')
-      .exec()
-    );
+    return res.json({
+      totalPages: (await Recipe.countDocuments(filterParams)),
+      results: await Recipe
+        .find(filterParams)
+        .skip(offset)
+        .limit(perPage)
+        .select('-comments')
+        .populate('comments.user', '_id fullname')
+        .populate('user', '_id fullname')
+        .populate('products', '_id name')
+        .exec()
+    });
   } catch (e) {
     next(e);
   }
