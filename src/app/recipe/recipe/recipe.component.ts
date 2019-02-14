@@ -84,7 +84,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
 
 
   onFilterClick(event) {
-    if (event === 'refresh') {
+    if (event === 'refreshRecipes') {
       this.getRecipes();
       this.ascendantCreationSort = false;
       this.filterCreationDate();
@@ -104,7 +104,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
     this.dialog.open(RecipeCommentComponent, {
       width: '1000px',
       height: '800px',
-      data: {recipe: recipe, form: this.genrateCommentForm}
+      data: {recipe: recipe, form: this.generateCommentForm}
     });
   }
 
@@ -200,7 +200,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
     })
   }
 
-  public genrateCommentForm(): FormGroup {
+  public generateCommentForm(): FormGroup {
     return this.formBuilder.group({
       _id: [],
       content: [''],
@@ -210,7 +210,6 @@ export class RecipeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.getRecipes();
-
     this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
       const valueToAddToTotalPages = length % pageSize > 0 ? 1 : 0;
       return length + ' entrée(s) - Page ' + (page + 1) + ' sur ' + Math.min(1, (Math.trunc(length / pageSize) + valueToAddToTotalPages));
