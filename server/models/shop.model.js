@@ -6,22 +6,21 @@ const ShopSchema = new mongoose.Schema({
     required: true
   },
   address: {
-    country: {
-      type: String,
-      required: true
+    type: {
+      country: {
+        type: String
+      },
+      postalCode: {
+        type: String
+      },
+      locality: {
+        type: String
+      },
+      street: {
+        type: String
+      }
     },
-    postalCode: {
-      type: String,
-      required: true
-    },
-    locality: {
-      type: String,
-      required: true
-    },
-    street: {
-      type: String,
-      required: true
-    }
+    required: true
   },
   location: {
     type: {
