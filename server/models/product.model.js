@@ -28,7 +28,7 @@ const ProductSchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.Mixed]
   },
   avgPrice:{
-    type: [Number],
+    type: Number,
   },
   prices :[{
     type:mongoose.Schema.ObjectId,

@@ -1,5 +1,6 @@
 const Product = require('../models/product.model');
 const Price = require('../models/price.model');
+const mongoose = require('mongoose');
 module.exports = {
   getAll,
   getById,
@@ -26,8 +27,10 @@ async function getAll(req, res, next) {
     };
     
   }
-  if((query.minP)&&(query.maxP)){
-    filters.prices.price = {$gte : query.minP , $lt : query.maxP};
+  if((query.minp)&&(query.maxp)){
+    filters.prices={};
+    filters.prices = { price :{$gte: query.minp}};
+      
   }
 
     try {
@@ -75,17 +78,19 @@ async function getAll(req, res, next) {
 
   
 }
-async function getPrice(req, res, next) {
-  try {
-    return res.json(await Product
-      .findById(req.params.id)
-      .select('-_id prices')
-      .populate('prices')
-      .exec()
-    );
-  } catch (e) {
-    next(e);
-  }
+
+  async function getPrice(req, res, next) {
+    try {
+      return res.json(await Product
+        .findById(req.params.id)
+        .select('-_id prices')
+        .populate('prices')
+        .exec()
+      );
+    } catch (e) {
+      next(e);
+    }
+
 }
 
 async function getById(req, res, next) {
@@ -104,6 +109,7 @@ async function getById(req, res, next) {
 
 async function editPrice(req,res,next){
   const price = (await Price.findOne({shopId : req.query.shopId , productId:req.params.id}));
+
   if(price){
     console.log("not error in findOne");
     const da = new Date(price.date);
@@ -117,11 +123,28 @@ async function editPrice(req,res,next){
       Price.updateOne({"_id": price._id},newvalues)
       .then(price => res.json(price))
       .catch(next);
+      const id = new mongoose.Types.ObjectId(req.params.id);
+      const priceavg =  (await Price.aggregate([
+        {
+        $match : { "productId" : id }
+        },
+        {$group : {"_id" : "$productId", "avg" : {$avg :"$price"} }} 
+      ]));
+      console.log(priceavg[0].avg);
+      let newprice = {
+        avgPrice : priceavg[0].avg
+      };
+      try {
+        (await Product.updateOne({"_id": id},newprice).catch(next));
+      }catch (e) {
+        next(e);
+      }   
     }else{
       res.status(304).send('error  le prix n est pas modifié ');
       next(res);
     }
   }else {
+    
     Price.create({
       shopId: req.query.shopId,
       productId : req.params.id,
@@ -129,6 +152,7 @@ async function editPrice(req,res,next){
       date:req.query.date
     },function(err,price){
       if(!err){
+        
         Product.findOneAndUpdate({
           _id: req.params.id
         }, {
@@ -140,5 +164,22 @@ async function editPrice(req,res,next){
         .catch(next);
       }
     }
-    )}
+    );
+    const id = new mongoose.Types.ObjectId(req.params.id);
+    const priceavg =  (await Price.aggregate([
+      {
+      $match : { "productId" : id }
+      },
+      {$group : {"_id" : "$productId", "avg" : {$avg :"$price"} }} 
+      ]));
+      console.log(priceavg[0].avg);
+      let newprice = {
+        avgPrice : priceavg[0].avg
+      };
+      try {
+        (await Product.updateOne({"_id": id},newprice).catch(next));
+      }catch (e) {
+        next(e);
+      }  
+    }
 }
