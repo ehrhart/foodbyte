@@ -23,7 +23,7 @@ export class AuthService {
           this.setUser(data.user);
           this.token.saveToken(data.token);
           observer.complete();
-      })
+      });
     });
   }
 
@@ -56,12 +56,19 @@ export class AuthService {
   me(): Observable<any> {
     return Observable.create(observer => {
       const tokenVal = this.token.getToken();
-      if (!tokenVal) return  observer.complete();
+      if (!tokenVal) {
+        observer.next(null);
+        return  observer.complete();
+      }
       this.http.get('/api/auth/me').subscribe((data : any) => {
-        observer.next({user: data.user});
+        observer.next(data.user);
         this.setUser(data.user);
         observer.complete();
-      })
+      }, (err : any) => {
+          observer.next(null);
+          this.signOut();
+          observer.complete();
+      });
     });
   }
 
