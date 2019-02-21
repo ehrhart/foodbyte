@@ -1,0 +1,43 @@
+<div class="dialog-content-wrapper">
+
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+      <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+        <span class="title dialog-title">
+          {{data.product.name}}
+        </span>
+        <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+  
+    <div mat-dialog-content class="p-24 m-0">
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Ajouter le prix" aria-label="Ajouter le prix"
+                />
+            </mat-form-field>
+          
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Ajouter le magasin" aria-label="Ajouter le magasin"
+                />
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Ajouter la date d'entrée" aria-label="Ajouter la date d'entrée"
+          />
+              </mat-form-field>
+          </form>
+    </div>
+  
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="space-between center">
+      <div>
+        <button mat-button class="save-button mat-accent" (click)="onNoClick()" aria-label="CLOSE">
+          Annuler
+        </button>
+        <button mat-button class="save-button mat-accent" (click)="onNoClick()" aria-label="CLOSE">
+            ajouter
+          </button>
+      </div>
+    </div>
+  
+  </div>

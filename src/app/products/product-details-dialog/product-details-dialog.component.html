@@ -1,0 +1,43 @@
+<div class="dialog-content-wrapper">
+
+  <mat-toolbar matDialogTitle class="mat-accent m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">
+        Produit : {{data.product.name}}
+      </span>
+      <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <div mat-dialog-content class="p-24 m-0">
+
+      <div fxLayout="row" fxLayoutAlign=" space-between left">
+          <div fxLayout="row" fxLayoutAlign=" space-between">
+              <img src="{{data.product.image_url}}" width="200" height="200">
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign=" space-between" >
+            
+            
+            
+            {{data.product.name}}</div>
+      </div>
+
+
+  </div>
+
+
+
+
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="space-between center">
+    <div>
+      <button mat-button class="save-button mat-accent" (click)="onNoClick()" aria-label="CLOSE">
+        Annuler
+      </button>
+    </div>
+  </div>
+
+</div>
