@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="center center" class="wrapper">
     <mat-form-field class="table-search-input">
-      <input matInput placeholder="State" aria-label="Rechercher votre recette" [matAutocomplete]="auto" [formControl]="search">
+      <input matInput placeholder="State" aria-label="Rechercher votre recette" [matAutocomplete]="auto" [formControl]="recipeSearch">
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
           <img class="example-option-img" aria-hidden [src]="state.flag" height="25">

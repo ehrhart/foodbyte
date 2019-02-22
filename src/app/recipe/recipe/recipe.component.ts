@@ -219,7 +219,6 @@ export class RecipeComponent implements OnInit, AfterViewInit {
       return length + ' entrée(s) - Page ' + (page + 1) + ' sur ' + Math.min(1, (Math.trunc(length / pageSize) + valueToAddToTotalPages));
     };
     this.paginator._intl.itemsPerPageLabel = 'Entrées par page :';
-    console.log(this.actualPage);
     this.paginator.page.subscribe(() => {
       this.getRecipes();
     });

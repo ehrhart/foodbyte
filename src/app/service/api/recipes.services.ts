@@ -81,7 +81,7 @@ export class RecipesService {
   }
 
   private extractData(body: any) {
-    return body || [];
+    return body.results || [];
   }
 
   openSnackBar(message: string, action: string) {
