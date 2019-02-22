@@ -1,7 +1,13 @@
 <div fxLayout="column" fxLayoutAlign="center center" class="wrapper">
     <mat-form-field class="table-search-input">
-      <input matInput #search placeholder="Rechercher">
-      <mat-icon style="font-size:120%;" matPrefix>search</mat-icon>
+      <input matInput placeholder="State" aria-label="Rechercher votre recette" [matAutocomplete]="auto" [formControl]="recipeSearch">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
+          <img class="example-option-img" aria-hidden [src]="state.flag" height="25">
+          <span>{{state.name}}</span> |
+          <small>Population: {{state.population}}</small>
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
   <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex style="width: 100%">
 
@@ -91,11 +97,11 @@
 
       <div class="pager-container">
 
-        <mat-paginator [length]="allItems.length"
+        <mat-paginator [length]="totalPages"
                        [pageIndex]="actualPage"
                        [pageSize]="defaultPageSize"
                        [showFirstLastButtons]="true"
-                       [pageSizeOptions]="[8, 16, 24, 32]"
+                       [pageSizeOptions]="pageSizeOptions"
                        fxLayoutAlign="center center">
         </mat-paginator>
 

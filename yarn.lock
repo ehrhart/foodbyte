@@ -1633,9 +1633,10 @@ compression@^1.5.2, compression@^1.7.2:
     safe-buffer "5.1.2"
     vary "~1.1.2"
 
-compromise@^11.13.0:
-  version "11.13.0"
-  resolved "https://registry.yarnpkg.com/compromise/-/compromise-11.13.0.tgz#f39ea17ae82a87a9eafd3d6c11ee651641470aec"
+compromise@^11.13.1:
+  version "11.13.1"
+  resolved "https://registry.yarnpkg.com/compromise/-/compromise-11.13.1.tgz#926101ee91fccafc9b986fb06f7064192921d819"
+  integrity sha512-u82ySLXPTcXNKZuqYmoUB5aglyVFpMzrJC0+k2WhA7i3x4KqkzzBLcAL7OpehbnuQEJWXfpV8LyIS0IXtZq9cA==
   dependencies:
     efrt-unpack "2.0.3"
     terser "^3.14.1"

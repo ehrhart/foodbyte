@@ -137,7 +137,8 @@ function calculateScore(offDoc) {
   const offDocs = await OffProduct.find({
     id: { $exists: 1 },
     product_name_fr: { $exists: 1 },
-    nutriments: { $gt: {} }
+    nutriments: { $gt: {} },
+    ingredients: { $gt: {} }
   }).lean().exec();
   console.log(`Found ${offDocs.length} documents in OpenFoodFacts collection`);
 
