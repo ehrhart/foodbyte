@@ -5,7 +5,7 @@ export interface IProduct {
   _id: number;
   off_id: number
   name: string;
-  prices: any;
+  prices: number[];
   brands: string[];
   ingredients: Ingridient[];
   nutriments: Nutriment[];
@@ -13,6 +13,8 @@ export interface IProduct {
   ingredients_text: string;
   nutrition_grade: string;
   updatedAt: string;
+  shop: string[];
+  entry_date: string[];
 
 
 }
@@ -21,7 +23,7 @@ export class Product {
   _id: number;
   off_id: number;
   name: string;
-  prices: any;
+  prices: number[];
   brands: string[];
   ingredients: Ingridient[];
   nutriments: Nutriment[];
@@ -29,7 +31,8 @@ export class Product {
   ingredients_text: string;
   nutrition_grade: string;
   updatedAt: string;
-
+  shop: string[];
+  entry_date: string[];
 
 
   constructor(product) {
@@ -45,6 +48,8 @@ export class Product {
       this.updatedAt = product.updatedAt;
       this.ingredients_text = product.ingredients_text;
       this.prices = product.prices;
+      this.shop= product.shop;
+      this.entry_date= product.entry_date;
     }
   }
 }

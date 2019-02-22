@@ -84,7 +84,7 @@
 <!--Les cards des produits-->
 
       <div class="cardList">
-        <ng-container *ngFor="let product of products"
+        <ng-container *ngFor="let product of pagedItems"
                       Style="border-style: dot-dash; height: 100%"
         >
           <mat-card [class.mat-elevation-z8]="true" class="cardListItem">
@@ -107,13 +107,13 @@
     
               <div fxLayout="row" fxLayoutAlign="center space-between">
                 <button mat-button>
-                  <mat-icon matTooltip="Afficher préparation" (click)="openRecipeDetailDialog(recipe)"
+                  <mat-icon matTooltip="Afficher la description du produit" (click)="openProductDetailDialog(product)"
                             style="color: blue">info
                   </mat-icon>
                 </button>
     
                 <button mat-button>
-                  <mat-icon matTooltip="Editer la recette" (click)="openRecipeDetailDialog(recipe)"
+                  <mat-icon matTooltip="Ajouter des informations" (click)="addProductDialog(product)"
                             style="color: blue">edit
                   </mat-icon>
                 </button>
@@ -131,30 +131,13 @@
 
   <div class="pager-container">
 
-    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" fxLayoutAlign="center">
-
-      <mat-button-toggle value="First" (click)="setPage(1)">
-        <mat-icon>chevron_left</mat-icon>Premiére Page
-      </mat-button-toggle>
-
-      <mat-button-toggle value="Previous" (click)=decPage() >
-        <mat-icon>arrow_back</mat-icon>Précédent
-      </mat-button-toggle>
-
-
-      <mat-button-toggle>
-        {{pageId}}
-      </mat-button-toggle>
-      
-      <mat-button-toggle (click)=incPage()>
-        <mat-icon>arrow_forward</mat-icon>Suivant
-      </mat-button-toggle>
-
-      <mat-button-toggle value="bold" (click)="setPage(150)">
-        <mat-icon>chevron_right</mat-icon>Derniére Page
-      </mat-button-toggle>
-
-    </mat-button-toggle-group>
+    <mat-paginator [length]="totalpage"
+                   [pageIndex]="actualPage"
+                   [pageSize]="defaultPageSize"
+                   [showFirstLastButtons]="true"
+                   [pageSizeOptions]="pageSizeOptions"
+                   fxLayoutAlign="center center">
+    </mat-paginator>
 
   </div>
 

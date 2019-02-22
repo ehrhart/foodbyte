@@ -34,7 +34,16 @@ export class RecipesService {
       .map(this.extractData)
       .catch(handleError);
   }
-
+  private extratTotalPage(res: any) {
+    let body = res;
+    return body.totalPages || [];
+  }
+  getTotalPage(): Observable<number> {
+    const options = {headers: this.headers};
+    return this.http.get(this.endpoint, options)
+      .map(this.extratTotalPage)
+      .catch(handleError);
+  }
   getRecipesPaginated(page: number, perPage: number, Keywords: string = null): Observable<Array<Recipe>> {
     let httpParams: HttpParams = new HttpParams()
     .set('page', page.toString())

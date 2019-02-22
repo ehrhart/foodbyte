@@ -54,6 +54,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   ascendantUpdateSort: boolean = true;
   ascendantAlphabetciSort: boolean = true;
   totalPages:number=0;
+  pager: any = {};
   pagedItems: any[] = [];
   recipeSearch = new FormControl();
   defaultPageSize: number = 8;
@@ -124,7 +125,6 @@ export class RecipeComponent implements OnInit, AfterViewInit {
       for (let recipe of recipes) {
         this.pagedItems.push(recipe);
       }
-      console.log(this.pagedItems);
     });
   }
 

@@ -3,15 +3,13 @@ import {CommonModule} from '@angular/common';
 import {ProductsComponent} from './products/products.component';
 import {SharedModule} from "../shared/shared.module";
 import {ProductsService} from "../service/api/products.service";
-//import { AddDialogComponent } from './add-dialog/add-dialog.component';
-//import { RecipeDetailsDialogComponent } from './recipe-details-dialog/recipe-details-dialog.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from "@angular/platform-browser";
-//import { RecipeCommentComponent } from './recipe-comment/recipe-comment.component';
-//import {CommentsService} from "../service/api/comments.service";
+import { ProductDetailsDialogComponent } from './product-details-dialog/product-details-dialog.component';
+import { AddProductsDetailsComponent } from './add-products-details/add-products-details.component';
 
 @NgModule({
-  declarations: [ProductsComponent],
+  declarations: [ProductsComponent, ProductDetailsDialogComponent, AddProductsDetailsComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -19,12 +17,11 @@ import {BrowserModule} from "@angular/platform-browser";
     BrowserModule,
   ],
   providers: [ProductsService],
-  //entryComponents: [
-  //RecipeDetailsDialogComponent,
-  //AddDialogComponent,
-  //RecipeCommentComponent
-  //],
-
+  entryComponents: [
+    ProductDetailsDialogComponent,
+    AddProductsDetailsComponent,
+  ],
+  
 })
 export class ProductsModule {
 }
