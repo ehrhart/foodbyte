@@ -100,7 +100,7 @@
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content fxLayout="row" fxLayoutAlign="center space-between">
-              <img src="{{product.image_url}}" width="200"
+              <img [src]="product.image_url || 'assets/default-product.png'" width="200"
                    height="200">
             </mat-card-content>
             <mat-card-actions>

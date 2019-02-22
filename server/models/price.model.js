@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
-const Product = require('../models/shop.model');
+const Shop = require('../models/shop.model');
+const Product = require('../models/product.model');
+
 
 const PriceShema = new mongoose.Schema({
     
@@ -8,8 +10,9 @@ const PriceShema = new mongoose.Schema({
         ref:'Shop',
         required: true
       },
-    shopName:{
-        type: String,
+    productId:{
+        type:mongoose.Schema.ObjectId,
+        ref:'Product',
         required: true
     },
     date: { 

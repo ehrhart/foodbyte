@@ -1,14 +1,27 @@
 const express = require('express');
 const passport = require('passport');
+const multer = require('multer');
 const recipesCtrl = require('../controllers/recipes.controller');
+
+const upload = multer({ dest: 'uploads/' });
 
 const router = express.Router();
 module.exports = router;
 
 router.get('/', recipesCtrl.getAll);
 router.get('/:id', recipesCtrl.getById);
-router.post('/', passport.authenticate('jwt', { session: false }), recipesCtrl.create);
-router.put('/:id', passport.authenticate('jwt', { session: false }), recipesCtrl.update);
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  upload.single('image'),
+  recipesCtrl.create
+);
+router.put(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  upload.single('image'),
+  recipesCtrl.update
+);
 router.delete('/:id', passport.authenticate('jwt', { session: false }), recipesCtrl.remove);
 router.post('/analyze', recipesCtrl.getRecipeProducts);
 router.get('/:id/products', recipesCtrl.getRecipeProducts);
