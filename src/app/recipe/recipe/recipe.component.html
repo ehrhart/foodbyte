@@ -56,7 +56,7 @@
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content fxLayout="row" fxLayoutAlign="center space-between">
-          <img src="https://www.freeiconspng.com/uploads/recipe-icon--16.png" width="80"
+          <img [src]="recipe.image_url || 'assets/default-recipe.png'" width="80"
                height="80">
         </mat-card-content>
         <mat-card-actions>

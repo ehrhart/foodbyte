@@ -57,12 +57,12 @@ export class RecipesService {
     headers.append('Content-Type', 'application/json');
     this.http.post<Recipe>(this.endpoint , recipe , httpOptions).subscribe(
       (response) => {
-        this.communicationService.filter('refresh');
+        this.communicationService.filter('refreshRecipes');
         this.openSnackBar('Ajout de la recette aved succée', recipe.name);
        // this.communicationService.filter('refresh');
       },
       response => {
-        this.communicationService.filter('refresh');
+        this.communicationService.filter('refreshRecipes');
       }
     );
   }

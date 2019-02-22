@@ -14,6 +14,12 @@ const RecipeSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  image_url: {
+    type: String
+  },
+  image_thumb_url: {
+    type: String
+  },
   products: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product'

@@ -13,6 +13,6 @@ if (!module.parent) {
 
 (async () => {
   require('./helpers/nlp.helper').load();
-});
+})();
 
 module.exports = app;

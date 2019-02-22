@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ProductsComponent } from './products/products.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ProductsComponent} from './products/products.component';
 import {SharedModule} from "../shared/shared.module";
 import {ProductsService} from "../service/api/products.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -23,4 +23,5 @@ import { AddProductsDetailsComponent } from './add-products-details/add-products
   ],
   
 })
-export class ProductsModule { }
+export class ProductsModule {
+}

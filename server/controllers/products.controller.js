@@ -1,8 +1,11 @@
 const Product = require('../models/product.model');
-
+const Price = require('../models/price.model');
+const mongoose = require('mongoose');
 module.exports = {
   getAll,
-  getById
+  getById,
+  editPrice,
+  getPrice
 };
 
 async function getAll(req, res, next) {
@@ -12,9 +15,6 @@ async function getAll(req, res, next) {
   const query = req.query ;
 
   let filters = {} ;
-  let shop = req.query.shop ;
-  let minPrice = req.query.minprice ;
-  let maxPrice = req.query.maxprice ;
   if(query.name != null) {
     filters.name = {
       $regex: ".*" + query.name + ".*", 
@@ -22,32 +22,164 @@ async function getAll(req, res, next) {
     };    
   }
   if(query.shop != null){
-    filters.prices.shopName = {
-      $regex: ".*" + query.shop + ".*", 
-      $options:"i"
-    };   
+    filters.prices={
+      'shopId': query.shop
+    };
+    
   }
-  if((query.minP != null)&&(query.maxP != null)){
-    filters.prices.price = {$gte : query.minP , $lt : query.maxP}
+  if((query.minp)&&(query.maxp)){
+    filters.prices={};
+    filters.prices = { price :{$gte: query.minp}};
+      
   }
-  
+
     try {
-      return res.json(await Product.find(filters).skip(offset).limit(perPage).exec());
+      return res.json({
+        totalPages: (await Product.countDocuments(filters)),
+        results: await Product.find(filters)
+                                .populate({path: 'prices', select: 'price date',model: 'Price',
+                                  populate: {
+                                    path: 'shopId',
+                                    model: 'Shop',
+                                    select:'name'
+                                  }})
+                                  .skip(offset)
+                                  .limit(perPage)
+                                  .exec()
+      });
     } catch (e) {
       next(e);
     }
-  
-     
+/*
+ try {
+  return res.json({results :  await Product.aggregate([
+    {
+    $lookup:
+      {
+        from: Price.collection.name,
+        localField: "prices",
+        foreignField: "_id",
+        as: "prices"
+      }},
+    
+    {$unwind :{
+      path :"$prices" ,
+      }},
+      {$match: {$and: [
+        {'prices.price' : { $gte: query.minp}},
+        {'prices.price' : {$lt: query.maxp}}]
+      }}
+      
+     ]).skip(offset)
+     .limit(perPage).exec().catch(next)});
+    }catch(e){
+      next(e);
+    } */
 
   
 }
 
+  async function getPrice(req, res, next) {
+    try {
+      return res.json(await Product
+        .findById(req.params.id)
+        .select('-_id prices')
+        .populate('prices')
+        .exec()
+      );
+    } catch (e) {
+      next(e);
+    }
+
+}
 
 async function getById(req, res, next) {
   try {
-    return res.json(await Product.findById(req.params.id));
+    return res.json(await Product.findById(req.params.id)
+                          .populate({path: 'prices', select: 'price date',model: 'Price',
+                          populate: {
+                            path: 'shopId',
+                            model: 'Shop',
+                            select:'name'
+                          }}));
   } catch (e) {
     next(e);
   }
 }
 
+async function editPrice(req,res,next){
+  const price = (await Price.findOne({shopId : req.query.shopId , productId:req.params.id}));
+
+  if(price){
+    console.log("not error in findOne");
+    const da = new Date(price.date);
+    const d = new Date(req.query.date);
+    if(da < d){
+      console.log("date test ok");
+      let newvalues = {
+        price : req.query.price, 
+        date : req.query.date
+      };
+      Price.updateOne({"_id": price._id},newvalues)
+      .then(price => res.json(price))
+      .catch(next);
+      const id = new mongoose.Types.ObjectId(req.params.id);
+      const priceavg =  (await Price.aggregate([
+        {
+        $match : { "productId" : id }
+        },
+        {$group : {"_id" : "$productId", "avg" : {$avg :"$price"} }} 
+      ]));
+      console.log(priceavg[0].avg);
+      let newprice = {
+        avgPrice : priceavg[0].avg
+      };
+      try {
+        (await Product.updateOne({"_id": id},newprice).catch(next));
+      }catch (e) {
+        next(e);
+      }   
+    }else{
+      res.status(304).send('error  le prix n est pas modifié ');
+      next(res);
+    }
+  }else {
+    
+    Price.create({
+      shopId: req.query.shopId,
+      productId : req.params.id,
+      price: req.query.price,
+      date:req.query.date
+    },function(err,price){
+      if(!err){
+        
+        Product.findOneAndUpdate({
+          _id: req.params.id
+        }, {
+          '$push': {
+              prices : price._id
+        }
+        })
+        .then(product => res.json(product))
+        .catch(next);
+      }
+    }
+    );
+    const id = new mongoose.Types.ObjectId(req.params.id);
+    const priceavg =  (await Price.aggregate([
+      {
+      $match : { "productId" : id }
+      },
+      {$group : {"_id" : "$productId", "avg" : {$avg :"$price"} }} 
+      ]));
+      console.log(priceavg[0].avg);
+      let newprice = {
+        avgPrice : priceavg[0].avg
+      };
+      try {
+        (await Product.updateOne({"_id": id},newprice).catch(next));
+      }catch (e) {
+        next(e);
+      }  
+    }
+}
