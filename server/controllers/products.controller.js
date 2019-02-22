@@ -17,25 +17,28 @@ async function getAll(req, res, next) {
   let filters = {} ;
   if(query.name != null) {
     filters.name = {
-      $regex: ".*" + query.name + ".*", 
+      $regex: ".*" + query.name + ".*",
       $options:"i"
-    };    
+    };
   }
   if(query.shop != null){
     filters.prices={
       'shopId': query.shop
     };
-    
+
   }
   if((query.minp)&&(query.maxp)){
     filters.prices={};
     filters.prices = { price :{$gte: query.minp}};
-      
+
   }
+
+  const totalResults = (await Product.countDocuments(filters));
 
     try {
       return res.json({
-        totalPages: (await Product.countDocuments(filters)),
+        totalResults: totalResults,
+        totalPages: Math.ceil(totalResults / perPage),
         results: await Product.find(filters)
                                 .populate({path: 'prices', select: 'price date',model: 'Price',
                                   populate: {

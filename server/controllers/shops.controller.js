@@ -17,9 +17,12 @@ async function getAll(req, res, next) {
     filterParams.name = { $regex: new RegExp(keywords.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi') };
   }
 
+  const totalResults = (await Shop.countDocuments(filterParams));
+
   try {
     return res.json({
-      totalPages: (await Shop.countDocuments(filterParams)),
+      totalResults: totalResults,
+      totalPages: Math.ceil(totalResults / perPage),
       results: await Shop.find(filterParams).skip(offset).limit(perPage).exec()
     });
   } catch (e) {

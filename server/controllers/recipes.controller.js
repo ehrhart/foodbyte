@@ -23,10 +23,13 @@ async function getAll(req, res, next) {
     filterParams.name = { $regex: new RegExp(keywords.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi') };
   }
 
+  const totalResults = (await Recipe.countDocuments(filterParams));
+
   const offset = (page - 1 ) * perPage;
   try {
     return res.json({
-      totalPages: (await Recipe.countDocuments(filterParams)),
+      totalResults: totalResults,
+      totalPages: Math.ceil(totalResults / perPage),
       results: await Recipe
         .find(filterParams)
         .skip(offset)
