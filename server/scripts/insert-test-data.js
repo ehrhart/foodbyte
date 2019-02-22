@@ -244,7 +244,7 @@ Il existe de nombreuses recettes de tiramisu. Celle-ci est la recette originale 
   if (product && shop) {
     const price = new Price({
       shopId: shop._id,
-      shopName: shop.name,
+      productId: product._id,
       date: new Date(new Date(2017, 0, 1).getTime() + Math.random() * (new Date(2018, 0, 1).getTime() - new Date(2017, 0, 1).getTime())),
       price: (1 + Math.random() * 10).toFixed(2)
     });
