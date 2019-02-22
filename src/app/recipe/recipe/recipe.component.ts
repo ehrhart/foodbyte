@@ -9,7 +9,7 @@ import {
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Recipe} from "../../Models/Recipe";
 import {RecipesService} from "../../service/api/recipes.services";
-import {MatDialog, MatPaginator} from "@angular/material";
+import {MatDialog, MatPaginator, PageEvent} from "@angular/material";
 import {RecipeDetailsDialogComponent} from "../recipe-details-dialog/recipe-details-dialog.component";
 import {AddDialogComponent} from "../add-dialog/add-dialog.component";
 import {CommunicationService} from "../../service/communication.service";
@@ -42,6 +42,8 @@ export class RecipeComponent implements OnInit, AfterViewInit {
 
   animState = 'active';
 
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+
   toggleState() {
     this.animState = this.animState === 'active' ? 'inactive' : 'active';
   }
@@ -58,6 +60,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   defaultPageSize: number = 8;
   actualPage: number = 1;
   public readonly SEARCH_DELAY_IN_MILLISECONDS: number = 400;
+  public pageEvent: PageEvent;
 
 
   constructor(private recipeService: RecipesService,
@@ -118,7 +121,9 @@ export class RecipeComponent implements OnInit, AfterViewInit {
 
 
   public getRecipes() {
-    this.recipeService.getRecipesPaginated(this.actualPage, this.defaultPageSize).subscribe(recipes => {
+    console.log(this.actualPage);
+    this.pagedItems = [];
+    this.recipeService.getRecipesPaginated(this.paginator.pageIndex, this.paginator.pageSize).subscribe(recipes => {
       for (let recipe of recipes) {
         this.pagedItems.push(recipe);
       }
@@ -207,7 +212,6 @@ export class RecipeComponent implements OnInit, AfterViewInit {
     })
   }
 
-
   ngAfterViewInit() {
     this.getRecipes();
     this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
@@ -215,14 +219,14 @@ export class RecipeComponent implements OnInit, AfterViewInit {
       return length + ' entrée(s) - Page ' + (page + 1) + ' sur ' + Math.min(1, (Math.trunc(length / pageSize) + valueToAddToTotalPages));
     };
     this.paginator._intl.itemsPerPageLabel = 'Entrées par page :';
-    this.defaultPageSize = this.paginator.pageSize;
-    this.actualPage = this.paginator._pageIndex;
+    console.log(this.actualPage);
     this.paginator.page.subscribe(() => {
       this.getRecipes();
     });
   }
 
-
-
+  setPageSizeOptions(setPageSizeOptionsInput: string) {
+    this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+  }
 
 }
