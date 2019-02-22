@@ -26,7 +26,7 @@ import {
   MatButtonToggleModule,
   MatTooltipModule,
   MatAutocompleteModule,
-  MatPaginatorModule
+  MatPaginatorModule, MatProgressSpinnerModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
@@ -59,7 +59,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     BrowserAnimationsModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatProgressSpinnerModule
 
   ],
   exports: [
@@ -88,7 +89,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     MatButtonToggleModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatProgressSpinnerModule
 
   ],
   declarations: [],

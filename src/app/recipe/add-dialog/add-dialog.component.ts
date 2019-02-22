@@ -1,6 +1,13 @@
-import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  OnInit, ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
-import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl} from "@angular/forms";
 import {ProductsService} from "../../service/api/products.service";
 import {Ingridient} from "../../Models/Ingridient";
 import {Recipe} from "../../Models/Recipe";
@@ -14,7 +21,11 @@ import {RecipesService} from "../../service/api/recipes.services";
 })
 export class AddDialogComponent implements OnInit {
 
+  @ViewChild('fileInput') public fileInput: ElementRef;
+
+
   public recipeSteps: string[] = [""];
+  public displayCloseButton: boolean = false;
 
   ingredientsList: Ingridient[] = [];
   slectedIngrdient:Ingridient[]= [];
@@ -22,8 +33,10 @@ export class AddDialogComponent implements OnInit {
 
 
   constructor(public dialogRef: MatDialogRef<AddDialogComponent>,
+              private fileLoader: FormBuilder,
               public productsService: ProductsService,
               private recipeService: RecipesService,
+              private changeDetector: ChangeDetectorRef,
               @Inject(MAT_DIALOG_DATA) public data: any,) {
   }
 
@@ -62,6 +75,10 @@ export class AddDialogComponent implements OnInit {
     return this.data.form.controls.desciption as FormControl;
   }
 
+  get image_url(): FormControl {
+    return this.data.form.controls.image_url as FormControl;
+  }
+
   removeRecipeStep(key) {
     const index = this.recipeSteps.indexOf(key, 0);
     if (index > -1) {
@@ -87,7 +104,10 @@ export class AddDialogComponent implements OnInit {
       null,
       null,
       null,
-      "haroun");
+      "haroun",
+      null,
+      formData['image_url'],
+      null);
     this.recipeService.postRecipes(recipeToPost);
     this.onNoClick();
   }
@@ -99,4 +119,32 @@ export class AddDialogComponent implements OnInit {
     }
     return result;
   }
+
+  onFileChange(event) {
+    this.data.form = this.fileLoader.group({
+      uploadedFile: null
+    });
+
+    const reader = new FileReader();
+    if (event.target.files && event.target.files.length) {
+      const [uploadedFile] = event.target.files;
+      reader.readAsDataURL(uploadedFile);
+      reader.onload = () => {
+        this.data.form.setValue({
+          image_url: uploadedFile.path,
+        });
+        this.changeDetector.markForCheck();
+      };
+    }
+    this.displayCloseButton = true;
+    return this.data.form;
+  }
+
+  public removeFile(): void {
+    this.fileInput.nativeElement.value ="";
+    if (this.data.form.get('uploadedFile')) {
+      this.data.form.get('uploadedFile').setValue(null);
+    }
+  }
+
 }

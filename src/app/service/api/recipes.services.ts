@@ -39,7 +39,7 @@ export class RecipesService {
     let httpParams: HttpParams = new HttpParams()
     .set('page', page.toString())
     .set('per_page', perPage.toString())
-    .set('Keywords', Keywords);
+    .set('q', Keywords);
 
 
     return this.http.get(this.endpoint,  {
@@ -88,6 +88,18 @@ export class RecipesService {
     this.snackBar.open(message, action, {
       duration: 5000,
     });
+  }
+
+  private extratTotalPage(res: any) {
+    let body = res;
+    return body.totalPages || [];
+  }
+
+  getTotalPage(): Observable<number> {
+    const options = {headers: this.headers};
+    return this.http.get(this.endpoint, options)
+    .map(this.extratTotalPage)
+    .catch(handleError);
   }
 
 

@@ -53,8 +53,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   ascendantCreationSort: boolean = true;
   ascendantUpdateSort: boolean = true;
   ascendantAlphabetciSort: boolean = true;
-  allItems: any[] = [];
-  pager: any = {};
+  totalPages:number=0;
   pagedItems: any[] = [];
   recipeSearch = new FormControl();
   defaultPageSize: number = 8;
@@ -75,10 +74,8 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.recipeService.getRecipes().subscribe(recipes => {
-      for (let recipe of recipes) {
-        this.allItems.push(recipe);
-      }
+    this.recipeService.getTotalPage().subscribe(totalPages => {
+      this.totalPages=totalPages;
     });
 
     this.ascendantCreationSort = true;
@@ -127,6 +124,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
       for (let recipe of recipes) {
         this.pagedItems.push(recipe);
       }
+      console.log(this.pagedItems);
     });
   }
 
