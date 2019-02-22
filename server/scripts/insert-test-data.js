@@ -29,6 +29,8 @@ const nlpHelper = require('../helpers/nlp.helper');
   const recipesData = [
     {
       name: 'Blanquette de veau facile',
+      image_url: 'https://assets.afcdn.com/recipe/20130122/3856_w420h344c1cx192cy256.jpg',
+      image_thumb_url: 'https://assets.afcdn.com/recipe/20130122/3856_w420h344c1cx192cy256.jpg',
       text: `Etape 1
 Faire revenir la viande dans un peu de beurre doux jusqu'à ce que les morceaux soient un peu dorés.
 
@@ -53,6 +55,8 @@ Dans un bol, bien mélanger la crème fraîche, le jaune d’oeuf et le jus de c
     },
     {
       name: 'Filet mignon en croûte',
+      image_url: 'https://image.afcdn.com/recipe/20150901/16812_w1024h768c1cx1500cy2250.jpg',
+      image_thumb_url: 'https://image.afcdn.com/recipe/20150901/16812_w1024h768c1cx1500cy2250.jpg',
       text: `Etape 1
 Peler et émincer les oignons.
 
@@ -86,6 +90,8 @@ Enfourner pour 45 minutes de cuisson à 200°C (thermostat 6-7).
     },
     {
       name: 'Lasagnes à la bolognaise',
+      image_url: 'https://image.afcdn.com/recipe/20160630/63224_w420h344c1cx1500cy2248.jpg',
+      image_thumb_url: 'https://image.afcdn.com/recipe/20160630/63224_w420h344c1cx1500cy2248.jpg',
       text: `Etape 1
 Faire revenir gousses hachées d'ail et les oignons émincés dans un peu d'huile d'olive.
 
@@ -134,6 +140,8 @@ Déguster
     },
     {
       name: 'Tiramisu (recette originale)',
+      image_url: 'https://assets.afcdn.com/recipe/20170614/69362_w600cxt0cyt0cxb3999cyb6000.jpg',
+      image_thumb_url: 'https://assets.afcdn.com/recipe/20170614/69362_w600cxt0cyt0cxb3999cyb6000.jpg',
       text: `Etape 1
 Séparer les blancs des jaunes d'oeufs.
 
