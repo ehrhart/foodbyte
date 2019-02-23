@@ -98,7 +98,7 @@ async function getById(req, res, next) {
 }
 
 async function editPrice(req,res,next){
-  const shopId = req.body.shopId ;
+  const shopId = req.body.shop ;
   const  date = req.body.date ; 
   const  prix = req.body.price ;
   const shop = new mongoose.Types.ObjectId(shopId);
