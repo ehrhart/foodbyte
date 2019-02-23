@@ -37,7 +37,7 @@ async function getAll(req, res, next) {
         .select('-comments')
         .populate('comments.user', '_id fullname')
         .populate('user', '_id fullname')
-        .populate('products', '_id name')
+        .populate('products', '_id name score avgPrice')
         .exec()
     });
   } catch (e) {
@@ -51,7 +51,7 @@ async function getById(req, res, next) {
       .findById(req.params.id)
       .populate('comments.user', '_id fullname')
       .populate('user', '_id fullname')
-      .populate('products', '_id name')
+      .populate('products', '_id name score avgPrice')
       .exec()
     );
   } catch (e) {
