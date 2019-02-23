@@ -31,7 +31,7 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
   },
   prices :[{
-    type:mongoose.Schema.ObjectId,
+    type:mongoose.Schema.Types.ObjectId,
     ref:'Price',
   }],
   images: {
