@@ -20,6 +20,8 @@ import {CommunicationService} from "./service/communication.service";
 import {PagerService} from "./service/pager.service";
 import {ShopsModule} from "./shops/shops.module";
 import {AgmCoreModule} from "@agm/core";
+import {StatisticsModule} from "./statistics/statistics.module";
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import {AgmCoreModule} from "@agm/core";
     ProductsModule,
     RecipeModule,
     ShopsModule,
+    StatisticsModule,
+    NgxChartsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCnrsadGZ5CZ4tNPubPyy4nGUbdre6M_3c'
     })

@@ -1,3 +1,67 @@
-<p>
-  stat-dashboard works!
-</p>
+<!-- The chart type goes in here -->
+<div class="wrapper">
+  <div FxLayout="row" class="statistic-section">
+    <div>
+      <div> <b>Variation de nombre des clients par marché chaque année</b></div>
+      <div style="display: inline-block">
+        <ngx-charts-line-chart
+          [view]="view"
+          [scheme]="colorScheme"
+          [results]="multi"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          [autoScale]="autoScale"
+          [timeline]="timeline"
+          (select)="onSelect($event)">
+        </ngx-charts-line-chart>
+      </div>
+    </div>
+
+    <div>
+      <div> <b>Variation de nombre des clients par marché chaque année</b></div>
+
+      <div style="display: inline-block">
+        <ngx-charts-area-chart
+          [view]="view"
+          [scheme]="colorScheme"
+          [results]="multi"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          [autoScale]="autoScale"
+          (select)="onSelect($event)">
+        </ngx-charts-area-chart>
+      </div>
+    </div>
+
+  </div>
+  <br>
+  <div>
+    <b> Total des commandes par marché </b>
+  </div>
+
+  <div style="display: inline-block">
+    <ngx-charts-pie-chart
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="single"
+      [legend]="showLegend"
+      [explodeSlices]="explodeSlices"
+      [labels]="showLabels"
+      [doughnut]="doughnut"
+      [gradient]="gradient"
+      (select)="onSelect($event)">
+    </ngx-charts-pie-chart>
+  </div>
+</div>

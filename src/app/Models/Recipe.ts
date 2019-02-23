@@ -1,8 +1,10 @@
+import {Product} from "./Product";
+
 export interface IRecipe {
   _id: number;
   name: string;
   text: string;
-  products: string[];
+  products: Product[];
   createdAt: string;
   updatedAt: string;
   user: string;
@@ -15,7 +17,7 @@ export class Recipe {
   _id: number;
   name: string;
   text: string;
-  products: string[];
+  products: Product[];
   createdAt: Date;
   updatedAt: Date;
   user: string;
@@ -26,7 +28,7 @@ export class Recipe {
   constructor(_id: number = null,
               name: string,
               text: string,
-              products: string[],
+              products: Product[],
               createdAt: Date,
               updatedAt: Date,
               user: string,

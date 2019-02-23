@@ -29,6 +29,11 @@ export class ProductsService {
     return body.results || {};
   }
 
+  private extractProduct(res: any) {
+    let body = res;
+    return body || {};
+  }
+
   private extratIngidients(res: any) {
     let body = res.map(e => e.ingredients);
     return body || [];
@@ -41,8 +46,14 @@ export class ProductsService {
     return this.http.get(this.endpoint).pipe(
       map(this.extratIngidients));
   }
-
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
+  }
+
+  getRecipeSpecificProduct(id: number): Observable<Product> {
+    const options = {headers: this.headers};
+    return this.http.get(this.endpoint + "/" + id , options)
+    .map(this.extractProduct)
+    .catch(handleError);
   }
 
   getTotalPage(): Observable<number> {

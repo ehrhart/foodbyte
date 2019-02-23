@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
-  Component, ElementRef,
+  Component,
+  ElementRef,
   OnInit,
   ViewChild,
   ViewEncapsulation
@@ -17,7 +18,7 @@ import {RecipeCommentComponent} from "../recipe-comment/recipe-comment.component
 
 import {DpAppAnimations} from 'app/app.animation';
 import {RecipeStatComponent} from "../recipe-stat/recipe-stat.component";
-import {ProductsService} from "../../service/api/products.service";
+import {RecipeEditComponent} from "../recipe-edit/recipe-edit.component";
 
 let animationObj = new DpAppAnimations();
 
@@ -53,7 +54,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   ascendantCreationSort: boolean = true;
   ascendantUpdateSort: boolean = true;
   ascendantAlphabetciSort: boolean = true;
-  totalPages:number=0;
+  totalPages: number = 0;
   pager: any = {};
   pagedItems: any[] = [];
   unFiltredpagedItems: any[] = [];
@@ -77,7 +78,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   ngOnInit() {
 
     this.recipeService.getTotalPage().subscribe(totalPages => {
-      this.totalPages=totalPages;
+      this.totalPages = totalPages;
     });
 
     this.ascendantCreationSort = true;
@@ -110,6 +111,14 @@ export class RecipeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  public openRecipeEditDialog(recipe: Recipe) {
+    this.dialog.open(RecipeEditComponent, {
+      width: '1000px',
+      height: '800px',
+      data: {recipe: recipe, form: this.generateCommentForm()}
+    });
+  }
+
   public openAddRecipeDialog() {
     this.dialog.open(AddDialogComponent, {
       width: '1000px',
@@ -120,8 +129,8 @@ export class RecipeComponent implements OnInit, AfterViewInit {
 
   public openStatRecipeDialog(recipe: Recipe) {
     this.dialog.open(RecipeStatComponent, {
-      width: '1000px',
-      height: '800px',
+      width: '1100px',
+      height: '500px',
       data: {recipe: recipe}
     })
   }
@@ -240,8 +249,8 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   public searchRecipe() {
     this.pagedItems = [];
     console.log(this.recipeSearch.value);
-    this.recipeService.getRecipesPaginated(this.paginator.pageIndex, this.paginator.pageSize , this.recipeSearch.value).subscribe(recipes => {
-      this.pagedItems= [];
+    this.recipeService.getRecipesPaginated(this.paginator.pageIndex, this.paginator.pageSize, this.recipeSearch.value).subscribe(recipes => {
+      this.pagedItems = [];
       for (let recipe of recipes) {
         this.pagedItems.push(recipe);
       }

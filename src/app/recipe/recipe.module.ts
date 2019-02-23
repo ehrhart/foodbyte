@@ -10,21 +10,25 @@ import {BrowserModule} from "@angular/platform-browser";
 import { RecipeCommentComponent } from './recipe-comment/recipe-comment.component';
 import {CommentsService} from "../service/api/comments.service";
 import { RecipeStatComponent } from './recipe-stat/recipe-stat.component';
+import {NgxChartsModule} from "@swimlane/ngx-charts";
+import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
 
 @NgModule({
-  declarations: [RecipeComponent, AddDialogComponent, RecipeDetailsDialogComponent, RecipeCommentComponent, RecipeStatComponent],
+  declarations: [RecipeComponent, AddDialogComponent, RecipeDetailsDialogComponent, RecipeCommentComponent, RecipeStatComponent, RecipeEditComponent],
   imports: [
     CommonModule,
     SharedModule,
     BrowserAnimationsModule,
     BrowserModule,
+    NgxChartsModule
   ],
   providers: [RecipesService, CommentsService],
   entryComponents: [
     RecipeDetailsDialogComponent,
     AddDialogComponent,
     RecipeCommentComponent,
-    RecipeStatComponent
+    RecipeStatComponent,
+    RecipeEditComponent
   ],
 })
 export class RecipeModule { }

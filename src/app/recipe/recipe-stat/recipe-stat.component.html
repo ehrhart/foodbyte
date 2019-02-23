@@ -16,14 +16,32 @@
   <div mat-dialog-content class="p-24 m-0">
 
     <div fxLayout="row" fxflexalign="center space-around">
-       <div fxLayout="column" fxFlexAlign="50">
-         <mat-list role="list">
-           <mat-list-item role="listitem" *ngFor="let product of data.recipe.products ">
-             {{product.name}}</mat-list-item>
-         </mat-list>
+      <div fxLayout="column" fxFlexAlign="50">
+        <mat-list role="list">
+          <mat-list-item role="listitem">
+            <strong> Score Nutritionnelle de la recette: {{getRecipeScore()}}</strong>
+          </mat-list-item>
+        </mat-list>
+        <mat-divider></mat-divider>
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let product of data.recipe.products">
+            Produit: <strong>{{product.name}}</strong> - Score: <strong>{{product.score}}</strong>
+          </mat-list-item>
+        </mat-list>
       </div>
 
       <div fxLayout="column" fxFlexAlign="50">
+        <ngx-charts-pie-chart
+          [view]="view"
+          [scheme]="colorScheme"
+          [results]="scoreStat"
+          [legend]="showLegend"
+          [explodeSlices]="explodeSlices"
+          [labels]="showLabels"
+          [doughnut]="doughnut"
+          [gradient]="gradient"
+          (select)="onSelect($event)">
+        </ngx-charts-pie-chart>
       </div>
 
 

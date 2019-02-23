@@ -15,6 +15,7 @@ export interface IProduct {
   updatedAt: string;
   shop: string[];
   entry_date: string[];
+  score: number;
 
 
 }
@@ -33,6 +34,8 @@ export class Product {
   updatedAt: string;
   shop: string[];
   entry_date: string[];
+  score: number;
+
 
 
   constructor(product) {
@@ -50,6 +53,7 @@ export class Product {
       this.prices = product.prices;
       this.shop= product.shop;
       this.entry_date= product.entry_date;
+      this.score = product.score;
     }
   }
 }
