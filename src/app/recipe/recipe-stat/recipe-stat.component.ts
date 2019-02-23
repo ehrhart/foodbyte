@@ -2,6 +2,8 @@ import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {Product} from "../../Models/Product";
 import {RecipesService} from "../../service/api/recipes.services";
+import {ProductsService} from "../../service/api/products.service";
+import {promise} from "selenium-webdriver";
 
 @Component({
   selector: 'app-recipe-stat',
@@ -14,6 +16,7 @@ export class RecipeStatComponent implements OnInit {
   public filtredRecipeProducts: Array<Product> = [];
 
   constructor(public dialogRef: MatDialogRef<RecipeStatComponent>,
+              public productsService: ProductsService,
               private recipeService: RecipesService,
               @Inject(MAT_DIALOG_DATA) public data: any,) { }
 

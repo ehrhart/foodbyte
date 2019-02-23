@@ -15,18 +15,15 @@
 
   <div mat-dialog-content class="p-24 m-0">
 
-    <div fxLayout="row" fxflexalign="center space-between">
+    <div fxLayout="row" fxflexalign="center space-around">
        <div fxLayout="column" fxFlexAlign="50">
          <mat-list role="list">
-           <mat-list-item role="listitem" *ngFor="let product of filtredRecipeProducts ">{{product.name}}</mat-list-item>
+           <mat-list-item role="listitem" *ngFor="let product of data.recipe.products ">
+             {{product.name}}</mat-list-item>
          </mat-list>
-
-
       </div>
 
-
       <div fxLayout="column" fxFlexAlign="50">
-
       </div>
 
 

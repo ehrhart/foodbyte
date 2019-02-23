@@ -17,6 +17,7 @@ import {RecipeCommentComponent} from "../recipe-comment/recipe-comment.component
 
 import {DpAppAnimations} from 'app/app.animation';
 import {RecipeStatComponent} from "../recipe-stat/recipe-stat.component";
+import {ProductsService} from "../../service/api/products.service";
 
 let animationObj = new DpAppAnimations();
 
