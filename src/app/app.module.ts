@@ -18,6 +18,8 @@ import {RecipeModule} from "./recipe/recipe.module";
 import {SharedModule} from "./shared/shared.module";
 import {CommunicationService} from "./service/communication.service";
 import {PagerService} from "./service/pager.service";
+import {ShopsModule} from "./shops/shops.module";
+import {AgmCoreModule} from "@agm/core";
 
 @NgModule({
   declarations: [
@@ -36,7 +38,11 @@ import {PagerService} from "./service/pager.service";
     AdminModule,
     AppRoutingModule,
     ProductsModule,
-    RecipeModule
+    RecipeModule,
+    ShopsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCnrsadGZ5CZ4tNPubPyy4nGUbdre6M_3c'
+    })
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

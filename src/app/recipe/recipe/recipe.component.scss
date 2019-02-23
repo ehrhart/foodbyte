@@ -1,5 +1,5 @@
 
-@mixin mat-icon-size($size: 24px) {
+@mixin mat-icon-size($size: 22px) {
   font-size: $size;
   height: $size;
   width: $size;
@@ -13,6 +13,7 @@
 
 .cardList {
   display: flex;
+  width: 90%;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -34,7 +35,7 @@
 
 .cards {
   margin-top: 20px;
-  min-width: 1000px;
+  min-width: 90%;
 }
 
 .card-image {
@@ -107,5 +108,9 @@ mat-paginator {
 
 .table-search-input {
   font-size: 14px;
-  width: 100%;
+  width: 40%;
+}
+
+.custom-bar {
+  background-color: whitesmoke;
 }

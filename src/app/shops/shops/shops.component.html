@@ -1,3 +1,108 @@
-<p>
-  shops works!
-</p>
+<div fxLayout="column" fxLayoutAlign="center center" class="wrapper">
+  <!--<div fxLayout="row" fxLayoutAlign="space-between center" fxFill>-->
+    <!--<mat-form-field class="table-search-input">-->
+      <!--<input matInput placeholder="Rechercher votre recette" aria-label="Rechercher votre recette" (keyup)="searchRecipe()"-->
+             <!--[matAutocomplete]="auto" [formControl]="recipeSearch">-->
+      <!--<mat-autocomplete #auto="matAutocomplete">-->
+        <!--<mat-option *ngFor="let recipe of unFiltredpagedItems" [value]="recipe.name" (onSelectionChange)="searchRecipe()">-->
+          <!--<img class="example-option-img" aria-hidden [src]="recipe.image_url" height="35" width="35"> - -->
+          <!--<span>{{recipe.name}}</span>-->
+        <!--</mat-option>-->
+      <!--</mat-autocomplete>-->
+    <!--</mat-form-field>-->
+    <!--<div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>-->
+
+      <!--<div>-->
+      <!--</div>-->
+      <!--<div>-->
+        <!--<mat-button-toggle-group name="fontStyle" aria-label="Font Style" fxLayoutAlign="center">-->
+          <!--<mat-button-toggle value="bold" (click)="filterCreationDate()">-->
+            <!--<mat-icon>add_alarm</mat-icon>-->
+            <!--Date de création-->
+            <!--<mat-icon *ngIf="!ascendantCreationSort">arrow_downward</mat-icon>-->
+            <!--<mat-icon *ngIf="ascendantCreationSort">arrow_upward</mat-icon>-->
+          <!--</mat-button-toggle>-->
+          <!--<mat-button-toggle value="bold" (click)="filterUpdateDate()">-->
+            <!--<mat-icon>update</mat-icon>-->
+            <!--Date de modificaton-->
+            <!--<mat-icon *ngIf="!ascendantUpdateSort">arrow_downward</mat-icon>-->
+            <!--<mat-icon *ngIf="ascendantUpdateSort">arrow_upward</mat-icon>-->
+          <!--</mat-button-toggle>-->
+          <!--<mat-button-toggle value="italic" (click)="filterAlphabeticName()">-->
+            <!--<mat-icon>sort_by_alpha</mat-icon>-->
+            <!--Nom-->
+            <!--<mat-icon *ngIf="!ascendantAlphabetciSort">arrow_downward</mat-icon>-->
+            <!--<mat-icon *ngIf="ascendantAlphabetciSort">arrow_upward</mat-icon>-->
+          <!--</mat-button-toggle>-->
+        <!--</mat-button-toggle-group>-->
+      <!--</div>-->
+    <!--</div>-->
+
+
+  <!--</div>-->
+
+  <div class="cardList">
+    <ng-container *ngFor="let shop of pagedItems"
+                  Style="border-style: dot-dash; height: 100%"
+    >
+      <mat-card [class.mat-elevation-z8]="true" class="cardListItem">
+        <mat-card-header fxLayout="column" fxLayoutAlign="center center" class="custom-bar">
+
+          <mat-card-title>{{shop.name}}</mat-card-title>
+
+          <mat-card-subtitle>
+            <div>
+              <span>crée le: {{shop.createdAt | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+            </div>
+            <div>
+              <span>modifié le: {{shop.updatedAt | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+            </div>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content fxLayout="row" fxLayoutAlign="center space-between">
+          <img [src]="shop.image_url || 'assets/shop.png'" width="200"
+               height="200">
+        </mat-card-content>
+        <mat-card-actions class="custom-bar">
+
+          <div fxLayout="row" fxLayoutAlign="center space-between">
+
+            <button mat-button>
+              <mat-icon matTooltip="Consulter l'adresse du magasin" (click)="openShopAdressDialog(shop)"
+                        style="color: blue">map
+              </mat-icon>
+            </button>
+
+            <button mat-button>
+              <mat-icon matTooltip="Localiser magasin" (click)="openShopGeolocalisationDialog(shop)"
+                        style="color: blue">place
+              </mat-icon>
+            </button>
+
+
+          </div>
+
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
+    <div>
+
+
+      <div class="pager-container">
+
+        <mat-paginator [length]="totalpage"
+                       [pageIndex]="actualPage"
+                       [pageSize]="defaultPageSize"
+                       [showFirstLastButtons]="true"
+                       [pageSizeOptions]="pageSizeOptions"
+                       fxLayoutAlign="center center">
+        </mat-paginator>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+

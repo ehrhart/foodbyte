@@ -2,14 +2,13 @@ import {
   AfterViewInit,
   Component, ElementRef,
   OnInit,
-  VERSION,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Recipe} from "../../Models/Recipe";
 import {RecipesService} from "../../service/api/recipes.services";
-import {MatDialog, MatPaginator, PageEvent} from "@angular/material";
+import {MatDialog, MatPaginator} from "@angular/material";
 import {RecipeDetailsDialogComponent} from "../recipe-details-dialog/recipe-details-dialog.component";
 import {AddDialogComponent} from "../add-dialog/add-dialog.component";
 import {CommunicationService} from "../../service/communication.service";
@@ -17,7 +16,7 @@ import {PagerService} from "../../service/pager.service";
 import {RecipeCommentComponent} from "../recipe-comment/recipe-comment.component";
 
 import {DpAppAnimations} from 'app/app.animation';
-import {Observable} from "rxjs";
+import {RecipeStatComponent} from "../recipe-stat/recipe-stat.component";
 
 let animationObj = new DpAppAnimations();
 
@@ -56,11 +55,11 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   totalPages:number=0;
   pager: any = {};
   pagedItems: any[] = [];
+  unFiltredpagedItems: any[] = [];
+
   recipeSearch = new FormControl();
   defaultPageSize: number = 8;
   actualPage: number = 1;
-  public readonly SEARCH_DELAY_IN_MILLISECONDS: number = 400;
-  public pageEvent: PageEvent;
 
 
   constructor(private recipeService: RecipesService,
@@ -75,6 +74,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+
     this.recipeService.getTotalPage().subscribe(totalPages => {
       this.totalPages=totalPages;
     });
@@ -105,7 +105,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
     this.dialog.open(RecipeCommentComponent, {
       width: '1000px',
       height: '800px',
-      data: {recipe: recipe, form: this.generateCommentForm}
+      data: {recipe: recipe, form: this.generateCommentForm()}
     });
   }
 
@@ -117,13 +117,22 @@ export class RecipeComponent implements OnInit, AfterViewInit {
     })
   }
 
+  public openStatRecipeDialog(recipe: Recipe) {
+    this.dialog.open(RecipeStatComponent, {
+      width: '1000px',
+      height: '800px',
+      data: {recipe: recipe}
+    })
+  }
+
 
   public getRecipes() {
-    console.log(this.actualPage);
     this.pagedItems = [];
+    this.unFiltredpagedItems = [];
     this.recipeService.getRecipesPaginated(this.paginator.pageIndex, this.paginator.pageSize).subscribe(recipes => {
       for (let recipe of recipes) {
         this.pagedItems.push(recipe);
+        this.unFiltredpagedItems.push(recipe);
       }
     });
   }
@@ -210,6 +219,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
     })
   }
 
+
   ngAfterViewInit() {
     this.getRecipes();
     this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
@@ -224,6 +234,17 @@ export class RecipeComponent implements OnInit, AfterViewInit {
 
   setPageSizeOptions(setPageSizeOptionsInput: string) {
     this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+  }
+
+  public searchRecipe() {
+    this.pagedItems = [];
+    console.log(this.recipeSearch.value);
+    this.recipeService.getRecipesPaginated(this.paginator.pageIndex, this.paginator.pageSize , this.recipeSearch.value).subscribe(recipes => {
+      this.pagedItems= [];
+      for (let recipe of recipes) {
+        this.pagedItems.push(recipe);
+      }
+    });
   }
 
 }

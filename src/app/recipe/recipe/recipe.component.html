@@ -1,44 +1,43 @@
 <div fxLayout="column" fxLayoutAlign="center center" class="wrapper">
-  <mat-form-field class="table-search-input">
-    <input matInput placeholder="State" aria-label="Rechercher votre recette" [matAutocomplete]="auto" [formControl]="recipeSearch">
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
-        <img class="example-option-img" aria-hidden [src]="state.flag" height="25">
-        <span>{{state.name}}</span> |
-        <small>Population: {{state.population}}</small>
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex style="width: 100%">
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxFill>
+    <mat-form-field class="table-search-input">
+      <input matInput placeholder="Rechercher votre recette" aria-label="Rechercher votre recette" (keyup)="searchRecipe()"
+             [matAutocomplete]="auto" [formControl]="recipeSearch">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let recipe of unFiltredpagedItems" [value]="recipe.name" (onSelectionChange)="searchRecipe()">
+          <img class="example-option-img" aria-hidden [src]="recipe.image_url" height="35" width="35"> -
+          <span>{{recipe.name}}</span>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
 
-    <div>
+<div>
+</div>
+      <div>
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" fxLayoutAlign="center">
+          <mat-button-toggle value="bold" (click)="filterCreationDate()">
+            <mat-icon>add_alarm</mat-icon>
+            Date de création
+            <mat-icon *ngIf="!ascendantCreationSort">arrow_downward</mat-icon>
+            <mat-icon *ngIf="ascendantCreationSort">arrow_upward</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="bold" (click)="filterUpdateDate()">
+            <mat-icon>update</mat-icon>
+            Date de modificaton
+            <mat-icon *ngIf="!ascendantUpdateSort">arrow_downward</mat-icon>
+            <mat-icon *ngIf="ascendantUpdateSort">arrow_upward</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="italic" (click)="filterAlphabeticName()">
+            <mat-icon>sort_by_alpha</mat-icon>
+            Nom
+            <mat-icon *ngIf="!ascendantAlphabetciSort">arrow_downward</mat-icon>
+            <mat-icon *ngIf="ascendantAlphabetciSort">arrow_upward</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
     </div>
 
-    <div>
-      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" fxLayoutAlign="center">
-        <mat-button-toggle value="bold" (click)="filterCreationDate()">
-          <mat-icon>add_alarm</mat-icon>
-          Date de création
-          <mat-icon *ngIf="!ascendantCreationSort">arrow_downward</mat-icon>
-          <mat-icon *ngIf="ascendantCreationSort">arrow_upward</mat-icon>
-        </mat-button-toggle>
-        <mat-button-toggle value="bold" (click)="filterUpdateDate()">
-          <mat-icon>update</mat-icon>
-          Date de modificaton
-          <mat-icon *ngIf="!ascendantUpdateSort">arrow_downward</mat-icon>
-          <mat-icon *ngIf="ascendantUpdateSort">arrow_upward</mat-icon>
-        </mat-button-toggle>
-        <mat-button-toggle value="italic" (click)="filterAlphabeticName()">
-          <mat-icon>sort_by_alpha</mat-icon>
-          Nom
-          <mat-icon *ngIf="!ascendantAlphabetciSort">arrow_downward</mat-icon>
-          <mat-icon *ngIf="ascendantAlphabetciSort">arrow_upward</mat-icon>
-        </mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
-
-    <div>
-    </div>
 
   </div>
 
@@ -47,27 +46,27 @@
                   Style="border-style: dot-dash; height: 100%"
     >
       <mat-card [class.mat-elevation-z8]="true" class="cardListItem">
-        <mat-card-header fxLayout="column" fxLayoutAlign="center center">
+        <mat-card-header fxLayout="column" fxLayoutAlign="center center" class="custom-bar">
 
           <mat-card-title>{{recipe.name}}</mat-card-title>
-          :
 
           <mat-card-subtitle>
             <div>
-              <span>crée le: {{recipe.createdAt}}</span>
+              <span>crée le: {{recipe.createdAt | date:'yyyy-MM-dd HH:mm:ss'}}</span>
             </div>
             <div>
-              <span>modifié le: {{recipe.updatedAt}}</span>
+              <span>modifié le: {{recipe.updatedAt | date:'yyyy-MM-dd HH:mm:ss'}}</span>
             </div>
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content fxLayout="row" fxLayoutAlign="center space-between">
-          <img [src]="recipe.image_url || 'assets/default-recipe.png'" width="80"
-               height="80">
+          <img [src]="recipe.image_url || 'assets/default-recipe.png'" width="200"
+               height="200">
         </mat-card-content>
-        <mat-card-actions>
+        <mat-card-actions class="custom-bar">
 
-          <div fxLayout="row" fxLayoutAlign="center space-between">
+          <div fxLayout="row" fxLayoutAlign="center space-around">
+
             <button mat-button>
               <mat-icon matTooltip="Afficher préparation" (click)="openRecipeDetailDialog(recipe)"
                         style="color: blue">fastfood
@@ -86,6 +85,11 @@
               </mat-icon>
             </button>
 
+            <button mat-button>
+              <mat-icon matTooltip="Statistique" (click)="openStatRecipeDialog(recipe)"
+                        style="color: blue">insert_chart
+              </mat-icon>
+            </button>
 
           </div>
 

@@ -24,9 +24,7 @@ export class ProductsComponent implements OnInit,AfterViewInit {
   public paginator: MatPaginator;
 
   products: any = [];
-  pageId = 1;
   pagedItems: any[] = [];
-  allItems: any[] = [];
   actualPage: number = 1;
   defaultPageSize: number = 8;
   ascendantNameSort: boolean = true;
@@ -146,9 +144,6 @@ export class ProductsComponent implements OnInit,AfterViewInit {
       shop:[''],
       entry_date:[''],
     })
-  }
-  setPageSizeOptions(setPageSizeOptionsInput: string) {
-    this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
   }
 
 }

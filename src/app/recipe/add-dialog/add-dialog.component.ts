@@ -7,7 +7,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
-import {FormBuilder, FormControl} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ProductsService} from "../../service/api/products.service";
 import {Ingridient} from "../../Models/Ingridient";
 import {Recipe} from "../../Models/Recipe";
@@ -30,6 +30,8 @@ export class AddDialogComponent implements OnInit {
   ingredientsList: Ingridient[] = [];
   slectedIngrdient:Ingridient[]= [];
   selectedIngrdientsText: string[] = [""];
+  public fileForm: FormGroup;
+
 
 
   constructor(public dialogRef: MatDialogRef<AddDialogComponent>,
@@ -42,14 +44,14 @@ export class AddDialogComponent implements OnInit {
 
   ngOnInit() {
 
-    this.productsService.getIngridents().subscribe((data: any[]) => {
-      for (let entry of data) {
-        for (let entryLevel2 of entry.map(e => e)) {
-          this.ingredientsList.push(entryLevel2);
-
-        }
-      }
-    });
+    // this.productsService.getIngridents().subscribe((data: any[]) => {
+    //   for (let entry of data) {
+    //     for (let entryLevel2 of entry.map(e => e)) {
+    //       this.ingredientsList.push(entryLevel2);
+    //
+    //     }
+    //   }
+    // });
 
     this.dialogRef.afterClosed().subscribe(dialogResult => {
 
@@ -94,11 +96,14 @@ export class AddDialogComponent implements OnInit {
 
   public addRecipe(): void {
     const formData = this.data.form.getRawValue();
+    const formFileData = this.fileForm.getRawValue();
+
     if(formData['ingredients']) {
       this.slectedIngrdient = formData['ingredients'];
       this.selectedIngrdientsText = this.slectedIngrdient.map(e => e.text);
     }
     this.recipeSteps.push(formData['desciption']);
+    console.log(this.fileForm);
     let recipeToPost: Recipe = new Recipe(null, formData['name'],
       this.concatinateStringArray(),
       null,
@@ -106,7 +111,7 @@ export class AddDialogComponent implements OnInit {
       null,
       "haroun",
       null,
-      formData['image_url'],
+      formFileData['image_url'],
       null);
     this.recipeService.postRecipes(recipeToPost);
     this.onNoClick();
@@ -121,8 +126,8 @@ export class AddDialogComponent implements OnInit {
   }
 
   onFileChange(event) {
-    this.data.form = this.fileLoader.group({
-      uploadedFile: null
+    this.fileForm = this.fileLoader.group({
+      image_url: ''
     });
 
     const reader = new FileReader();
@@ -130,8 +135,8 @@ export class AddDialogComponent implements OnInit {
       const [uploadedFile] = event.target.files;
       reader.readAsDataURL(uploadedFile);
       reader.onload = () => {
-        this.data.form.setValue({
-          image_url: uploadedFile.path,
+        this.fileForm.controls.image_url.setValue({
+          image_url: uploadedFile,
         });
         this.changeDetector.markForCheck();
       };

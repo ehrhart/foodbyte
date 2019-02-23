@@ -9,9 +9,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from "@angular/platform-browser";
 import { RecipeCommentComponent } from './recipe-comment/recipe-comment.component';
 import {CommentsService} from "../service/api/comments.service";
+import { RecipeStatComponent } from './recipe-stat/recipe-stat.component';
 
 @NgModule({
-  declarations: [RecipeComponent, AddDialogComponent, RecipeDetailsDialogComponent, RecipeCommentComponent],
+  declarations: [RecipeComponent, AddDialogComponent, RecipeDetailsDialogComponent, RecipeCommentComponent, RecipeStatComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -22,7 +23,8 @@ import {CommentsService} from "../service/api/comments.service";
   entryComponents: [
     RecipeDetailsDialogComponent,
     AddDialogComponent,
-    RecipeCommentComponent
+    RecipeCommentComponent,
+    RecipeStatComponent
   ],
 })
 export class RecipeModule { }

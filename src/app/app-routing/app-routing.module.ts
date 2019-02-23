@@ -5,6 +5,7 @@ import { HomeComponent } from '../home/home.component';
 import { ProductsComponent } from '../products/products/products.component';
 import {RecipeComponent} from "../recipe/recipe/recipe.component";
 import {RegisterComponent} from "../auth/register/register.component";
+import {ShopsComponent} from "../shops/shops/shops.component";
 
 const routes: Routes = [{
   path: '',
@@ -28,6 +29,11 @@ const routes: Routes = [{
     path: 'products',
     //canActivate: [AuthGuard],
     component: ProductsComponent
+  },
+  {
+    path: 'shops',
+    //canActivate: [AuthGuard],
+    component: ShopsComponent
   },
  { path: 'recipes',
    //canActivate: [AuthGuard],

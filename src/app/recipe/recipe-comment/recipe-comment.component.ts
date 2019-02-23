@@ -5,7 +5,6 @@ import {FormControl} from "@angular/forms";
 import {Comment} from "../../Models/Comment";
 import {User} from "../../Models/User";
 import {AuthService} from "../../auth/auth.service";
-import {Recipe} from "../../Models/Recipe";
 import {CommunicationService} from "../../service/communication.service";
 
 @Component({
@@ -56,6 +55,7 @@ export class RecipeCommentComponent implements OnInit {
   onFilterClick(event) {
     if (event === 'refreshComments') {
       this.commentService.getRecipeComments(this.data.recipe).subscribe(comments => {
+        console.log(comments);
         this.recipeComments = comments;
       });
     }
@@ -66,7 +66,7 @@ export class RecipeCommentComponent implements OnInit {
   }
 
   get content(): FormControl {
-    return this.data.form.get('content') as FormControl;
+    return this.data.form.content as FormControl;
   }
 
   addComment() {

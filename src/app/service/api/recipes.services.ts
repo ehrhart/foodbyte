@@ -10,6 +10,7 @@ import {httpOptions} from "./api-http.config";
 import {handleError} from "./api-services.utils";
 import {TokenStorage} from "../../auth/token.storage";
 import {CommunicationService} from "../communication.service";
+import {Product} from "../../Models/Product";
 
 
 @Injectable()
@@ -34,10 +35,19 @@ export class RecipesService {
       .map(this.extractData)
       .catch(handleError);
   }
+
+  getRecipeProducts(id: number): Observable<Array<Product>> {
+    const options = {headers: this.headers};
+    return this.http.get(this.endpoint + "/" + id + "/products", options)
+    .map(this.extractData)
+    .catch(handleError);
+  }
+
   private extratTotalPage(res: any) {
     let body = res;
     return body.totalPages || [];
   }
+
   getTotalPage(): Observable<number> {
     const options = {headers: this.headers};
     return this.http.get(this.endpoint, options)
@@ -45,18 +55,30 @@ export class RecipesService {
       .catch(handleError);
   }
   getRecipesPaginated(page: number, perPage: number, Keywords: string = null): Observable<Array<Recipe>> {
-    let httpParams: HttpParams = new HttpParams()
-    .set('page', page.toString())
-    .set('per_page', perPage.toString())
-    .set('q', Keywords);
-
-
-    return this.http.get(this.endpoint,  {
-      headers: this.headers,
-      params: httpParams
-    })
-    .map(this.extractData)
-    .catch(handleError);
+    if(Keywords == null) {
+      let httpParams: HttpParams = new HttpParams()
+      .set('page', page.toString())
+      .set('per_page', perPage.toString())
+      .set('Keywords', Keywords);
+      return this.http.get(this.endpoint,  {
+        headers: this.headers,
+        params: httpParams
+      })
+      .map(this.extractData)
+      .catch(handleError);
+    }
+    else {
+      let httpParams: HttpParams = new HttpParams()
+      .set('page', page.toString())
+      .set('per_page', perPage.toString())
+      .set('q', Keywords);
+      return this.http.get(this.endpoint,  {
+        headers: this.headers,
+        params: httpParams
+      })
+      .map(this.extractData)
+      .catch(handleError);
+    }
   }
 
   postRecipes(recipe: Recipe){
@@ -98,18 +120,4 @@ export class RecipesService {
       duration: 5000,
     });
   }
-
-  private extratTotalPage(res: any) {
-    let body = res;
-    return body.totalPages || [];
-  }
-
-  getTotalPage(): Observable<number> {
-    const options = {headers: this.headers};
-    return this.http.get(this.endpoint, options)
-    .map(this.extratTotalPage)
-    .catch(handleError);
-  }
-
-
 }
