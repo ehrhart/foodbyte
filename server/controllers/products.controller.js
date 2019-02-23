@@ -15,31 +15,44 @@ async function getAll(req, res, next) {
   const query = req.query ;
 
   let filters = {} ;
+  let shopFilter={};
+  let productsIDS =[];
+   
   if(query.name != null) {
     filters.name = {
-      $regex: ".*" + query.name + ".*",
+      $regex: ".*" + query.name + ".*", 
       $options:"i"
-    };
+    };    
   }
-  if(query.shop != null){
-    filters.prices={
-      'shopId': query.shop
-    };
-
+if(query.minp){
+  filters.avgPrice = {$gte: query.minp};
+}
+if(query.maxp){
+  filters.avgPrice = {$lt: query.maxp};
+}
+if(query.minp && query.maxp){
+  filters.avgPrice = {$gte: query.minp,$lt : query.maxp};
+}
+if(query.shop != null){
+    const shop = new mongoose.Types.ObjectId(query.shop);
+    shopFilter.shopId= shop;
+    const products = ( await (Price.find(shopFilter,{productId : 1,_id:0})
+                                    .skip(offset)
+                                    .limit(perPage)
+                                    .exec()) );
+    
+    products.forEach(function(productId){
+        productsIDS.push(new mongoose.Types.ObjectId(productId['productId']));
+    });
+    filters._id = {$in : productsIDS} ;
+    
   }
-  if((query.minp)&&(query.maxp)){
-    filters.prices={};
-    filters.prices = { price :{$gte: query.minp}};
-
-  }
-
   const totalResults = (await Product.countDocuments(filters));
-
     try {
       return res.json({
         totalResults: totalResults,
         totalPages: Math.ceil(totalResults / perPage),
-        results: await Product.find(filters)
+        results: (await (Product.find(filters)
                                 .populate({path: 'prices', select: 'price date',model: 'Price',
                                   populate: {
                                     path: 'shopId',
@@ -48,37 +61,11 @@ async function getAll(req, res, next) {
                                   }})
                                   .skip(offset)
                                   .limit(perPage)
-                                  .exec()
+                                  .exec()))
       });
     } catch (e) {
       next(e);
     }
-/*
- try {
-  return res.json({results :  await Product.aggregate([
-    {
-    $lookup:
-      {
-        from: Price.collection.name,
-        localField: "prices",
-        foreignField: "_id",
-        as: "prices"
-      }},
-    
-    {$unwind :{
-      path :"$prices" ,
-      }},
-      {$match: {$and: [
-        {'prices.price' : { $gte: query.minp}},
-        {'prices.price' : {$lt: query.maxp}}]
-      }}
-      
-     ]).skip(offset)
-     .limit(perPage).exec().catch(next)});
-    }catch(e){
-      next(e);
-    } */
-
   
 }
 
@@ -111,21 +98,34 @@ async function getById(req, res, next) {
 }
 
 async function editPrice(req,res,next){
-  const price = (await Price.findOne({shopId : req.query.shopId , productId:req.params.id}));
-
+  const shopId = req.body.shopId ;
+  const  date = req.body.date ; 
+  const  prix = req.body.price ;
+  const shop = new mongoose.Types.ObjectId(shopId);
+  const id = new mongoose.Types.ObjectId(req.params.id);
+  const price = (await Price.findOne({shopId : shop , productId: id}));
+   
   if(price){
-    console.log("not error in findOne");
-    const da = new Date(price.date);
-    const d = new Date(req.query.date);
-    if(da < d){
-      console.log("date test ok");
+    // Price contient déjà un prix pour ce produit dans ce magasin
+    const oldDate = new Date(price.date);
+    const newDate = new Date(date);
+    if(oldDate < newDate){
+      // la date dans la requête est plus récente donc on procède à un mise à jour du prix
       let newvalues = {
-        price : req.query.price, 
-        date : req.query.date
+        user: req.user,
+        price : prix, 
+        date : newDate
       };
-      Price.updateOne({"_id": price._id},newvalues)
+      try{
+
+     
+      (await Price.findOneAndUpdate({"_id": price._id},newvalues)
       .then(price => res.json(price))
-      .catch(next);
+      .catch(next));
+    }catch(e){
+      next(e);
+    }
+      // on calcule le nouveau prix moyen
       const id = new mongoose.Types.ObjectId(req.params.id);
       const priceavg =  (await Price.aggregate([
         {
@@ -133,26 +133,30 @@ async function editPrice(req,res,next){
         },
         {$group : {"_id" : "$productId", "avg" : {$avg :"$price"} }} 
       ]));
-      console.log(priceavg[0].avg);
+      // mise à jour du prix moyen
       let newprice = {
         avgPrice : priceavg[0].avg
       };
       try {
-        (await Product.updateOne({"_id": id},newprice).catch(next));
+        (await Product.findOneAndUpdate({"_id": id},newprice).then(product => res.json(product)).catch(next));
       }catch (e) {
         next(e);
       }   
     }else{
+      // la date qui existe déjà est la plus recente
       res.status(304).send('error  le prix n est pas modifié ');
       next(res);
     }
   }else {
-    
+    const id = new mongoose.Types.ObjectId(req.params.id);
+
+   // il n'y a pas de prix de ce produit dans ce magasin donc on doit le creer 
     Price.create({
-      shopId: req.query.shopId,
-      productId : req.params.id,
-      price: req.query.price,
-      date:req.query.date
+      shopId: shopId,
+      productId : id,
+      user: req.user,
+      price: prix,
+      date:date
     },function(err,price){
       if(!err){
         
@@ -163,24 +167,25 @@ async function editPrice(req,res,next){
               prices : price._id
         }
         })
-        .then(product => res.json(product))
         .catch(next);
       }
     }
     );
-    const id = new mongoose.Types.ObjectId(req.params.id);
+     // on calcule le nouveau prix moyen
     const priceavg =  (await Price.aggregate([
       {
       $match : { "productId" : id }
       },
       {$group : {"_id" : "$productId", "avg" : {$avg :"$price"} }} 
       ]));
-      console.log(priceavg[0].avg);
+      // mise à jour du prix moyen
       let newprice = {
         avgPrice : priceavg[0].avg
       };
       try {
-        (await Product.updateOne({"_id": id},newprice).catch(next));
+        (await Product.findOneAndUpdate({"_id": id},newprice)
+        .then(product => res.json(product))
+        .catch(next));
       }catch (e) {
         next(e);
       }  
