@@ -17,12 +17,24 @@ async function getAll(req, res, next) {
   let filters = {} ;
   let shopFilter={};
   let productsIDS =[];
-   
+  let sortFilter={};
   if(query.name != null) {
     filters.name = {
       $regex: ".*" + query.name + ".*", 
       $options:"i"
     };    
+  }
+  if((query.sort != null)&&((query.asc== 1)||(query.asc == -1))){
+    console.log('1');
+    if(query.sort === 'name'){
+      sortFilter = {name : query.asc} ;
+    }
+    else if(query.sort === 'price'){
+      sortFilter = {priceavg : query.asc} ;
+    }
+    else{
+      sortFilter = {score : query.asc};
+    }
   }
 if(query.minp){
   filters.avgPrice = {$gte: query.minp};
@@ -47,6 +59,7 @@ if(query.shop != null){
     filters._id = {$in : productsIDS} ;
     
   }
+  console.log(sortFilter);
   const totalResults = (await Product.countDocuments(filters));
     try {
       return res.json({
@@ -58,7 +71,8 @@ if(query.shop != null){
                                     path: 'shopId',
                                     model: 'Shop',
                                     select:'name'
-                                  }})
+                                  }}) 
+                                  .sort(sortFilter)
                                   .skip(offset)
                                   .limit(perPage)
                                   .exec()))
