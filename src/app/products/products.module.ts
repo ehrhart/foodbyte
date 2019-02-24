@@ -10,9 +10,10 @@ import { AddProductsDetailsComponent } from './add-products-details/add-products
 import { ProductStatComponent } from './product-stat/product-stat.component';
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {MatDatepickerModule, MatNativeDateModule} from "@angular/material";
+import { ProductPricesComponent } from './product-prices/product-prices.component';
 
 @NgModule({
-  declarations: [ProductsComponent, ProductDetailsDialogComponent, AddProductsDetailsComponent, ProductStatComponent],
+  declarations: [ProductsComponent, ProductDetailsDialogComponent, AddProductsDetailsComponent, ProductStatComponent, ProductPricesComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -24,7 +25,8 @@ import {MatDatepickerModule, MatNativeDateModule} from "@angular/material";
   entryComponents: [
     ProductDetailsDialogComponent,
     AddProductsDetailsComponent,
-    ProductStatComponent
+    ProductStatComponent,
+    ProductPricesComponent
   ],
   
 })

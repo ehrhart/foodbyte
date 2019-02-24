@@ -4,10 +4,10 @@
 
     <div>
     </div>
-<!--les filtres-->
+    <!--les filtres-->
     <div class="sort">
       <mat-button-toggle-group name="fontStyle" aria-label="Font Style" fxLayoutAlign="center">
-      
+
         <mat-button-toggle value="italic" (click)="filterProductPrice()">
           <mat-icon>attach_money</mat-icon>
           prix du produit
@@ -24,134 +24,159 @@
 
       </mat-button-toggle-group>
     </div>
-      <!--Filtrage de prix-->
-      <div class="forms">
-        <section class="example-section">
-          <mat-form-field class="example-margin">
-            <input matInput type="number" placeholder="Prix minimal" [(ngModel)]="Pmin">
-          </mat-form-field>
-          <mat-form-field class="example-margin">
-            <input matInput type="number" placeholder="Prix maximal" [(ngModel)]="Pmax">
-          </mat-form-field>
-        
-        </section>
-    
-  </div>
+    <!--Filtrage de prix-->
+    <div class="forms">
+      <section class="example-section">
+        <mat-form-field class="example-margin">
+          <input matInput type="number" placeholder="Prix minimal" [(ngModel)]="Pmin">
+        </mat-form-field>
+        <mat-form-field class="example-margin">
+          <input matInput type="number" placeholder="Prix maximal" [(ngModel)]="Pmax">
+        </mat-form-field>
 
+      </section>
 
-
+    </div>
 
 
     <!--Barre de recherche de produit-->
-    <div class= "forms">
-      <form >
+    <div class="forms">
+      <form>
         <mat-form-field appearance="outline" fxFlex="80">
-        <input matInput placeholder="Rechercher votre produit" aria-label="Rechercher votre produit"
+          <input matInput placeholder="Rechercher votre produit"
+                 aria-label="Rechercher votre produit"
           />
           <!--<mat-autocomplete #auto="matAutocomplete">-->
-            <!--<mat-option *ngFor="let recipe of recipes | async" [value]="recipe.name">-->
-              <!--<img class="example-option-img"  height="25">-->
-              <!--<span>{{recipe.name}}</span> |-->
-            <!--</mat-option>-->
+          <!--<mat-option *ngFor="let recipe of recipes | async" [value]="recipe.name">-->
+          <!--<img class="example-option-img"  height="25">-->
+          <!--<span>{{recipe.name}}</span> |-->
+          <!--</mat-option>-->
           <!--</mat-autocomplete>-->
         </mat-form-field>
       </form>
-      </div>
-    <!--Barre de recherche de  magasin --> 
-    <div class= "forms">
-      <form >
+    </div>
+    <!--Barre de recherche de  magasin -->
+    <div class="forms">
+      <form>
         <mat-form-field appearance="outline" fxFlex="80">
-        <input matInput placeholder="Rechercher votre magasin" aria-label="Rechercher votre magasin"
+          <input matInput placeholder="Rechercher votre magasin"
+                 aria-label="Rechercher votre magasin"
           />
           <!--<mat-autocomplete #auto="matAutocomplete">-->
-            <!--<mat-option *ngFor="let recipe of recipes | async" [value]="recipe.name">-->
-              <!--<img class="example-option-img"  height="25">-->
-              <!--<span>{{recipe.name}}</span> |-->
-            <!--</mat-option>-->
+          <!--<mat-option *ngFor="let recipe of recipes | async" [value]="recipe.name">-->
+          <!--<img class="example-option-img"  height="25">-->
+          <!--<span>{{recipe.name}}</span> |-->
+          <!--</mat-option>-->
           <!--</mat-autocomplete>-->
         </mat-form-field>
       </form>
-      </div>
-  
-    
-    
-
+    </div>
 
 
   </div>
 
 
-<!--Les cards des produits-->
+  <!--Les cards des produits-->
 
-      <div class="cardList">
-        <ng-container *ngFor="let product of pagedItems"
-                      Style="border-style: dot-dash; height: 100%"
-        >
-          <mat-card [class.mat-elevation-z8]="true" class="cardListItem">
-            <mat-card-header fxLayout="column" fxLayoutAlign="center center" class="custom-bar">
-    
-              <mat-card-title>{{product.name}}</mat-card-title>
-    
-              <mat-card-subtitle>
-                <div>
-                  <span>Marque: {{product.brands}}</span>
-                </div>
-              
-              </mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content fxLayout="row" fxLayoutAlign="center space-between">
-              <img [src]="product.image_url || 'assets/default-product.png'" width="200"
-                   height="200" style="border-radius: 50%">
-            </mat-card-content>
-            <mat-card-actions class="custom-bar">
-    
-              <div fxLayout="row" fxLayoutAlign="center space-between">
-                <button mat-button>
-                  <mat-icon matTooltip="Afficher la description du produit" (click)="openProductDetailDialog(product)"
-                            style="color: blue">info
-                  </mat-icon>
-                </button>
-    
-                <button mat-button>
-                  <mat-icon matTooltip="Ajouter des informations" (click)="addProductDialog(product)"
-                            style="color: blue">edit
-                  </mat-icon>
-                </button>
+  <div class="cardList">
+    <ng-container *ngFor="let product of pagedItems"
+                  Style="border-style: dot-dash; height: 100%"
+    >
+      <mat-card [class.mat-elevation-z8]="true" class="cardListItem">
+        <mat-card-header fxLayout="column" fxLayoutAlign="center center" class="custom-bar">
 
-                <button mat-button>
-                  <mat-icon matTooltip="Composition du produit" (click)="openProductStatDialog(product)"
-                            style="color: blue">insert_chart
-                  </mat-icon>
-                </button>
-    
+          <mat-card-title>{{product.name}}</mat-card-title>
+
+          <mat-card-subtitle>
+            <div>
+              <span>Marque: {{product.brands}} <span
+                *ngIf="product.nutrition_grade !=='' ">| Grade: {{product.nutrition_grade}}</span></span>
+              <div>
+                <mat-icon
+                  [ngStyle]="{'color':['a','b', 'c', 'd', 'e'].includes(product.nutrition_grade)  ? 'orangered' : 'grey' }">
+                  star
+                </mat-icon>
+                <mat-icon
+                  [ngStyle]="{'color':['a','b', 'c', 'd'].includes(product.nutrition_grade)  ? 'orangered' : 'grey' }">
+                  star
+                </mat-icon>
+                <mat-icon
+                  [ngStyle]="{'color':['a','b', 'c'].includes(product.nutrition_grade)  ? 'orangered' : 'grey' }">
+                  star
+                </mat-icon>
+                <mat-icon
+                  [ngStyle]="{'color':['a','b'].includes(product.nutrition_grade)  ? 'orangered' : 'grey' }">
+                  star
+                </mat-icon>
+                <mat-icon
+                  [ngStyle]="{'color':['a'].includes(product.nutrition_grade)  ? 'orangered' : 'grey' }">
+                  star
+                </mat-icon>
               </div>
-    
-            </mat-card-actions>
-          </mat-card>
-        </ng-container>
+            </div>
 
-<!--pagination des produits-->
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content fxLayout="row" fxLayoutAlign="center space-between">
 
-<div>
+          <img [src]="product.image_url || 'assets/product.png'" width="200"
+               height="200" style="border-radius: 50%">
+        </mat-card-content>
+        <mat-card-actions class="custom-bar">
+
+          <div fxLayout="row" fxLayoutAlign="center space-between">
+            <button mat-button>
+              <mat-icon matTooltip="Afficher la description du produit"
+                        (click)="openProductDetailDialog(product)"
+                        style="color: blue">info
+              </mat-icon>
+            </button>
+
+            <button mat-button>
+              <mat-icon matTooltip="Ajouter des informations" (click)="addProductDialog(product)"
+                        style="color: blue">edit
+              </mat-icon>
+            </button>
+
+            <button mat-button>
+              <mat-icon matTooltip="Composition du produit" (click)="openProductStatDialog(product)"
+                        style="color: blue">insert_chart
+              </mat-icon>
+            </button>
+
+            <button mat-button>
+              <mat-icon matTooltip="Consultez le prix chez plusieurs magasins" (click)="addProductPrices(product)"
+                        style="color: blue">attach_money
+              </mat-icon>
+            </button>
+
+          </div>
+
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
+
+    <!--pagination des produits-->
+
+    <div>
 
 
-  <div class="pager-container">
+      <div class="pager-container">
 
-    <mat-paginator [length]="totalpage"
-                   [pageIndex]="actualPage"
-                   [pageSize]="defaultPageSize"
-                   [showFirstLastButtons]="true"
-                   [pageSizeOptions]="pageSizeOptions"
-                   fxLayoutAlign="center center">
-    </mat-paginator>
+        <mat-paginator [length]="totalpage"
+                       [pageIndex]="actualPage"
+                       [pageSize]="defaultPageSize"
+                       [showFirstLastButtons]="true"
+                       [pageSizeOptions]="pageSizeOptions"
+                       fxLayoutAlign="center center">
+        </mat-paginator>
+
+      </div>
+
+    </div>
+
 
   </div>
-
-</div>
-
-
-
-</div>
 
 
 

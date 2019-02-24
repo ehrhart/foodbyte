@@ -9,6 +9,7 @@ import {ProductDetailsDialogComponent} from '../product-details-dialog/product-d
 import {AddProductsDetailsComponent} from '../add-products-details/add-products-details.component';
 import {ProductStatComponent} from "../product-stat/product-stat.component";
 import {CommunicationService} from "../../service/communication.service";
+import {ProductPricesComponent} from "../product-prices/product-prices.component";
 
 @Component({
   selector: 'app-products',
@@ -43,7 +44,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
     this.productsService.getTotalPage().subscribe(totalPage => {
       this.totalpage = totalPage;
     });
-
+     console.log(this.totalpage);
   }
 
   ngAfterViewInit() {
@@ -73,6 +74,14 @@ export class ProductsComponent implements OnInit, AfterViewInit {
       width: '900px',
       height: '500px',
       data: {product: product, form: this.genrateProductForm()}
+    });
+  }
+
+  addProductPrices(product: Product) {
+    this.dialog.open(ProductPricesComponent, {
+      width: '900px',
+      height: '500px',
+      data: {product: product}
     });
   }
 
