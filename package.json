@@ -1,12 +1,13 @@
 {
-  "name": "mean",
-  "version": "2.0.2",
+  "name": "foodbyte",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "serve": "node server",
     "start": "concurrently -c \"yellow.bold,green.bold\" -n \"SERVER,BUILD\" \"nodemon server\" \"ng build --watch\"",
     "build": "ng build",
+    "postinstall": "ng build --prod",
     "test": "mocha server/tests --exit && ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
