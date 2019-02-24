@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 
 const Recipe = require('../models/recipe.model');
+const RecipeComment = require('../models/recipe-comment.model');
+const RecipeRating = require('../models/recipe-rating.model');
 const User = require('../models/user.model');
 const Product = require('../models/product.model');
 const Shop = require('../models/shop.model');
@@ -185,6 +187,29 @@ Il existe de nombreuses recettes de tiramisu. Celle-ci est la recette originale 
     recipe.products = (await nlpHelper.getProductsFromRecipeText(recipeData.text)).map(product => {
       return product._id;
     });
+
+    // Add comments
+    for (let i = 0; i < 10; i++) {
+      recipe.comments.push(new RecipeComment({
+        user: user._id,
+        recipe: recipe._id,
+        content: `This is a test comment ${i}`
+      }));
+    }
+
+    // Add ratings
+    for (let i = 0; i < 10; i++) {
+      recipe.ratings.push(new RecipeRating({
+        user: user._id,
+        recipe: recipe._id,
+        value: Math.floor(1 + Math.random() * 5)
+      }));
+    }
+
+    // Calculate average rating
+    recipe.avgRating = recipe.ratings.reduce((sum, rating, _, { length }) => {
+      return sum + rating.value / length;
+    }, 0);
 
     const recipeObject = recipe.toObject();
     delete recipeObject._id;

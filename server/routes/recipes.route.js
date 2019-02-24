@@ -27,3 +27,5 @@ router.post('/analyze', recipesCtrl.getRecipeProducts);
 router.get('/:id/products', recipesCtrl.getRecipeProducts);
 router.post('/:id/comments', passport.authenticate('jwt', { session: false }), recipesCtrl.addComment);
 router.get('/:id/comments', recipesCtrl.getComments);
+router.put('/:id/ratings/:rating', passport.authenticate('jwt', { session: false }), recipesCtrl.addRating);
+router.get('/:id/ratings', recipesCtrl.getRatings);
