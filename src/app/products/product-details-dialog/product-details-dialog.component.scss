@@ -15,6 +15,11 @@
   .notif-text{
     text-align: center;
   }
+
+.header {
+  display: block;
+  margin: 0 auto;
+}
   
   .notif-container {
     border: 2px solid #2C93FF;
@@ -32,4 +37,3 @@
   .step-container {
     max-height: 700px;
   }
-  

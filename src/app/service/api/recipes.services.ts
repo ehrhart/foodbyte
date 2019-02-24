@@ -98,6 +98,23 @@ export class RecipesService {
     );
   }
 
+  editRecipes(recipe: Recipe){
+    console.log('edit: '+ JSON.stringify(recipe));
+    let headers = new Headers();
+    headers.append('Authorization', this.tockenStorage.getToken());
+    headers.append('Content-Type', 'application/json');
+    this.http.put<Recipe>(this.endpoint + '/'+ recipe._id , recipe , httpOptions).subscribe(
+      (response) => {
+        this.communicationService.filter('refreshRecipes');
+        this.openSnackBar('Mise à jour de la recette aved succée', recipe.name);
+      },
+      response => {
+        this.communicationService.filter('refreshRecipes');
+      }
+    );
+  }
+
+
   updateRecipe(recipe: Recipe) {
     this.http.post<Recipe>(this.endpoint + '/' + recipe._id, recipe, httpOptions).subscribe(
       (response) => {

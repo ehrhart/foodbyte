@@ -88,7 +88,7 @@
                       Style="border-style: dot-dash; height: 100%"
         >
           <mat-card [class.mat-elevation-z8]="true" class="cardListItem">
-            <mat-card-header fxLayout="column" fxLayoutAlign="center center">
+            <mat-card-header fxLayout="column" fxLayoutAlign="center center" class="custom-bar">
     
               <mat-card-title>{{product.name}}</mat-card-title>
     
@@ -101,9 +101,9 @@
             </mat-card-header>
             <mat-card-content fxLayout="row" fxLayoutAlign="center space-between">
               <img [src]="product.image_url || 'assets/default-product.png'" width="200"
-                   height="200">
+                   height="200" style="border-radius: 50%">
             </mat-card-content>
-            <mat-card-actions>
+            <mat-card-actions class="custom-bar">
     
               <div fxLayout="row" fxLayoutAlign="center space-between">
                 <button mat-button>
@@ -115,6 +115,12 @@
                 <button mat-button>
                   <mat-icon matTooltip="Ajouter des informations" (click)="addProductDialog(product)"
                             style="color: blue">edit
+                  </mat-icon>
+                </button>
+
+                <button mat-button>
+                  <mat-icon matTooltip="Composition du produit" (click)="openProductStatDialog(product)"
+                            style="color: blue">insert_chart
                   </mat-icon>
                 </button>
     

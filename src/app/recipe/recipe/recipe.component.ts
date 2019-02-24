@@ -115,7 +115,7 @@ export class RecipeComponent implements OnInit, AfterViewInit {
     this.dialog.open(RecipeEditComponent, {
       width: '1000px',
       height: '800px',
-      data: {recipe: recipe, form: this.generateCommentForm()}
+      data: {recipe: recipe, form: this.generateRecipeForm()}
     });
   }
 
@@ -212,11 +212,10 @@ export class RecipeComponent implements OnInit, AfterViewInit {
 
   public generateRecipeForm(): FormGroup {
     return this.formBuilder.group({
-      _id: [],
       name: [''],
       createdAt: [''],
-      updatedAt: [],
-      user: [],
+      updatedAt: [''],
+      user: [''],
       ingredients: [''],
       desciption: ['']
     })

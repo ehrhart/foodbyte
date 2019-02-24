@@ -1,9 +1,41 @@
-.example-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-  }
-  
-  .example-full-width {
-    width: 100%;
-  }
+@mixin mat-icon-size($size: 24px) {
+  font-size: $size;
+  height: $size;
+  width: $size;
+  line-height: $size;
+}
+
+::ng-deep .mat-input-wrapper{
+  width:400px !important;
+}
+
+.user-icon{
+  color: white;
+  @include mat-icon-size(55px);
+  background-size: 100% auto;
+}
+
+.separator {
+  margin-left: 30px;
+  margin-right: 30px;
+  color: #2C93FF;
+}
+
+.recipe-section {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.custom-label {
+  margin-bottom: 10px;
+}
+
+.mat-dialog-container {
+  padding: 0px !important;
+}
+
+.card-section {
+  max-width: 90%;
+  margin-left: 10px;
+  margin-top: 10px;
+}

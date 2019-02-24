@@ -26,9 +26,11 @@ import {
   MatButtonToggleModule,
   MatTooltipModule,
   MatAutocompleteModule,
-  MatPaginatorModule, MatProgressSpinnerModule
+  MatPaginatorModule, MatProgressSpinnerModule,
+  MatDatepickerModule, DateAdapter, NativeDateAdapter, MatNativeDateModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ProductsService} from "../service/api/products.service";
 
 @NgModule({
   imports: [
@@ -60,7 +62,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     MatTooltipModule,
     MatAutocompleteModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDatepickerModule
 
   ],
   exports: [
@@ -90,9 +93,11 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     MatTooltipModule,
     MatAutocompleteModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDatepickerModule
 
   ],
+
   declarations: [],
 })
 export class SharedModule { }

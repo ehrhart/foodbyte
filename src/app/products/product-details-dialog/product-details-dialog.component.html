@@ -5,33 +5,169 @@
       <span class="title dialog-title">
         Produit : {{data.product.name}}
       </span>
-      <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+      <button mat-button class="mat-icon-button" (click)="dialogRef.close()"
+              aria-label="Close dialog">
         <mat-icon>close</mat-icon>
       </button>
     </div>
   </mat-toolbar>
 
   <div mat-dialog-content class="p-24 m-0">
-  <div fxLayout="column" fxLayoutAlign=" space-between center">
-    <div fxLayout="row" fxLayoutAlign="">
 
+    <div fxLayout="column" fxLayoutAlign=" space-between center">
+      <div class="header" fxLayout="column" fxLayoutAlign="space-between center">
+        <img [src]="data.product.image_url || 'assets/default-product.png'" width="200"
+             height="200" style="border-radius: 50%">
+        <strong>{{data.product.name}}</strong>
+      </div>
 
-  </div>
-      
+      <div fxLayout="row" style="width: 95%">
+        <mat-card class="header" fxFill="98">
+          <strong>Ingredients: </strong>
+          <mat-list role="list">
+            <mat-list-item role="listitem" *ngFor="let ingredient of data.product.ingredients">
+              - {{ingredient.text}}</mat-list-item>
+          </mat-list>
+        </mat-card>
+      </div>
 
+      <div fxLayout="row" style="width: 95%">
+        <mat-card class="header mat-elevation-z8" fxFill="98">
+          <strong>Nutriments: </strong>
+          <div fxFlex="row" fxLayoutAlign=" space-between center">
+            <div>
+              <mat-list role="list">
+                <mat-list-item role="listitem">
+                  <span>sodium value: <b>{{data.product.nutriments[0].sodium_value}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>Sodium 100g: <b>{{data.product.nutriments[0].sodium_100g}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>Energie: <b>{{data.product.nutriments[0].energy}}</b></span></mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>energy serving: <b>{{data.product.nutriments[0].energy_serving}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>energy 100g: <b>{{data.product.nutriments[0].energy_100g}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>sugars serving: <b>{{data.product.nutriments[0].sugars_serving}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>sugars unit: <b>{{data.product.nutriments[0].sugars_unit}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>carbohydrates: <b>{{data.product.nutriments[0].carbohydrates}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>sugars 100g: <b>{{data.product.nutriments[0].sugars_100g}}</b></span>
+                </mat-list-item>
 
-  </div>
+              </mat-list>
+            </div>
 
+            <div>
+              <mat-list role="list">
+                <mat-list-item role="listitem">
+                  <span>proteins: <b>{{data.product.nutriments[0].proteins}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>carbohydrates unit: <b>{{data.product.nutriments[0].carbohydrates_unit}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>energy unit: <b>{{data.product.nutriments[0].energy_unit}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>proteins unit: <b>{{data.product.nutriments[0].proteins_unit}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>fat: <b>{{data.product.nutriments[0].fat}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>energy value: <b>{{data.product.nutriments[0].energy_value}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>sugars value: <b>{{data.product.nutriments[0].sugars_value}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>salt value: <b>{{data.product.nutriments[0].salt_value}}</b></span>
+                </mat-list-item>
+              </mat-list>
+            </div>
 
+            <div>
+              <mat-list role="list">
+                <mat-list-item role="listitem">
+                  <span>proteins 100g: <b>{{data.product.nutriments[0].proteins_100g}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>sodium serving: <b>{{data.product.nutriments[0].sodium_serving}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>salt 100g: <b>{{data.product.nutriments[0].salt_100g}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>fat unit: <b>{{data.product.nutriments[0].fat_unit}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>sodium unit: <b>{{data.product.nutriments[0].sodium_unit}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>carbohydrates value: <b>{{data.product.nutriments[0].carbohydrates_value}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>fat 100g: <b>{{data.product.nutriments[0].fat_100g}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>salt serving: <b>{{data.product.nutriments[0].salt_serving}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>salt: <b>{{data.product.nutriments[0].salt}}</b></span>
+                </mat-list-item>
+              </mat-list>
+            </div>
 
+            <div>
+              <mat-list role="list">
+                <mat-list-item role="listitem">
+                  <span>carbohydrates serving: <b>{{data.product.nutriments[0].carbohydrates_serving}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>sodium: <b>{{data.product.nutriments[0].sodium}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>carbohydrates 100g: <b>{{data.product.nutriments[0].carbohydrates_100g}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>fat serving: <b>{{data.product.nutriments[0].fat_serving}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>proteins serving: <b>{{data.product.nutriments[0].proteins_serving}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>sugars: <b>{{data.product.nutriments[0].sugars}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>salt unit: <b>{{data.product.nutriments[0].salt_unit}}</b></span>
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                  <span>fat value: <b>{{data.product.nutriments[0].fat_value}}</b></span>
+                </mat-list-item>
 
+                <mat-list-item role="listitem">
+                  <span>proteins value: <b>{{data.product.nutriments[0].proteins_value}}</b></span>
+                </mat-list-item>
+              </mat-list>
+            </div>
 
-  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="space-between center">
-    <div>
-      <button mat-button class="save-button mat-accent" (click)="onNoClick()" aria-label="CLOSE">
-        Annuler
-      </button>
+          </div>
+
+        </mat-card>
+      </div>
     </div>
   </div>
 
 </div>
+
+

@@ -7,6 +7,9 @@ import {Recipe} from "../../Models/Recipe";
 import {handleError} from "./api-services.utils";
 import {Ingridient} from "../../Models/Ingridient";
 import { Product } from '../../Models/Product';
+import {httpOptions} from "./api-http.config";
+import {TokenStorage} from "../../auth/token.storage";
+import {CommunicationService} from "../communication.service";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +26,12 @@ export class ProductsService {
       'Content-Type': 'application/json'
     })
   };
+
+  constructor( private http: HttpClient,
+               private snackBar: MatSnackBar,
+               private tockenStorage : TokenStorage,
+               private communicationService: CommunicationService) {
+  }
 
   private extractData(res: any) {
     let body = res;
@@ -46,8 +55,7 @@ export class ProductsService {
     return this.http.get(this.endpoint).pipe(
       map(this.extratIngidients));
   }
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
-  }
+
 
   getRecipeSpecificProduct(id: number): Observable<Product> {
     const options = {headers: this.headers};
@@ -86,10 +94,45 @@ export class ProductsService {
       .catch(handleError);
   }
 
+  editProductPrices(price: string , shop: string , date: string , id: number){
+    let headers = new Headers();
+    headers.append('Authorization', this.tockenStorage.getToken());
+    headers.append('Content-Type', 'application/json');
+
+    // let httpParams: HttpParams = new HttpParams()
+    // .set('shop', shop)
+    // .set('price', price)
+    // .set('date', date);
+
+    let body = {
+      'shop': shop,
+      'price': parseFloat(price),
+      'date': date
+    };
+    this.http.post(this.endpoint + '/'+ id + '/price' , {
+      headers: this.headers,
+      body: body
+    }).subscribe(
+      (response) => {
+        this.communicationService.filter('refreshRecipes');
+        this.openSnackBar('Mise à jour de la recette aved succée', 'succée');
+      },
+      response => {
+        this.communicationService.filter('refreshProducts');
+      }
+    );
+  }
+
   updateProduct(id, product): Observable<any> {
     return this.http.put(this.endpoint + 'products/' + id, JSON.stringify(product), this.httpOptions).pipe(
       tap(_ => console.log(`updated product id=${id}`))
     );
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 5000,
+    });
   }
 
 

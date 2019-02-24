@@ -1,13 +1,14 @@
-
-import { Component, OnInit,ViewChild,AfterViewInit } from '@angular/core';
-import { ProductsService } from '../../service/api/products.service'
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { Observable } from 'rxjs';
-import { MatDialog, MatPaginator } from "@angular/material";
-import { Product } from '../../Models/Product';
-import { ProductDetailsDialogComponent } from '../product-details-dialog/product-details-dialog.component';
-import { AddProductsDetailsComponent } from '../add-products-details/add-products-details.component';
+import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import {ProductsService} from '../../service/api/products.service'
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {Observable} from 'rxjs';
+import {MatDialog, MatPaginator} from "@angular/material";
+import {Product} from '../../Models/Product';
+import {ProductDetailsDialogComponent} from '../product-details-dialog/product-details-dialog.component';
+import {AddProductsDetailsComponent} from '../add-products-details/add-products-details.component';
+import {ProductStatComponent} from "../product-stat/product-stat.component";
+import {CommunicationService} from "../../service/communication.service";
 
 @Component({
   selector: 'app-products',
@@ -17,8 +18,7 @@ import { AddProductsDetailsComponent } from '../add-products-details/add-product
 })
 
 
-
-export class ProductsComponent implements OnInit,AfterViewInit {
+export class ProductsComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator)
   public paginator: MatPaginator;
@@ -29,19 +29,23 @@ export class ProductsComponent implements OnInit,AfterViewInit {
   defaultPageSize: number = 8;
   ascendantNameSort: boolean = true;
   ascendantPriceSort: boolean = true;
-  totalpage:number =0;
+  totalpage: number = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
-  constructor(public productsService: ProductsService, private route: ActivatedRoute,
-    private router: Router, public dialog: MatDialog, private formBuilder: FormBuilder, ) {
-     }
+  constructor(public productsService: ProductsService, private route: ActivatedRoute, private communicationService: CommunicationService,
+              private router: Router, public dialog: MatDialog, private formBuilder: FormBuilder,) {
+    this.communicationService.listen().subscribe((m: any) => {
+      this.onFilterClick(m);
+    });
+  }
 
   ngOnInit() {
     this.productsService.getTotalPage().subscribe(totalPage => {
-      this.totalpage=totalPage;
+      this.totalpage = totalPage;
     });
 
   }
+
   ngAfterViewInit() {
     this.getProducts();
     this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
@@ -63,27 +67,34 @@ export class ProductsComponent implements OnInit,AfterViewInit {
       }
     });
   }
+
   addProductDialog(product: Product) {
     this.dialog.open(AddProductsDetailsComponent, {
-      width: '500px',
-      height: '400px',
-      data: { product: product,form: this.genrateProductForm }
+      width: '900px',
+      height: '500px',
+      data: {product: product, form: this.genrateProductForm()}
     });
-
   }
 
   public openProductDetailDialog(product: Product) {
     this.dialog.open(ProductDetailsDialogComponent, {
       width: '1000px',
       height: '800px',
-      data: { product: product }
+      data: {product: product}
     });
   }
 
-  
+  public openProductStatDialog(product: Product) {
+    this.dialog.open(ProductStatComponent, {
+      width: '1000px',
+      height: '800px',
+      data: {product: product}
+    });
+  }
+
 
   filterProductName() {
-    console.log(this.products)
+    console.log(this.products);
     this.ascendantNameSort = !this.ascendantNameSort;
     if (this.ascendantNameSort) {
       this.pagedItems = this.pagedItems.sort(function (a, b) {
@@ -96,8 +107,7 @@ export class ProductsComponent implements OnInit,AfterViewInit {
         }
         return 0;
       })
-    }
-    else {
+    } else {
       this.pagedItems = this.pagedItems.sort(function (a, b) {
         if (a.name > b.name) {
           return -1;
@@ -124,8 +134,7 @@ export class ProductsComponent implements OnInit,AfterViewInit {
         }
         return 0;
       })
-    }
-    else {
+    } else {
       this.pagedItems = this.pagedItems.sort(function (a, b) {
         if (a.prices > b.prices) {
           return -1;
@@ -137,13 +146,19 @@ export class ProductsComponent implements OnInit,AfterViewInit {
       })
     }
   }
+
   public genrateProductForm(): FormGroup {
     return this.formBuilder.group({
-      _id: [],
-      prices: [],
-      shop:[''],
-      entry_date:[''],
+      price: [''],
+      shop: [''],
+      date: [''],
     })
+  }
+
+  onFilterClick(event) {
+    if (event === 'refreshProducts') {
+      this.getProducts();
+    }
   }
 
 }

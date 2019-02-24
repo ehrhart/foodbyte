@@ -44,15 +44,6 @@ export class AddDialogComponent implements OnInit {
 
   ngOnInit() {
 
-    // this.productsService.getIngridents().subscribe((data: any[]) => {
-    //   for (let entry of data) {
-    //     for (let entryLevel2 of entry.map(e => e)) {
-    //       this.ingredientsList.push(entryLevel2);
-    //
-    //     }
-    //   }
-    // });
-
     this.dialogRef.afterClosed().subscribe(dialogResult => {
 
       if (!dialogResult || dialogResult[0] !== 'confirm-add') {

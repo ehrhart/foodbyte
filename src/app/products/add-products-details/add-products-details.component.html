@@ -12,20 +12,32 @@
     </mat-toolbar>
   
     <div mat-dialog-content class="p-24 m-0">
-        <form class="example-form">
-            <mat-form-field class="example-full-width">
-                <input matInput placeholder="Ajouter le prix" aria-label="Ajouter le prix"
+        <form [formGroup]="data.form">
+          <div fxLayout="column" style="width: 95%; margin-left: 10px">
+          <mat-form-field appearance="outline">
+            <mat-label>Prix du produit</mat-label>
+                <input matInput placeholder="Ajouter le prix" aria-label="Ajouter le prix" type="number" formControlName="price"
                 />
+            <mat-hint>Veuillez ajouter le prix</mat-hint>
             </mat-form-field>
-          
-            <mat-form-field class="example-full-width">
-                <input matInput placeholder="Ajouter le magasin" aria-label="Ajouter le magasin"
-                />
+
+          <mat-form-field appearance="outline" fxFlex="95">
+            <mat-label>Magasin du produit</mat-label>
+            <mat-select placeholder="Favorite food" formControlName="shop">
+              <mat-option *ngFor="let shop of pagedItems" [value]="shop._id">
+                {{shop.name}}
+              </mat-option>
+            </mat-select>
+            <mat-hint>Veuillez ajouter le magasin</mat-hint>
             </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input matInput placeholder="Ajouter la date d'entrée" aria-label="Ajouter la date d'entrée"
+          <mat-form-field appearance="outline" fxFlex="95">
+            <mat-label>Nom de la recette</mat-label>
+                <input matInput placeholder="Ajouter la date d'entrée" aria-label="Ajouter la date d'entrée" formControlName="date"
           />
+            <mat-icon matSuffix>fastfood</mat-icon>
+            <mat-hint>Veuillez ajouter la date d'entrée</mat-hint>
               </mat-form-field>
+          </div>
           </form>
     </div>
   
@@ -34,7 +46,7 @@
         <button mat-button class="save-button mat-accent" (click)="onNoClick()" aria-label="CLOSE">
           Annuler
         </button>
-        <button mat-button class="save-button mat-accent" (click)="onNoClick()" aria-label="CLOSE">
+        <button mat-button class="save-button mat-accent" (click)="addPrices()" aria-label="CLOSE">
             ajouter
           </button>
       </div>

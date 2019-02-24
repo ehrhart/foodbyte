@@ -1,38 +1,41 @@
-@mixin md-icon-size($size: 24px) {
+@mixin mat-icon-size($size: 24px) {
   font-size: $size;
   height: $size;
   width: $size;
   line-height: $size;
 }
 
-.confirm-icon{
-  color: #2C93FF;
-  @include md-icon-size(35px);
+::ng-deep .mat-input-wrapper{
+  width:400px !important;
+}
+
+.user-icon{
+  color: white;
+  @include mat-icon-size(55px);
   background-size: 100% auto;
-  position: fixed;
 }
 
-.notif-text{
-  text-align: center;
+.separator {
+  margin-left: 30px;
+  margin-right: 30px;
+  color: #2C93FF;
 }
 
-img {
-  border-radius: 50%;
+.recipe-section {
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
-.notif-container {
-  border: 2px solid #2C93FF;
+.custom-label {
+  margin-bottom: 10px;
 }
 
 .mat-dialog-container {
   padding: 0px !important;
 }
 
-.header-image {
-  display: block;
-  margin: 0 auto;
-}
-
-.step-container {
-  max-height: 700px;
+.card-section {
+  max-width: 90%;
+  margin-left: 10px;
+  margin-top: 10px;
 }
