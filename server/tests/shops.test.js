@@ -17,8 +17,8 @@ describe('Shops', () => {
       .get('/api/shops')
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.should.be.a('array');
-        shop = res.body[0];
+        expect(res.body.results).to.be.a('array');
+        shop = res.body.results[0];
         done();
       });
     });

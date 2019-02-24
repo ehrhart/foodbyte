@@ -17,8 +17,8 @@ describe('Recipes', () => {
       .get('/api/recipes')
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.should.be.a('array');
-        recipe = res.body[0];
+        expect(res.body.results).to.be.a('array');
+        recipe = res.body.results[0];
         done();
       });
     });
@@ -31,7 +31,7 @@ describe('Recipes', () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
-        expect(res.body).to.deep.equal(recipe);
+        expect(res.body._id).to.deep.equal(recipe._id);
         done();
       });
     });

@@ -10,7 +10,9 @@ const expect = chai.expect;
 
 chai.use(chaiHttp);
 
-describe('Auth', () => {
+describe('Auth', function() {
+  this.timeout(30000);
+
   before(done => {
     User.findOneAndRemove({ email: 'test@foodbyte.io' }, done);
   });
