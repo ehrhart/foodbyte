@@ -2,17 +2,21 @@
 const config = require('../config/config');
 require('../config/mongoose');
 const bcrypt = require('bcrypt');
-
 const mongoose = require('mongoose');
+
 const Recipe = require('../models/recipe.model');
+const RecipeComment = require('../models/recipe-comment.model');
+const RecipeRating = require('../models/recipe-rating.model');
 const User = require('../models/user.model');
 const Product = require('../models/product.model');
 const Shop = require('../models/shop.model');
 const Price = require('../models/price.model');
 
+const nlpHelper = require('../helpers/nlp.helper');
+
 (async() => {
   // Insert a user
-  await User.update({
+  await User.updateOne({
     email: 'demo@foodbyte.io'
   }, {
     fullname: 'John Doe',
@@ -27,6 +31,8 @@ const Price = require('../models/price.model');
   const recipesData = [
     {
       name: 'Blanquette de veau facile',
+      image_url: 'https://assets.afcdn.com/recipe/20130122/3856_w420h344c1cx192cy256.jpg',
+      image_thumb_url: 'https://assets.afcdn.com/recipe/20130122/3856_w420h344c1cx192cy256.jpg',
       text: `Etape 1
 Faire revenir la viande dans un peu de beurre doux jusqu'à ce que les morceaux soient un peu dorés.
 
@@ -46,10 +52,13 @@ Etape 6
 Si nécessaire, ajouter de l'eau de temps en temps.
 
 Etape 7
-Dans un bol, bien mélanger la crème fraîche, le jaune d’oeuf et le jus de citron. Ajouter ce mélange au dernier moment, bien remuer et servir tout de suite.`
+Dans un bol, bien mélanger la crème fraîche, le jaune d’oeuf et le jus de citron. Ajouter ce mélange au dernier moment, bien remuer et servir tout de suite.
+`,
     },
     {
       name: 'Filet mignon en croûte',
+      image_url: 'https://image.afcdn.com/recipe/20150901/16812_w1024h768c1cx1500cy2250.jpg',
+      image_thumb_url: 'https://image.afcdn.com/recipe/20150901/16812_w1024h768c1cx1500cy2250.jpg',
       text: `Etape 1
 Peler et émincer les oignons.
 
@@ -79,10 +88,12 @@ Replier la pâte autour de la viande et souder les bords à l'aide du jaune d'oe
 
 Etape 10
 Enfourner pour 45 minutes de cuisson à 200°C (thermostat 6-7).
-`
+`,
     },
     {
       name: 'Lasagnes à la bolognaise',
+      image_url: 'https://image.afcdn.com/recipe/20160630/63224_w420h344c1cx1500cy2248.jpg',
+      image_thumb_url: 'https://image.afcdn.com/recipe/20160630/63224_w420h344c1cx1500cy2248.jpg',
       text: `Etape 1
 Faire revenir gousses hachées d'ail et les oignons émincés dans un peu d'huile d'olive.
 
@@ -127,10 +138,12 @@ Enfourner pour environ 25 minutes de cuisson.
 
 Etape 14
 Déguster
-`
+`,
     },
     {
       name: 'Tiramisu (recette originale)',
+      image_url: 'https://assets.afcdn.com/recipe/20170614/69362_w600cxt0cyt0cxb3999cyb6000.jpg',
+      image_thumb_url: 'https://assets.afcdn.com/recipe/20170614/69362_w600cxt0cyt0cxb3999cyb6000.jpg',
       text: `Etape 1
 Séparer les blancs des jaunes d'oeufs.
 
@@ -161,15 +174,47 @@ Il existe de nombreuses recettes de tiramisu. Celle-ci est la recette originale 
 `
     }
   ];
+
+  // Load the lexicon
+  await nlpHelper.load();
+
   for (const recipeData of recipesData) {
     // Set the owner of the recipe to our new user
     const recipe = new Recipe(recipeData);
     recipe.user = user._id;
 
+    // Parse recipe text and get products
+    recipe.products = (await nlpHelper.getProductsFromRecipeText(recipeData.text)).map(product => {
+      return product._id;
+    });
+
+    // Add comments
+    for (let i = 0; i < 10; i++) {
+      recipe.comments.push(new RecipeComment({
+        user: user._id,
+        recipe: recipe._id,
+        content: `This is a test comment ${i}`
+      }));
+    }
+
+    // Add ratings
+    for (let i = 0; i < 10; i++) {
+      recipe.ratings.push(new RecipeRating({
+        user: user._id,
+        recipe: recipe._id,
+        value: Math.floor(1 + Math.random() * 5)
+      }));
+    }
+
+    // Calculate average rating
+    recipe.avgRating = recipe.ratings.reduce((sum, rating, _, { length }) => {
+      return sum + rating.value / length;
+    }, 0);
+
     const recipeObject = recipe.toObject();
     delete recipeObject._id;
 
-    await Recipe.update({
+    await Recipe.updateOne({
       name: recipe.name,
       user: recipe.user
     }, recipeObject, {
@@ -184,6 +229,11 @@ Il existe de nombreuses recettes de tiramisu. Celle-ci est la recette originale 
       location: {
         type: 'Point',
         coordinates: [7.0730066, 43.6178208]
+      },
+      address: {
+        street: 'Avenue Roumanille',
+        postalCode: '06410',
+        locality: 'Biot',
       }
     }),
     new Shop({
@@ -191,6 +241,11 @@ Il existe de nombreuses recettes de tiramisu. Celle-ci est la recette originale 
       location: {
         type: 'Point',
         coordinates: [7.0892186, 43.6038184]
+      },
+      address: {
+        street: 'Chemin de Saint-Claude',
+        postalCode: '06600',
+        locality: 'Antibes',
       }
     }),
     new Shop({
@@ -198,13 +253,18 @@ Il existe de nombreuses recettes de tiramisu. Celle-ci est la recette originale 
       location: {
         type: 'Point',
         coordinates: [7.0404749, 43.5921753]
+      },
+      address: {
+        street: '1750 Chemin de Saint-Bernard',
+        postalCode: '06220',
+        locality: 'Vallauris'
       }
     })
   ];
   for (const shop of shops) {
     const shopData = shop.toObject();
     delete shopData._id;
-    await Shop.update({
+    await Shop.updateOne({
       location: shop.location
     }, shopData, {
       upsert: true
@@ -217,7 +277,7 @@ Il existe de nombreuses recettes de tiramisu. Celle-ci est la recette originale 
   if (product && shop) {
     const price = new Price({
       shopId: shop._id,
-      shopName: shop.name,
+      productId: product._id,
       date: new Date(new Date(2017, 0, 1).getTime() + Math.random() * (new Date(2018, 0, 1).getTime() - new Date(2017, 0, 1).getTime())),
       price: (1 + Math.random() * 10).toFixed(2)
     });

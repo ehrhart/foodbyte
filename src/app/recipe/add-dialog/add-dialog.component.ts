@@ -1,6 +1,13 @@
-import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  OnInit, ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
-import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ProductsService} from "../../service/api/products.service";
 import {Ingridient} from "../../Models/Ingridient";
 import {Recipe} from "../../Models/Recipe";
@@ -14,28 +21,29 @@ import {RecipesService} from "../../service/api/recipes.services";
 })
 export class AddDialogComponent implements OnInit {
 
+  @ViewChild('fileInput') public fileInput: ElementRef;
+
+
   public recipeSteps: string[] = [""];
+  public displayCloseButton: boolean = false;
 
   ingredientsList: Ingridient[] = [];
+  slectedIngrdient:Ingridient[]= [];
+  selectedIngrdientsText: string[] = [""];
+  public fileForm: FormGroup;
+  public file: any;
 
-  constructor(public dialogRef: MatDialogRef<AddDialogComponent>, public productsService: ProductsService, private recipeService: RecipesService,
+
+
+  constructor(public dialogRef: MatDialogRef<AddDialogComponent>,
+              private fileLoader: FormBuilder,
+              public productsService: ProductsService,
+              private recipeService: RecipesService,
+              private changeDetector: ChangeDetectorRef,
               @Inject(MAT_DIALOG_DATA) public data: any,) {
   }
 
   ngOnInit() {
-
-    this.productsService.getIngridents().subscribe((data: any[]) => {
-      console.log(data);
-      for (let entry of data) {
-        for (let entryLevel2 of entry.map(e => e)) {
-          this.ingredientsList.push(entryLevel2); // 1, "string", false
-
-        }
-        console.log(entry);
-      }
-
-      // this.ingredientsList = data.map(e => e.text)
-    });
 
     this.dialogRef.afterClosed().subscribe(dialogResult => {
 
@@ -61,28 +69,76 @@ export class AddDialogComponent implements OnInit {
     return this.data.form.controls.desciption as FormControl;
   }
 
-  removeRecipeStep(i) {
-    console.log(this.recipeSteps);
-    this.recipeSteps.slice(i, 1);
+  get image_url(): FormControl {
+    return this.data.form.controls.image_url as FormControl;
   }
 
-  addRecipeStep() {
+  removeRecipeStep(key) {
+    const index = this.recipeSteps.indexOf(key, 0);
+    if (index > -1) {
+      this.recipeSteps.splice(index, 1);
+    }
+  }
+
+  addRecipeStep(i:number) {
     const formData = this.data.form.getRawValue();
-    this.recipeSteps.push(formData['desciption']);
+    this.recipeSteps.push(' Etape '+i+formData['desciption']);
+
   }
 
   public addRecipe(): void {
     const formData = this.data.form.getRawValue();
-    let slectedIngrdient: Ingridient[] = formData['ingredients'];
-    let selectedIngrdientsText: string[] = slectedIngrdient.map(e => e.text);
+    const formFileData = this.fileForm.getRawValue();
+
+    if(formData['ingredients']) {
+      this.slectedIngrdient = formData['ingredients'];
+      this.selectedIngrdientsText = this.slectedIngrdient.map(e => e.text);
+    }
     this.recipeSteps.push(formData['desciption']);
+    console.log(this.file);
     let recipeToPost: Recipe = new Recipe(null, formData['name'],
-      formData['desciption'],
+      this.concatinateStringArray(),
       null,
       null,
       null,
-      "haroun");
-    console.log(recipeToPost);
+      "haroun",
+      null,
+      this.file,
+      null);
     this.recipeService.postRecipes(recipeToPost);
+    this.onNoClick();
   }
+
+  public concatinateStringArray() {
+    let result = "";
+    for (let string of this.recipeSteps) {
+      result = result + string;
+    }
+    return result;
+  }
+
+  onFileChange(event) {
+    this.fileForm = this.fileLoader.group({
+      image_url: ['']
+    });
+    const reader = new FileReader();
+    if (event.target.files && event.target.files.length) {
+      const [uploadedFile] = event.target.files;
+      reader.readAsDataURL(uploadedFile);
+      reader.onload = () => {
+        console.log('====>' + uploadedFile.result);
+          this.file = uploadedFile.result;
+        this.changeDetector.markForCheck();
+      };
+    }
+    this.displayCloseButton = true;
+  }
+
+  public removeFile(): void {
+    this.fileInput.nativeElement.value ="";
+    if (this.data.form.get('uploadedFile')) {
+      this.data.form.get('uploadedFile').setValue(null);
+    }
+  }
+
 }

@@ -1,0 +1,69 @@
+<div class="dialog-content-wrapper">
+
+  <mat-toolbar matDialogTitle class="mat-accent m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+        <span class="title dialog-title">
+          Prix chez les magasins de {{data.product.name}}
+        </span>
+      <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+
+
+
+  <div mat-dialog-content class="p-24 m-0">
+
+    <div fxLayout="column">
+
+      <!--<div *ngIf="showEditForm">-->
+        <!--<mat-form-field class="table-search-input">-->
+          <!--<input matInput placeholder="Prix" aria-label="Rechercher votre recette" [formControl]="price">-->
+        <!--</mat-form-field>-->
+
+      <!--</div>-->
+
+      <mat-card class="mat-elevation-z8" style="margin: 20px " *ngFor="let price of productPrices">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+
+          <div>
+            <img [src]="'assets/shop.png'" width="50" height="50" style="border-radius: 50%">
+          </div>
+
+        <div fxLayout="column">
+          <span>Prix : {{price.price}}</span>
+          <span *ngIf="filterShop(price.shopId)">Magasin: {{filterShop(price.shopId).name}}</span>
+        </div>
+
+
+          <div>
+
+            <!--<button mat-icon-button color="warn" (click)="confirmEditPrice(price._id, filterShop(price.shopId))" *ngIf="showEditForm">-->
+              <!--<mat-icon aria-label="Example icon-button with a heart icon" matTooltip="Confirm">check_circle</mat-icon>-->
+            <!--</button>-->
+
+            <!--<button mat-icon-button color="warn" (click)="editPrice()" *ngIf="!showEditForm">-->
+              <!--<mat-icon aria-label="Example icon-button with a heart icon" matTooltip="Editer ce prix">edit</mat-icon>-->
+            <!--</button>-->
+
+            <button mat-icon-button color="warn" (click)="removePrice(price._id)">
+              <mat-icon aria-label="Example icon-button with a heart icon" matTooltip="Supprimer ce prix">delete</mat-icon>
+            </button>
+
+          </div>
+
+        </div>
+      </mat-card>
+
+    </div>
+
+
+  </div>
+
+
+
+
+
+</div>

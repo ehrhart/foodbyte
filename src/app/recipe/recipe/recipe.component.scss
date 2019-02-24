@@ -1,5 +1,5 @@
 
-@mixin mat-icon-size($size: 24px) {
+@mixin mat-icon-size($size: 22px) {
   font-size: $size;
   height: $size;
   width: $size;
@@ -13,6 +13,7 @@
 
 .cardList {
   display: flex;
+  width: 90%;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -34,7 +35,7 @@
 
 .cards {
   margin-top: 20px;
-  min-width: 1000px;
+  min-width: 90%;
 }
 
 .card-image {
@@ -52,6 +53,11 @@
   color: green;
 }
 
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
 
 .cart-icone {
   color: dodgerblue;
@@ -59,7 +65,7 @@
   background-size: 100% auto;
 }
 
-quantity-icone {
+.quantity-icone {
   color: dodgerblue;
   @include mat-icon-size(14px);
   background-size: 70% auto;
@@ -95,3 +101,16 @@ quantity-icone {
   text-align: center;
 }
 
+mat-paginator {
+  display: flex;
+  justify-content: center;
+}
+
+.table-search-input {
+  font-size: 14px;
+  width: 40%;
+}
+
+.custom-bar {
+  background-color: whitesmoke;
+}

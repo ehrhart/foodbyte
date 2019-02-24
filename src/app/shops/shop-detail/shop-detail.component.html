@@ -1,0 +1,36 @@
+<div class="dialog-content-wrapper">
+
+  <mat-toolbar matDialogTitle class="mat-accent m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">
+                Adresse du magasin:  {{data.shop.name}}
+            </span>
+      <button mat-button class="mat-icon-button"
+              (click)="dialogRef.close()"
+              aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <div mat-dialog-content class="p-24 m-0">
+    <mat-list role="list">
+      <mat-list-item role="listitem"><mat-icon>place</mat-icon> Magasin: <strong>{{data.shop.name}}</strong></mat-list-item>
+      <mat-list-item role="listitem"><mat-icon>place</mat-icon> Rue: <strong>{{data.shop.address.street}}</strong></mat-list-item>
+      <mat-list-item role="listitem"><mat-icon>place</mat-icon> Localisation: <strong>{{data.shop.address.locality}}</strong></mat-list-item>
+      <mat-list-item role="listitem"><mat-icon>place</mat-icon> Code Postal:  <strong>{{data.shop.address.postalCode}}</strong></mat-list-item>
+    </mat-list>
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="space-between center">
+    <div>
+      <button mat-button
+              class="save-button mat-accent"
+              (click)="onNoClick()"
+              aria-label="CLOSE">
+        Annuler
+      </button>
+    </div>
+  </div>
+
+</div>

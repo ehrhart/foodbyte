@@ -1,49 +1,150 @@
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<mat-form-field class="select-form">
-  <mat-select placeholder="Features">
-    <mat-option *ngFor="let feature of featureSelect" [value]="feature.value">
-      {{feature.viewValue}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+<div fxLayout="column" fxLayoutAlign="center center" class="wrapper">
+
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxFill>
+    <mat-form-field class="table-search-input">
+      <input matInput placeholder="Rechercher votre recette" aria-label="Rechercher votre recette"
+             (keyup)="searchProduct()"
+             [matAutocomplete]="auto" [formControl]="productSearch">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchProduct()">
+        <mat-option *ngFor="let product of unFiltredpagedItems" [value]="product.name">
+          <img class="example-option-img" aria-hidden
+               [src]="product.image_url || 'assets/product.png'" height="35" width="35"
+               style="border-radius: 50%"> -
+          <span>{{product.name}}</span>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
+
+      <div>
+      </div>
+      <div>
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" fxLayoutAlign="center">
+
+
+          <mat-button-toggle value="bold" (click)="filterProductPrice()">
+            <mat-icon>update</mat-icon>
+            Prix
+            <mat-icon *ngIf="!ascendantPriceSort">arrow_downward</mat-icon>
+            <mat-icon *ngIf="ascendantPriceSort">arrow_upward</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="italic" (click)="filterProductName()">
+            <mat-icon>sort_by_alpha</mat-icon>
+            Nom
+            <mat-icon *ngIf="!ascendantNameSort">arrow_downward</mat-icon>
+            <mat-icon *ngIf="ascendantNameSort">arrow_upward</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+
+
+  </div>
 
 
 
-<mat-form-field class="search-form">
-  <input matInput placeholder="Search Product" type="text">
-</mat-form-field>
-<button button="submit" mat-raised-button color="black">Search</button>
-<br>
+  <!--Les cards des produits-->
 
-<div fxLayout="row wrap" fxLayout.xs=" column" fxLayout.sm=" column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left" >
- <mat-card class="card-picture" *ngFor="let product of products">
-    <mat-card-header class="custom-card-header">
-      <mat-card-title fxLayout.gt-xm="row" fxLayout.xs="column">
-        <span fxFlex="80%">{{product.name}}</span>
-      </mat-card-title>
-      <mat-card-subtitle>{{product.brands}}</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image [src]="'http://shfcs.org/en/wp-content/uploads/2015/11/MedRes_Product-presentation-2.jpg'">
-    <mat-card-actions >
-      <button mat-button>
-        <mat-icon fxFlex="10%">info</mat-icon>
-      </button>
-      <button mat-button>
-        <mat-icon fxFlex="10%">mode_edit</mat-icon>
-      </button>
-    </mat-card-actions>
-  </mat-card> 
-  
-  <mat-card class="card-picture">
-    <mat-card-title fxLayout.gt-xs="row" fxLayout.xs="column" >
-      <span fxFlex="80%">Title</span>
-      <mat-icon fxFlex="10%">mode_edit</mat-icon>
-      <mat-icon fxFlex="10%">delete</mat-icon>
-    </mat-card-title>
-    <img mat-card-image [src]="'http://shfcs.org/en/wp-content/uploads/2015/11/MedRes_Product-presentation-2.jpg'">
-  </mat-card>
-  
- 
-</div>
+  <div class="cardList">
+    <ng-container *ngFor="let product of pagedItems"
+                  Style="border-style: dot-dash; height: 100%"
+    >
+      <mat-card [class.mat-elevation-z8]="true" class="cardListItem">
+        <mat-card-header fxLayout="column" fxLayoutAlign="center center" class="custom-bar">
+
+          <mat-card-title>{{product.name}}</mat-card-title>
+
+          <mat-card-subtitle>
+            <div>
+              <span>Marque: {{product.brands}} <span
+                *ngIf="product.nutrition_grade !=='' ">| Grade: {{product.nutrition_grade}}</span></span>
+              <div>
+                <mat-icon
+                  [ngStyle]="{'color':['a','b', 'c', 'd', 'e'].includes(product.nutrition_grade)  ? 'orangered' : 'grey' }">
+                  star
+                </mat-icon>
+                <mat-icon
+                  [ngStyle]="{'color':['a','b', 'c', 'd'].includes(product.nutrition_grade)  ? 'orangered' : 'grey' }">
+                  star
+                </mat-icon>
+                <mat-icon
+                  [ngStyle]="{'color':['a','b', 'c'].includes(product.nutrition_grade)  ? 'orangered' : 'grey' }">
+                  star
+                </mat-icon>
+                <mat-icon
+                  [ngStyle]="{'color':['a','b'].includes(product.nutrition_grade)  ? 'orangered' : 'grey' }">
+                  star
+                </mat-icon>
+                <mat-icon
+                  [ngStyle]="{'color':['a'].includes(product.nutrition_grade)  ? 'orangered' : 'grey' }">
+                  star
+                </mat-icon>
+              </div>
+            </div>
+
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content fxLayout="row" fxLayoutAlign="center space-between">
+
+          <img [src]="product.image_url || 'assets/product.png'" width="200"
+               height="200" style="border-radius: 50%">
+        </mat-card-content>
+        <mat-card-actions class="custom-bar">
+
+          <div fxLayout="row" fxLayoutAlign="center space-between">
+            <button mat-button>
+              <mat-icon matTooltip="Afficher la description du produit"
+                        (click)="openProductDetailDialog(product)"
+                        style="color: blue">info
+              </mat-icon>
+            </button>
+
+            <button mat-button>
+              <mat-icon matTooltip="Ajouter des informations" (click)="addProductDialog(product)"
+                        style="color: blue">edit
+              </mat-icon>
+            </button>
+
+            <button mat-button>
+              <mat-icon matTooltip="Composition du produit" (click)="openProductStatDialog(product)"
+                        style="color: blue">insert_chart
+              </mat-icon>
+            </button>
+
+            <button mat-button>
+              <mat-icon matTooltip="Consultez le prix chez plusieurs magasins" (click)="addProductPrices(product)"
+                        style="color: blue">attach_money
+              </mat-icon>
+            </button>
+
+          </div>
+
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
+
+    <!--pagination des produits-->
+
+    <div>
+
+
+      <div class="pager-container">
+
+        <mat-paginator [length]="totalpage"
+                       [pageIndex]="actualPage"
+                       [pageSize]="defaultPageSize"
+                       [showFirstLastButtons]="true"
+                       [pageSizeOptions]="pageSizeOptions"
+                       fxLayoutAlign="center center">
+        </mat-paginator>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
 
 

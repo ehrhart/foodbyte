@@ -3,10 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { MatIconRegistry } from "@angular/material";
 import { DomSanitizer } from "@angular/platform-browser";
-
-
 import { AuthService } from './auth/auth.service';
-import * as schema from './schema/equipment.json';
 
 @Component({
   selector: 'app-root',
@@ -30,8 +27,8 @@ export class AppComponent implements OnInit {
   public ngOnInit() {
 
     // init this.user on startup
-    this.authService.me().subscribe(data => {
-      this.user = data.user;
+    this.authService.me().subscribe(user => {
+      this.user = user;
     });
 
     // update this.user after login/register/logout

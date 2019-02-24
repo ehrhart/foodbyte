@@ -3,7 +3,7 @@
   <mat-toolbar matDialogTitle class="mat-accent m-0">
     <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
             <span class="title dialog-title">
-                Recette
+                Recette de {{data.recipe.name}}
             </span>
       <button mat-button class="mat-icon-button"
               (click)="dialogRef.close()"
@@ -17,15 +17,34 @@
     <div fxLayout="column">
 
       <div class="header-image" fxLayout="column" fxLayoutAlign="space-between center">
-        <img src="http://www.appsgeyser.com/blog/wp-content/uploads/2016/12/recipe-icon-6.png" width="100" height="100">
+        <img [src]="data.recipe.image_url || 'http://www.appsgeyser.com/blog/wp-content/uploads/2016/12/recipe-icon-6.png'" width="200"
+             height="200">
         <strong>{{data.recipe.name}}</strong>
+      </div>
+
+      <div>
+        Evaluez cette recette :
+        <div mat-dialog-content class="p-24 m-0">
+            <div fxLayout="column" style="width: 10%; margin-left: 10px">
+              <mat-form-field appearance="outline" fxFlex="95">
+                <mat-select placeholder="Rate" [formControl]="rating" (selectionChange)="rateRecipe()">
+                  <mat-option [value]="1">1 star</mat-option>
+                  <mat-option [value]="2">2 stars</mat-option>
+                  <mat-option [value]="3">3 stars</mat-option>
+                  <mat-option [value]="4">4 stars</mat-option>
+                  <mat-option [value]="5">5 stars</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+        </div>
+
       </div>
 
       <div class="desciption-section">
         <mat-list role="list">
-          <mat-list-item role="listitem" *ngFor="let step of parseRecipe(data.recipe.text) , let i = index"> <span  *ngIf="i != 0"> <strong>Etape</strong>{{step}}</span></mat-list-item>
+          <mat-list-item class="step-container" role="listitem" *ngFor="let step of parseRecipe(data.recipe.text) , let i = index"> 
+            <span  *ngIf="i != 0"> <strong>Etape</strong>{{step}}</span></mat-list-item>
         </mat-list>
-        <!--{{data.recipe.text}}-->
       </div>
       
     </div>

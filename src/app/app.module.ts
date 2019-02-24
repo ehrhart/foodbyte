@@ -18,6 +18,10 @@ import {RecipeModule} from "./recipe/recipe.module";
 import {SharedModule} from "./shared/shared.module";
 import {CommunicationService} from "./service/communication.service";
 import {PagerService} from "./service/pager.service";
+import {ShopsModule} from "./shops/shops.module";
+import {AgmCoreModule} from "@agm/core";
+import {StatisticsModule} from "./statistics/statistics.module";
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -36,7 +40,13 @@ import {PagerService} from "./service/pager.service";
     AdminModule,
     AppRoutingModule,
     ProductsModule,
-    RecipeModule
+    RecipeModule,
+    ShopsModule,
+    StatisticsModule,
+    NgxChartsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCnrsadGZ5CZ4tNPubPyy4nGUbdre6M_3c'
+    })
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
@@ -46,7 +56,7 @@ import {PagerService} from "./service/pager.service";
     provide: HTTP_INTERCEPTORS,
     useClass: CatchErrorInterceptor,
     multi: true,
-  },CommunicationService,PagerService],
+  }, CommunicationService, PagerService],
   entryComponents: [],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,64 @@
+<div class="dialog-content-wrapper">
+
+  <mat-toolbar matDialogTitle class="mat-accent m-0">
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">
+               Produits de la recette: {{data.recipe.name}}
+            </span>
+      <button mat-button class="mat-icon-button"
+              (click)="dialogRef.close()"
+              aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <div mat-dialog-content class="p-24 m-0">
+
+    <div fxLayout="row" fxflexalign="center space-around">
+      <div fxLayout="column" fxFlexAlign="50">
+        <mat-list role="list">
+          <mat-list-item role="listitem">
+            <strong> Score Nutritionnelle de la recette: {{getRecipeScore()}}</strong>
+          </mat-list-item>
+        </mat-list>
+        <mat-divider></mat-divider>
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let product of data.recipe.products">
+            Produit: <strong>{{product.name}}</strong> - Score: <strong>{{product.score}}</strong>
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+      <div fxLayout="column" fxFlexAlign="50">
+        <ngx-charts-pie-chart
+          [view]="view"
+          [scheme]="colorScheme"
+          [results]="scoreStat"
+          [legend]="showLegend"
+          [explodeSlices]="explodeSlices"
+          [labels]="showLabels"
+          [doughnut]="doughnut"
+          [gradient]="gradient"
+          >
+        </ngx-charts-pie-chart>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="space-between center">
+    <div>
+      <button mat-button
+              class="save-button mat-accent"
+              (click)="onNoClick()"
+              aria-label="CLOSE">
+        Annuler
+      </button>
+    </div>
+  </div>
+
+</div>

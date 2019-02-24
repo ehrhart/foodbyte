@@ -1,5 +1,7 @@
 import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {FormControl} from "@angular/forms";
+import {RecipesService} from "../../service/api/recipes.services";
 
 @Component({
   selector: 'app-recipe-details-dialog',
@@ -10,7 +12,10 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 })
 export class RecipeDetailsDialogComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<RecipeDetailsDialogComponent>,
+  rating = new FormControl();
+
+
+  constructor(public dialogRef: MatDialogRef<RecipeDetailsDialogComponent>,private recipeService: RecipesService,
               @Inject(MAT_DIALOG_DATA) public data: any,) { }
 
   ngOnInit() {
@@ -20,7 +25,6 @@ export class RecipeDetailsDialogComponent implements OnInit {
         return;
       }
     });
-
   }
 
   public onNoClick(): void {
@@ -29,6 +33,10 @@ export class RecipeDetailsDialogComponent implements OnInit {
 
   public parseRecipe(recipeDesciption: string): string[] {
     return recipeDesciption.split('Etape');
+  }
+
+  rateRecipe() {
+    this.recipeService.rateRecipe(this.data.recipe._id, this.rating.value)
   }
 
 }

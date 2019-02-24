@@ -8,6 +8,7 @@ import { RegisterComponent } from './register/register.component';
 import { AuthService } from './auth.service';
 import { TokenStorage } from './token.storage';
 import { AuthRoutingModule } from './auth-routing.module';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { AuthRoutingModule } from './auth-routing.module';
     CommonModule,
     SharedModule,
     AuthRoutingModule,
+    BrowserAnimationsModule
   ],
   declarations: [
     LoginComponent,

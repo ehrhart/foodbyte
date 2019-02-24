@@ -9,6 +9,9 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  score: {
+    type: Number
+  },
   nutrition_grade: {
     type: String
   },
@@ -24,6 +27,13 @@ const ProductSchema = new mongoose.Schema({
   nutriments: {
     type: [mongoose.Schema.Types.Mixed]
   },
+  avgPrice:{
+    type: Number,
+  },
+  prices :[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'Price',
+  }],
   images: {
     type: [mongoose.Schema.Types.Mixed]
   },
@@ -32,14 +42,7 @@ const ProductSchema = new mongoose.Schema({
   },
   image_thumb_url: {
     type: String
-  },
-  prices: [
-    {
-      type:mongoose.Schema.ObjectId,
-      ref:'Price',
-      required: true
-    } 
-  ]
+  }
 }, {
   versionKey: false,
   timestamps: true

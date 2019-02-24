@@ -1,0 +1,48 @@
+<div class="dialog-content-wrapper">
+
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+      <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+        <span class="title dialog-title">
+          {{data.product.name}}
+        </span>
+        <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+  
+    <div mat-dialog-content class="p-24 m-0">
+        <form [formGroup]="data.form">
+          <div fxLayout="column" style="width: 95%; margin-left: 10px">
+          <mat-form-field appearance="outline">
+            <mat-label>Prix du produit</mat-label>
+                <input matInput placeholder="Ajouter le prix" aria-label="Ajouter le prix" type="number" formControlName="price"
+                />
+            <mat-hint>Veuillez ajouter le prix</mat-hint>
+            </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex="95">
+            <mat-label>Magasin du produit</mat-label>
+            <mat-select placeholder="Favorite food" formControlName="shop">
+              <mat-option *ngFor="let shop of pagedItems" [value]="shop._id">
+                {{shop.name}}
+              </mat-option>
+            </mat-select>
+            <mat-hint>Veuillez ajouter le magasin</mat-hint>
+            </mat-form-field>
+          </div>
+          </form>
+    </div>
+  
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="space-between center">
+      <div>
+        <button mat-button class="save-button mat-accent" (click)="onNoClick()" aria-label="CLOSE">
+          Annuler
+        </button>
+        <button mat-button class="save-button mat-accent" (click)="addPrices()" aria-label="CLOSE">
+            ajouter
+          </button>
+      </div>
+    </div>
+  
+  </div>

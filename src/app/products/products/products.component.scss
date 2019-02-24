@@ -1,22 +1,128 @@
-.img {
-    width: 100%;
-    margin-bottom: 18%;
-    
-  }
-  .card-picture {
-    width: 21%;
-    margin-bottom: 2%;
-    margin-left: 1%
 
-  }
-  .container {
-    min-height: 100%;
-    width: 100%;
-  }
-  .search-form {
-    width: 69%;
-  }
-  .select-form {
-   width:24%    
+@mixin mat-icon-size($size: 24px) {
+  font-size: $size;
+  height: $size;
+  width: $size;
+  line-height: $size;
+}
 
-  }
+.example-card {
+  width: 350px;
+  margin-left: 20px;
+}
+
+.cardList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+/* Column Gap */
+.cardList > * {
+  box-sizing: border-box;
+}
+.cardList > *:not(:last-child) {
+  margin-right: 32px;
+}
+/* Item sizing */
+.cardListItem {
+  flex: 0 1 calc(33.3% - 32px);
+  margin-top: 15px;
+  max-width: 350px;
+}
+
+.custom-bar {
+  background-color: whitesmoke;
+}
+
+.evaluation-star {
+  color: orangered;
+}
+
+.cards {
+  margin-top: 20px;
+  min-width: 1000px;
+}
+
+.card-image {
+  height: 80px;
+  width: 80px;
+  position: center;
+  margin-left: 15px;
+}
+
+.span-tag-bio {
+  color: red;
+}
+
+.span-tag-eco {
+  color: green;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.table-search-input {
+  font-size: 14px;
+  width: 40%;
+}
+
+.cart-icone {
+  color: dodgerblue;
+  @include mat-icon-size(44px);
+  background-size: 100% auto;
+}
+
+quantity-icone {
+  color: dodgerblue;
+  @include mat-icon-size(14px);
+  background-size: 70% auto;
+}
+
+#add-recipe-button {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  padding: 0;
+  z-index: 99;
+}
+
+.corner-fap-button{
+  top: auto;
+  right: 20px;
+  bottom: 20px;
+  left: auto;
+  position: fixed;
+
+}
+
+.wrapper {
+  max-width: 90%;
+  margin:auto ;
+}
+
+.pager-container {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+.forms{
+margin-left: 1%;
+
+}
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+.sort{
+display: flex;
+margin-right: 2%;
+
+}

@@ -21,12 +21,20 @@ import {
   MatProgressBarModule,
   MatFormFieldModule,
   MatSelectModule,
-  MatGridListModule, MatGridTile,MatButtonToggleModule
+  MatGridListModule,
+  MatGridTile,
+  MatButtonToggleModule,
+  MatTooltipModule,
+  MatAutocompleteModule,
+  MatPaginatorModule, MatProgressSpinnerModule,
+  MatDatepickerModule, DateAdapter, NativeDateAdapter, MatNativeDateModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ProductsService} from "../service/api/products.service";
 
 @NgModule({
   imports: [
+    BrowserAnimationsModule,
     CommonModule,
     MatToolbarModule,
     MatMenuModule,
@@ -50,9 +58,16 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     FlexLayoutModule,
     MatGridListModule,
     MatButtonToggleModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatTooltipModule,
+    MatAutocompleteModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatDatepickerModule
+
   ],
   exports: [
+    BrowserAnimationsModule,
     MatToolbarModule,
     MatMenuModule,
     MatTabsModule,
@@ -75,7 +90,14 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     FlexLayoutModule,
     MatGridListModule,
     MatButtonToggleModule,
+    MatTooltipModule,
+    MatAutocompleteModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatDatepickerModule
+
   ],
+
   declarations: [],
 })
 export class SharedModule { }

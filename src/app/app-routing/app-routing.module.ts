@@ -5,6 +5,8 @@ import { HomeComponent } from '../home/home.component';
 import { ProductsComponent } from '../products/products/products.component';
 import {RecipeComponent} from "../recipe/recipe/recipe.component";
 import {RegisterComponent} from "../auth/register/register.component";
+import {ShopsComponent} from "../shops/shops/shops.component";
+import {StatDashboardComponent} from "../statistics/stat-dashboard/stat-dashboard.component";
 
 const routes: Routes = [{
   path: '',
@@ -26,11 +28,21 @@ const routes: Routes = [{
   },
   {
     path: 'products',
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     component: ProductsComponent
   },
+  {
+    path: 'statistics',
+    //canActivate: [AuthGuard],
+    component: StatDashboardComponent
+  },
+  {
+    path: 'shops',
+    //canActivate: [AuthGuard],
+    component: ShopsComponent
+  },
  { path: 'recipes',
-   canActivate: [AuthGuard],
+   //canActivate: [AuthGuard],
    component: RecipeComponent
   }];
 
