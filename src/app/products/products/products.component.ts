@@ -32,6 +32,9 @@ export class ProductsComponent implements OnInit, AfterViewInit {
   ascendantPriceSort: boolean = true;
   totalpage: number = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100];
+  unFiltredpagedItems: any[] = [];
+
+  productSearch = new FormControl();
 
   constructor(public productsService: ProductsService, private route: ActivatedRoute, private communicationService: CommunicationService,
               private router: Router, public dialog: MatDialog, private formBuilder: FormBuilder,) {
@@ -65,6 +68,8 @@ export class ProductsComponent implements OnInit, AfterViewInit {
     this.productsService.getProductsPaginated(this.paginator.pageIndex, this.paginator.pageSize).subscribe(products => {
       for (let product of products) {
         this.pagedItems.push(product);
+        this.unFiltredpagedItems.push(product);
+
       }
     });
   }
@@ -169,5 +174,17 @@ export class ProductsComponent implements OnInit, AfterViewInit {
       this.getProducts();
     }
   }
+
+  public searchProduct() {
+    this.pagedItems = [];
+    console.log(this.productSearch.value);
+    this.productsService.getProductsPaginated(this.paginator.pageIndex, this.paginator.pageSize, this.productSearch.value).subscribe(products => {
+      this.pagedItems = [];
+      for (let product of products) {
+        this.pagedItems.push(product);
+      }
+    });
+  }
+
 
 }

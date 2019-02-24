@@ -1,79 +1,46 @@
 <div fxLayout="column" fxLayoutAlign="center center" class="wrapper">
 
-  <div fxLayout="row" fxLayoutAlign=" center" fxFlex style="width: 100%">
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxFill>
+    <mat-form-field class="table-search-input">
+      <input matInput placeholder="Rechercher votre recette" aria-label="Rechercher votre recette"
+             (keyup)="searchProduct()"
+             [matAutocomplete]="auto" [formControl]="productSearch">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchProduct()">
+        <mat-option *ngFor="let product of unFiltredpagedItems" [value]="product.name">
+          <img class="example-option-img" aria-hidden
+               [src]="product.image_url || 'assets/product.png'" height="35" width="35"
+               style="border-radius: 50%"> -
+          <span>{{product.name}}</span>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
 
-    <div>
-    </div>
-    <!--les filtres-->
-    <div class="sort">
-      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" fxLayoutAlign="center">
-
-        <mat-button-toggle value="italic" (click)="filterProductPrice()">
-          <mat-icon>attach_money</mat-icon>
-          prix du produit
-          <mat-icon *ngIf="!ascendantPriceSort">arrow_downward</mat-icon>
-          <mat-icon *ngIf="ascendantPriceSort">arrow_upward</mat-icon>
-        </mat-button-toggle>
-
-        <mat-button-toggle value="italic" (click)="filterProductName()">
-          <mat-icon>sort_by_alpha</mat-icon>
-          Nom du produit
-          <mat-icon *ngIf="!ascendantNameSort">arrow_downward</mat-icon>
-          <mat-icon *ngIf="ascendantNameSort">arrow_upward</mat-icon>
-        </mat-button-toggle>
-
-      </mat-button-toggle-group>
-    </div>
-    <!--Filtrage de prix-->
-    <div class="forms">
-      <section class="example-section">
-        <mat-form-field class="example-margin">
-          <input matInput type="number" placeholder="Prix minimal" [(ngModel)]="Pmin">
-        </mat-form-field>
-        <mat-form-field class="example-margin">
-          <input matInput type="number" placeholder="Prix maximal" [(ngModel)]="Pmax">
-        </mat-form-field>
-
-      </section>
-
-    </div>
+      <div>
+      </div>
+      <div>
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" fxLayoutAlign="center">
 
 
-    <!--Barre de recherche de produit-->
-    <div class="forms">
-      <form>
-        <mat-form-field appearance="outline" fxFlex="80">
-          <input matInput placeholder="Rechercher votre produit"
-                 aria-label="Rechercher votre produit"
-          />
-          <!--<mat-autocomplete #auto="matAutocomplete">-->
-          <!--<mat-option *ngFor="let recipe of recipes | async" [value]="recipe.name">-->
-          <!--<img class="example-option-img"  height="25">-->
-          <!--<span>{{recipe.name}}</span> |-->
-          <!--</mat-option>-->
-          <!--</mat-autocomplete>-->
-        </mat-form-field>
-      </form>
-    </div>
-    <!--Barre de recherche de  magasin -->
-    <div class="forms">
-      <form>
-        <mat-form-field appearance="outline" fxFlex="80">
-          <input matInput placeholder="Rechercher votre magasin"
-                 aria-label="Rechercher votre magasin"
-          />
-          <!--<mat-autocomplete #auto="matAutocomplete">-->
-          <!--<mat-option *ngFor="let recipe of recipes | async" [value]="recipe.name">-->
-          <!--<img class="example-option-img"  height="25">-->
-          <!--<span>{{recipe.name}}</span> |-->
-          <!--</mat-option>-->
-          <!--</mat-autocomplete>-->
-        </mat-form-field>
-      </form>
+          <mat-button-toggle value="bold" (click)="filterProductPrice()">
+            <mat-icon>update</mat-icon>
+            Prix
+            <mat-icon *ngIf="!ascendantPriceSort">arrow_downward</mat-icon>
+            <mat-icon *ngIf="ascendantPriceSort">arrow_upward</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="italic" (click)="filterProductName()">
+            <mat-icon>sort_by_alpha</mat-icon>
+            Nom
+            <mat-icon *ngIf="!ascendantAlphabetciSort">arrow_downward</mat-icon>
+            <mat-icon *ngIf="ascendantAlphabetciSort">arrow_upward</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
     </div>
 
 
   </div>
+
 
 
   <!--Les cards des produits-->

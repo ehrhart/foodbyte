@@ -31,6 +31,7 @@ export class AddDialogComponent implements OnInit {
   slectedIngrdient:Ingridient[]= [];
   selectedIngrdientsText: string[] = [""];
   public fileForm: FormGroup;
+  public file: any;
 
 
 
@@ -94,7 +95,7 @@ export class AddDialogComponent implements OnInit {
       this.selectedIngrdientsText = this.slectedIngrdient.map(e => e.text);
     }
     this.recipeSteps.push(formData['desciption']);
-    console.log(this.fileForm);
+    console.log(this.file);
     let recipeToPost: Recipe = new Recipe(null, formData['name'],
       this.concatinateStringArray(),
       null,
@@ -102,7 +103,7 @@ export class AddDialogComponent implements OnInit {
       null,
       "haroun",
       null,
-      formFileData['image_url'],
+      this.file,
       null);
     this.recipeService.postRecipes(recipeToPost);
     this.onNoClick();
@@ -118,22 +119,19 @@ export class AddDialogComponent implements OnInit {
 
   onFileChange(event) {
     this.fileForm = this.fileLoader.group({
-      image_url: ''
+      image_url: ['']
     });
-
     const reader = new FileReader();
     if (event.target.files && event.target.files.length) {
       const [uploadedFile] = event.target.files;
       reader.readAsDataURL(uploadedFile);
       reader.onload = () => {
-        this.fileForm.controls.image_url.setValue({
-          image_url: uploadedFile,
-        });
+        console.log('====>' + uploadedFile.result);
+          this.file = uploadedFile.result;
         this.changeDetector.markForCheck();
       };
     }
     this.displayCloseButton = true;
-    return this.data.form;
   }
 
   public removeFile(): void {

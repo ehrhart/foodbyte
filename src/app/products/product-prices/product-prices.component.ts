@@ -5,6 +5,8 @@ import {Price} from "../../Models/Price";
 import {ShopsService} from "../../service/api/shops.service";
 import {Shop} from "../../Models/Shop";
 import {CommunicationService} from "../../service/communication.service";
+import {FormControl} from "@angular/forms";
+import {ProductsService} from "../../service/api/products.service";
 
 @Component({
   selector: 'app-product-prices',
@@ -18,11 +20,15 @@ export class ProductPricesComponent implements OnInit {
 
   public productPrices: Price[] = [];
   public allShops: Shop[] = [];
+  price = new FormControl();
+  showEditForm: boolean = false;
+
 
   constructor(public dialogRef: MatDialogRef<ProductPricesComponent>,
               private pricesService: PricesService,
               private communicationService: CommunicationService,
               private shopService: ShopsService,
+              private productService: ProductsService,
               @Inject(MAT_DIALOG_DATA) public data: any,) {
     this.communicationService.listen().subscribe((m: any) => {
       this.onFilterClick(m);
@@ -64,6 +70,15 @@ export class ProductPricesComponent implements OnInit {
 
   public removePrice(id: number) {
     this.pricesService.remove(id);
+  }
+
+  public editPrice() {
+    this.showEditForm = true;
+  }
+
+  public confirmEditPrice(id : number , shop: Shop) {
+    this.productService.editProductPrice(this.data.product._id ,id, this.price.value , shop);
+    this.showEditForm = false;
   }
 
   onFilterClick(event) {

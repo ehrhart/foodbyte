@@ -10,6 +10,8 @@ import { Product } from '../../Models/Product';
 import {httpOptions} from "./api-http.config";
 import {TokenStorage} from "../../auth/token.storage";
 import {CommunicationService} from "../communication.service";
+import {Price} from "../../Models/Price";
+import {Shop} from "../../Models/Shop";
 
 @Injectable({
   providedIn: 'root'
@@ -47,10 +49,12 @@ export class ProductsService {
     let body = res.map(e => e.ingredients);
     return body || [];
   }
+
   private extratTotalPage(res: any) {
     let body = res;
     return body.totalPages || [];
   }
+
   getIngridents(): Observable<any> {
     return this.http.get(this.endpoint).pipe(
       map(this.extratIngidients));
@@ -72,18 +76,30 @@ export class ProductsService {
   }
 
   getProductsPaginated(page: number, perPage: number, Keywords: string = null): Observable<Array<Recipe>> {
-    let httpParams: HttpParams = new HttpParams()
-    .set('page', page.toString())
-    .set('per_page', perPage.toString())
-    .set('Keywords', Keywords);
-
-
-    return this.http.get(this.endpoint,  {
-      headers: this.headers,
-      params: httpParams
-    })
-    .map(this.extractData)
-    .catch(handleError);
+    if(Keywords == null) {
+      let httpParams: HttpParams = new HttpParams()
+      .set('page', page.toString())
+      .set('per_page', perPage.toString())
+      .set('Keywords', Keywords);
+      return this.http.get(this.endpoint,  {
+        headers: this.headers,
+        params: httpParams
+      })
+      .map(this.extractData)
+      .catch(handleError);
+    }
+    else {
+      let httpParams: HttpParams = new HttpParams()
+      .set('page', page.toString())
+      .set('per_page', perPage.toString())
+      .set('name', Keywords);
+      return this.http.get(this.endpoint,  {
+        headers: this.headers,
+        params: httpParams
+      })
+      .map(this.extractData)
+      .catch(handleError);
+    }
   }
 
 
@@ -98,27 +114,39 @@ export class ProductsService {
     let headers = new Headers();
     headers.append('Authorization', this.tockenStorage.getToken());
     headers.append('Content-Type', 'application/json');
-
-    // let httpParams: HttpParams = new HttpParams()
-    // .set('shop', shop)
-    // .set('price', price)
-    // .set('date', date);
-
     let body = {
-      'shop': shop,
-      'price': parseFloat(price),
-      'date': date
-    };
-    this.http.post(this.endpoint + '/'+ id + '/price' , {
-      headers: this.headers,
-      body: body
-    }).subscribe(
+          'shop': shop,
+          'price': parseFloat(price),
+          'date': new Date().toDateString()
+        };
+    this.http.post<Price>(this.endpoint + '/'+ id + '/price' , body , httpOptions).subscribe(
       (response) => {
         this.communicationService.filter('refreshRecipes');
-        this.openSnackBar('Mise à jour de la recette aved succée', 'succée');
+        this.openSnackBar('Ajout de la recette aved succée', price);
+        // this.communicationService.filter('refresh');
       },
       response => {
-        this.communicationService.filter('refreshProducts');
+        this.communicationService.filter('refreshRecipes');
+      }
+    );
+  }
+
+  editProductPrice(productId: number, priceId: number , price: string , shopId: Shop) {
+    let headers = new Headers();
+    headers.append('Authorization', this.tockenStorage.getToken());
+    headers.append('Content-Type', 'application/json');
+    let body = {
+      'shop': shopId._id,
+      'price': parseFloat(price),
+      'date': new Date().toDateString()
+    };
+    return this.http.put<Price>(this.endpoint +'/'+productId +'/price/'+ priceId, body, httpOptions).subscribe(
+      (response) => {
+        this.communicationService.filter('refreshPrices');
+        this.openSnackBar('Mise à jour du prix aved succée', 'succée');
+      },
+      response => {
+        this.communicationService.filter('refreshPrices');
       }
     );
   }

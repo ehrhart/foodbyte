@@ -1,19 +1,22 @@
 <div fxLayout="column" fxLayoutAlign="center center" class="wrapper">
   <div fxLayout="row" fxLayoutAlign="space-between center" fxFill>
     <mat-form-field class="table-search-input">
-      <input matInput placeholder="Rechercher votre recette" aria-label="Rechercher votre recette" (keyup)="searchRecipe()"
+      <input matInput placeholder="Rechercher votre recette" aria-label="Rechercher votre recette"
+             (keyup)="searchRecipe()"
              [matAutocomplete]="auto" [formControl]="recipeSearch">
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let recipe of unFiltredpagedItems" [value]="recipe.name" (onSelectionChange)="searchRecipe()">
-          <img class="example-option-img" aria-hidden [src]="recipe.image_url" height="35" width="35"> -
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchRecipe()">
+        <mat-option *ngFor="let recipe of unFiltredpagedItems" [value]="recipe.name">
+          <img class="example-option-img" aria-hidden
+               [src]="recipe.image_url || 'assets/recipe.png'" height="35" width="35"
+               style="border-radius: 50%"> -
           <span>{{recipe.name}}</span>
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
     <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
 
-<div>
-</div>
+      <div>
+      </div>
       <div>
         <mat-button-toggle-group name="fontStyle" aria-label="Font Style" fxLayoutAlign="center">
 
@@ -61,7 +64,7 @@
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content fxLayout="row" fxLayoutAlign="center space-between">
-          <img [src]="recipe.image_url || 'assets/default-recipe.png'" width="200"
+          <img [src]="recipe.image_url || 'assets/recipe.png'" width="200"
                height="200" style="border-radius: 50%">
         </mat-card-content>
         <mat-card-actions class="custom-bar">
@@ -102,7 +105,7 @@
 
       <div class="pager-container">
 
-        <mat-paginator [length]="totalPages"
+        <mat-paginator [length]="totalpage"
                        [pageIndex]="actualPage"
                        [pageSize]="defaultPageSize"
                        [showFirstLastButtons]="true"

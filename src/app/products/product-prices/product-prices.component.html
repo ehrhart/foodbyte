@@ -18,6 +18,13 @@
 
     <div fxLayout="column">
 
+      <!--<div *ngIf="showEditForm">-->
+        <!--<mat-form-field class="table-search-input">-->
+          <!--<input matInput placeholder="Prix" aria-label="Rechercher votre recette" [formControl]="price">-->
+        <!--</mat-form-field>-->
+
+      <!--</div>-->
+
       <mat-card class="mat-elevation-z8" style="margin: 20px " *ngFor="let price of productPrices">
         <div fxLayout="row" fxLayoutAlign="space-between center">
 
@@ -30,10 +37,21 @@
           <span *ngIf="filterShop(price.shopId)">Magasin: {{filterShop(price.shopId).name}}</span>
         </div>
 
+
           <div>
+
+            <!--<button mat-icon-button color="warn" (click)="confirmEditPrice(price._id, filterShop(price.shopId))" *ngIf="showEditForm">-->
+              <!--<mat-icon aria-label="Example icon-button with a heart icon" matTooltip="Confirm">check_circle</mat-icon>-->
+            <!--</button>-->
+
+            <!--<button mat-icon-button color="warn" (click)="editPrice()" *ngIf="!showEditForm">-->
+              <!--<mat-icon aria-label="Example icon-button with a heart icon" matTooltip="Editer ce prix">edit</mat-icon>-->
+            <!--</button>-->
+
             <button mat-icon-button color="warn" (click)="removePrice(price._id)">
               <mat-icon aria-label="Example icon-button with a heart icon" matTooltip="Supprimer ce prix">delete</mat-icon>
             </button>
+
           </div>
 
         </div>

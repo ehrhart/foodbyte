@@ -48,12 +48,25 @@ export class RecipesService {
     return body.totalPages || [];
   }
 
+  private extratTotalElementNumber(res: any) {
+    let body = res;
+    return body.totalResults || [];
+  }
+
   getTotalPage(): Observable<number> {
     const options = {headers: this.headers};
     return this.http.get(this.endpoint, options)
       .map(this.extratTotalPage)
       .catch(handleError);
   }
+
+  getTotalElementNumber(): Observable<number> {
+    const options = {headers: this.headers};
+    return this.http.get(this.endpoint, options)
+    .map(this.extratTotalElementNumber)
+    .catch(handleError);
+  }
+
   getRecipesPaginated(page: number, perPage: number, Keywords: string = null): Observable<Array<Recipe>> {
     if(Keywords == null) {
       let httpParams: HttpParams = new HttpParams()
@@ -110,20 +123,6 @@ export class RecipesService {
       },
       response => {
         this.communicationService.filter('refreshRecipes');
-      }
-    );
-  }
-
-
-  updateRecipe(recipe: Recipe) {
-    this.http.post<Recipe>(this.endpoint + '/' + recipe._id, recipe, httpOptions).subscribe(
-      (response) => {
-        this.openSnackBar('Mise à jour terminée', recipe.name);
-      //  this.communicationService.filter('refresh');
-
-      },
-      response => {
-        this.openSnackBar('Erreur lors de la mise à jour de la rectte', recipe.name);
       }
     );
   }

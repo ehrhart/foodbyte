@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './stat-dashboard.component.html',
   styleUrls: ['./stat-dashboard.component.scss']
 })
-export class StatDashboardComponent {
+export class StatDashboardComponent  {
 
 
   // data goes here
