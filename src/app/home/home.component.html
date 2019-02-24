@@ -12,11 +12,8 @@
 <mat-icon class="custom-icon blue">room_service</mat-icon>
       <mat-card-content>
       </mat-card-content>
-      <mat-card-actions>
-        <button mat-button>
-          <mat-icon matTooltip="Plus d'informations">info</mat-icon>
-        </button>
-        <button mat-button [routerLink]="['/recipe']">Accéder</button>
+      <mat-card-actions class="custom-card-header">
+        <button mat-button [routerLink]="['/recipes']"><mat-icon>restaurant</mat-icon>Accéder</button>
       </mat-card-actions>
     </mat-card>
   </div>
@@ -31,11 +28,8 @@
      <mat-icon class="custom-icon red">restaurant_menu</mat-icon>
       <mat-card-content>
       </mat-card-content>
-      <mat-card-actions>
-        <button mat-button>
-          <mat-icon matTooltip="Plus d'informations">info</mat-icon>
-        </button>
-        <button mat-button>Accéder</button>
+      <mat-card-actions class="custom-card-header">
+        <button mat-button routerLink="/shops"><mat-icon>restaurant</mat-icon>Accéder</button>
       </mat-card-actions>
     </mat-card>
   </div>
@@ -50,11 +44,8 @@
      <mat-icon class="custom-icon green">shopping_cart</mat-icon>
       <mat-card-content>
       </mat-card-content>
-      <mat-card-actions>
-        <button mat-button>
-          <mat-icon matTooltip="Plus d'informations">info</mat-icon>
-        </button>
-        <button mat-button routerLink="/products">Accéder</button>
+      <mat-card-actions class="custom-card-header">
+        <button mat-button routerLink="/products"><mat-icon>restaurant</mat-icon>Accéder</button>
       </mat-card-actions>
     </mat-card>
   </div>
@@ -62,19 +53,16 @@
   <div fxFlex="20" class="example-card">
     <mat-card [class.mat-elevation-z8]="true">
       <mat-card-header class="custom-card-header">
-        <mat-card-title>Profile</mat-card-title>
+        <mat-card-title>Statistiques</mat-card-title>
         <mat-card-subtitle>14/01/2018
 
         </mat-card-subtitle>
       </mat-card-header>
-         <mat-icon class="custom-icon orange">account_circle</mat-icon>
+         <mat-icon class="custom-icon orange">bar_chart</mat-icon>
       <mat-card-content>
       </mat-card-content>
-      <mat-card-actions>
-        <button mat-button>
-          <mat-icon matTooltip="Plus d'informations">info</mat-icon>
-        </button>
-        <button mat-button >Accéder</button>
+      <mat-card-actions class="custom-card-header">
+        <button mat-button routerLink="/statistics"><mat-icon>restaurant</mat-icon>Accéder</button>
       </mat-card-actions>
     </mat-card>
   </div>

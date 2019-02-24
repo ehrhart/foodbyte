@@ -6,11 +6,10 @@
     <!-- This fills the remaining space of the current row -->
     <span class="fill-remaining-space"></span>
     <div fxLayout="row" fxShow="false" fxShow.gt-sm class="example-spacer">
-      <button mat-button routerLink="/recipes">Recette</button>
-      <button mat-button routerLink="/shops">Magasins</button>
-      <button mat-button routerLink="/products">Produits</button>
-      <button mat-button routerLink="/statistics">Statistiques</button>
-      <button mat-button routerLink="/profile">Profile</button>
+      <button mat-button routerLink="/recipes"><mat-icon color="info">room_service</mat-icon>Recette</button>
+      <button mat-button routerLink="/shops"><mat-icon color="info">restaurant_menu</mat-icon>Magasins</button>
+      <button mat-button routerLink="/products"><mat-icon color="info">shopping_cart</mat-icon>Produits</button>
+      <button mat-button routerLink="/statistics"><mat-icon color="info">bar_chart</mat-icon>Statistiques</button>
     </div>
     <div>
       <button mat-button routerLink="/profile" *ngIf="user"> <mat-icon color="info">account_circle</mat-icon>{{user.fullname}}</button>
