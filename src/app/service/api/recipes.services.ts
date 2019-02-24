@@ -116,7 +116,12 @@ export class RecipesService {
     let headers = new Headers();
     headers.append('Authorization', this.tockenStorage.getToken());
     headers.append('Content-Type', 'application/json');
-    this.http.put<Recipe>(this.endpoint + '/'+ recipe._id , recipe , httpOptions).subscribe(
+
+    let body = {
+      name: recipe.name,
+      text: recipe.text
+    };
+    this.http.put<Recipe>(this.endpoint + '/'+ recipe._id , body , httpOptions).subscribe(
       (response) => {
         this.communicationService.filter('refreshRecipes');
         this.openSnackBar('Mise à jour de la recette aved succée', recipe.name);
@@ -126,6 +131,34 @@ export class RecipesService {
       }
     );
   }
+
+
+  rateRecipe(id: number, rating: number){
+    let headers = new Headers();
+    headers.append('Authorization', this.tockenStorage.getToken());
+    headers.append('Content-Type', 'application/json');
+
+    let httpParams: HttpParams = new HttpParams()
+    .set('rating', rating.toString())
+
+
+    let body = {
+      rating: rating,
+    };
+    this.http.put<Recipe>(this.endpoint + '/'+ id +'/ratings/'+rating , {
+      headers: this.headers,
+      params: httpParams
+    }).subscribe(
+      (response) => {
+        this.communicationService.filter('refreshRecipes');
+        this.openSnackBar('Evaluation aved succée', 'succée');
+      },
+      response => {
+        this.communicationService.filter('refreshRecipes');
+      }
+    );
+  }
+
 
   private extractData(body: any) {
     return body.results || [];

@@ -22,6 +22,24 @@
         <strong>{{data.recipe.name}}</strong>
       </div>
 
+      <div>
+        Evaluez cette recette :
+        <div mat-dialog-content class="p-24 m-0">
+            <div fxLayout="column" style="width: 10%; margin-left: 10px">
+              <mat-form-field appearance="outline" fxFlex="95">
+                <mat-select placeholder="Rate" [formControl]="rating" (selectionChange)="rateRecipe()">
+                  <mat-option [value]="1">1 star</mat-option>
+                  <mat-option [value]="2">2 stars</mat-option>
+                  <mat-option [value]="3">3 stars</mat-option>
+                  <mat-option [value]="4">4 stars</mat-option>
+                  <mat-option [value]="5">5 stars</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+        </div>
+
+      </div>
+
       <div class="desciption-section">
         <mat-list role="list">
           <mat-list-item class="step-container" role="listitem" *ngFor="let step of parseRecipe(data.recipe.text) , let i = index"> 

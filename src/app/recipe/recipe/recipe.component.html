@@ -63,9 +63,35 @@
             </div>
           </mat-card-subtitle>
         </mat-card-header>
-        <mat-card-content fxLayout="row" fxLayoutAlign="center space-between">
-          <img [src]="recipe.image_url || 'assets/recipe.png'" width="200"
-               height="200" style="border-radius: 50%">
+        <mat-card-content fxLayout="column" fxLayoutAlign="center center" >
+
+          <div>
+            <mat-icon
+              [ngStyle]="{'color':recipe.avgRating > 0  ? 'orangered' : 'grey' }">
+              star
+            </mat-icon>
+            <mat-icon
+              [ngStyle]="{'color':recipe.avgRating > 1  ? 'orangered' : 'grey' }">
+              star
+            </mat-icon>
+            <mat-icon
+              [ngStyle]="{'color':recipe.avgRating > 2  ? 'orangered' : 'grey' }">
+              star
+            </mat-icon>
+            <mat-icon
+              [ngStyle]="{'color':recipe.avgRating > 4  ? 'orangered' : 'grey' }">
+              star
+            </mat-icon>
+            <mat-icon
+              [ngStyle]="{'color':recipe.avgRating > 5  ? 'orangered' : 'grey' }">
+              star
+            </mat-icon>
+          </div>
+
+          <div>
+            <img [src]="recipe.image_url || 'assets/recipe.png'" width="200"
+                 height="200" style="border-radius: 50%">
+          </div>
         </mat-card-content>
         <mat-card-actions class="custom-bar">
 

@@ -92,7 +92,7 @@ export class RecipeEditComponent implements OnInit {
       this.selectedIngrdientsText = this.slectedIngrdient.map(e => e.text);
     }
     this.recipeSteps.push(formData['desciption']);
-    console.log(this.fileForm);
+    console.log(this.concatinateStringArray);
     let recipeToPost: Recipe = new Recipe(null, formData['name'],
       this.concatinateStringArray(),
       null,

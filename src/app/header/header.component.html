@@ -3,7 +3,6 @@
     <a [routerLink]="['/']" class="logo"></a>
     <span>FoodByte</span>
 
-    <!-- This fills the remaining space of the current row -->
     <span class="fill-remaining-space"></span>
     <div fxLayout="row" fxShow="false" fxShow.gt-sm class="example-spacer">
       <button mat-button routerLink="/recipes"><mat-icon color="info">room_service</mat-icon>Recette</button>
@@ -15,9 +14,6 @@
       <button mat-button routerLink="/profile" *ngIf="user"> <mat-icon color="info">account_circle</mat-icon>{{user.fullname}}</button>
       <button mat-button (click)="logout()">Déconnexion</button>
     </div>
-
-
-
 
   </mat-toolbar>
 

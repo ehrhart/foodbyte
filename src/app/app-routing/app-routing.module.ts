@@ -10,7 +10,7 @@ import {StatDashboardComponent} from "../statistics/stat-dashboard/stat-dashboar
 
 const routes: Routes = [{
   path: '',
-  //canActivate: [AuthGuard],
+  canActivate: [AuthGuard],
   component: HomeComponent
    },
   {

@@ -21,7 +21,7 @@ import {PagerService} from "./service/pager.service";
 import {ShopsModule} from "./shops/shops.module";
 import {AgmCoreModule} from "@agm/core";
 import {StatisticsModule} from "./statistics/statistics.module";
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     provide: HTTP_INTERCEPTORS,
     useClass: CatchErrorInterceptor,
     multi: true,
-  },CommunicationService,PagerService],
+  }, CommunicationService, PagerService],
   entryComponents: [],
   bootstrap: [AppComponent]
 })
