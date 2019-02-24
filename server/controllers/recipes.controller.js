@@ -18,6 +18,16 @@ async function getAll(req, res, next) {
   const perPage = Math.max(0, Math.min(200, parseInt(req.query.per_page) || 20));
   const keywords = req.query.q;
 
+  const validSortBy = {
+    name,
+    'created': 'createdAt',
+    'updated': 'updatedAt',
+    comments,
+    rating
+  };
+  const sortBy = validSortBy[req.query.s] || Object.values(validSortBy)[0];
+  const sortOrder = req.query.o === 'asc' ? 1 : -1;
+
   const filterParams = {};
   if (keywords) {
     filterParams.name = { $regex: new RegExp(keywords.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi') };
@@ -38,6 +48,7 @@ async function getAll(req, res, next) {
         .populate('comments.user', '_id fullname')
         .populate('user', '_id fullname')
         .populate('products', '_id name score avgPrice')
+        .sort({ [sortBy]: sortOrder })
         .exec()
     });
   } catch (e) {
