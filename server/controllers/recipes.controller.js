@@ -1,5 +1,6 @@
 const Recipe = require('../models/recipe.model');
 const RecipeComment = require('../models/recipe-comment.model');
+const RecipeRating = require('../models/recipe-rating.model');
 const nlpHelper = require('../helpers/nlp.helper');
 
 module.exports = {
@@ -10,7 +11,9 @@ module.exports = {
   remove,
   getRecipeProducts,
   addComment,
-  getComments
+  getComments,
+  addRating,
+  getRatings
 };
 
 async function getAll(req, res, next) {
@@ -45,8 +48,7 @@ async function getAll(req, res, next) {
         .skip(offset)
         .limit(perPage)
         .sort({ [sortBy]: sortOrder })
-        .select('-comments')
-        .populate('comments.user', '_id fullname')
+        .select('-comments -ratings')
         .populate('user', '_id fullname')
         .populate('products', '_id name score avgPrice')
         .exec()
@@ -61,6 +63,7 @@ async function getById(req, res, next) {
     return res.json(await Recipe
       .findById(req.params.id)
       .populate('comments.user', '_id fullname')
+      .populate('ratings.user', '_id fullname')
       .populate('user', '_id fullname')
       .populate('products', '_id name score avgPrice')
       .exec()
@@ -144,6 +147,7 @@ async function addComment(req, res, next) {
       comments: new RecipeComment({
         user: req.user._id,
         content,
+        recipe: req.params.id
       })
     }
   }, {
@@ -159,6 +163,62 @@ async function getComments(req, res, next) {
       .findById(req.params.id)
       .select('-_id comments')
       .populate('comments.user', '_id fullname')
+      .exec()
+    );
+  } catch (e) {
+    next(e);
+  }
+}
+
+async function addRating(req, res, next) {
+  const ratingValue = parseInt(req.params.rating);
+  if (isNaN(ratingValue) || ratingValue < 1 || ratingValue > 5) {
+    next(new Error('Invalid rating'));
+    return;
+  }
+
+  // Remove previous rating if it exists
+  await Recipe.findOneAndUpdate({
+    _id: req.params.id
+  }, {
+    '$pull': {
+      ratings: {
+        'user': req.user._id
+      }
+    }
+  });
+
+  // Add new rating
+  await Recipe.findOneAndUpdate({
+    _id: req.params.id
+  }, {
+    '$push': {
+      ratings: new RecipeRating({
+        user: req.user._id,
+        recipe: req.params.id,
+        value: ratingValue
+      })
+    }
+  }, {
+    new: true,
+  });
+
+  // Calculate new average rating
+  const recipe = await Recipe.findById(req.params.id);
+  recipe.avgRating = recipe.ratings.reduce((sum, rating, _, { length }) => {
+    return sum + rating.value / length;
+  }, 0);
+  await recipe.save();
+
+  return res.json(recipe);
+}
+
+async function getRatings(req, res, next) {
+  try {
+    return res.json(await Recipe
+      .findById(req.params.id)
+      .select('-_id ratings')
+      .populate('ratings.user', '_id fullname')
       .exec()
     );
   } catch (e) {

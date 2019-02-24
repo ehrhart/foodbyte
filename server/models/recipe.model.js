@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const RecipeComment = require('./recipe-comment.model');
+const RecipeRating = require('./recipe-rating.model');
 
 const RecipeSchema = new mongoose.Schema({
   name: {
@@ -24,7 +25,11 @@ const RecipeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product'
   }],
-  comments: [RecipeComment.schema]
+  comments: [RecipeComment.schema],
+  ratings: [RecipeRating.schema],
+  avgRating: {
+    type: Number
+  }
 }, {
   versionKey: false,
   timestamps: true
