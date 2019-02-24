@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const server = require('../index');
 const authCtrl = require('../controllers/auth.controller');
 const User = require('../models/user.model');
+const Price = require('../models/price.model');
 const should = chai.should();
 const expect = chai.expect;
 
@@ -61,6 +62,12 @@ describe('Products', () => {
   });
 
   describe('POST /products/:id/price',() =>{
+    before(done => {
+      Price.deleteMany({
+        productId: product._id
+      }, done);
+    });
+
     it('it should post the new price of the product', done =>{
       chai.request(server)
       .post(`/api/products/${product._id}/price`)
@@ -78,6 +85,12 @@ describe('Products', () => {
   });
 
   describe('POST /products/:id/price not allowed because of date',()=>{
+    before(done => {
+      Price.deleteMany({
+        productId: product._id
+      }, done);
+    });
+
     it('it should post the new price of the product', done =>{
       chai.request(server)
       .post(`/api/products/${product._id}/price`)
