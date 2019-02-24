@@ -3,6 +3,10 @@ foodByte is a [MEAN](https://github.com/linnovate/mean) stack based web applicat
 
 A live demo is available at: http://foodbyte-app.herokuapp.com/. It uses Heroku and mLab MongoDB.
 
+**Demo account:**
+- Email: `demo@foodbyte.io`
+- Password: `demo`
+
 # Features
 This application implements the following features:
 
