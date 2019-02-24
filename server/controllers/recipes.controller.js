@@ -19,11 +19,11 @@ async function getAll(req, res, next) {
   const keywords = req.query.q;
 
   const validSortBy = {
-    name,
+    'name': 'name',
     'created': 'createdAt',
     'updated': 'updatedAt',
-    comments,
-    rating
+    'comments': 'comments',
+    'rating': 'rating'
   };
   const sortBy = validSortBy[req.query.s] || Object.values(validSortBy)[0];
   const sortOrder = req.query.o === 'asc' ? 1 : -1;
@@ -44,11 +44,11 @@ async function getAll(req, res, next) {
         .find(filterParams)
         .skip(offset)
         .limit(perPage)
+        .sort({ [sortBy]: sortOrder })
         .select('-comments')
         .populate('comments.user', '_id fullname')
         .populate('user', '_id fullname')
         .populate('products', '_id name score avgPrice')
-        .sort({ [sortBy]: sortOrder })
         .exec()
     });
   } catch (e) {
