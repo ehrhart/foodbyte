@@ -1,118 +1,85 @@
-<div class="dialog-content-wrapper">
+<mat-toolbar matDialogTitle class="mat-accent m-0">
+  <span class="title dialog-title">
+    Composition nutritionnelle de : {{data.product.name}}
+  </span>
+  <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
 
-  <mat-toolbar matDialogTitle class="mat-accent m-0">
-    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
-            <span class="title dialog-title">
-               Composition nutritionnelle de : {{data.product.name}}
-            </span>
-      <button mat-button class="mat-icon-button"
-              (click)="dialogRef.close()"
-              aria-label="Close dialog">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-  </mat-toolbar>
+<mat-dialog-content class="mat-typography">
+  <div fxLayout="column" fxflexalign="center space-around">
+    <strong>Composition nutritionnelle dans 100g: </strong>
+    <div fxLayout="row" fxFlexAlign="50">
+      <mat-list role="list">
+        <mat-list-item role="listitem">
+          <span>Sodium 100g: <b>{{data.product.nutriments[0].sodium_100g}}</b></span>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <span>energy 100g: <b>{{data.product.nutriments[0].energy_100g}}</b></span>
+        </mat-list-item>
 
-  <div mat-dialog-content class="p-24 m-0"  style="height: 100%">
+        <mat-list-item role="listitem">
+          <span>sugars 100g: <b>{{data.product.nutriments[0].sugars_100g}}</b></span>
+        </mat-list-item>
 
-    <div fxLayout="column" fxflexalign="center space-around">
-      <strong>Composition nutritionnelle dans 100g: </strong>
-      <div fxLayout="row" fxFlexAlign="50">
-        <mat-list role="list">
-          <mat-list-item role="listitem">
-            <span>Sodium 100g: <b>{{data.product.nutriments[0].sodium_100g}}</b></span>
-          </mat-list-item>
-          <mat-list-item role="listitem">
-            <span>energy 100g: <b>{{data.product.nutriments[0].energy_100g}}</b></span>
-          </mat-list-item>
+        <mat-list-item role="listitem">
+          <span>proteins 100g: <b>{{data.product.nutriments[0].proteins_100g}}</b></span>
+        </mat-list-item>
 
-          <mat-list-item role="listitem">
-            <span>sugars 100g: <b>{{data.product.nutriments[0].sugars_100g}}</b></span>
-          </mat-list-item>
+        <mat-list-item role="listitem">
+          <span>salt 100g: <b>{{data.product.nutriments[0].salt_100g}}</b></span>
+        </mat-list-item>
 
-          <mat-list-item role="listitem">
-            <span>proteins 100g: <b>{{data.product.nutriments[0].proteins_100g}}</b></span>
-          </mat-list-item>
+        <mat-list-item role="listitem">
+          <span>fat 100g: <b>{{data.product.nutriments[0].fat_100g}}</b></span>
+        </mat-list-item>
 
-          <mat-list-item role="listitem">
-            <span>salt 100g: <b>{{data.product.nutriments[0].salt_100g}}</b></span>
-          </mat-list-item>
+        <mat-list-item role="listitem">
+          <span>carbohydrates 100g: <b>{{data.product.nutriments[0].carbohydrates_100g}}</b></span>
+        </mat-list-item>
 
-          <mat-list-item role="listitem">
-            <span>fat 100g: <b>{{data.product.nutriments[0].fat_100g}}</b></span>
-          </mat-list-item>
-
-          <mat-list-item role="listitem">
-            <span>carbohydrates 100g: <b>{{data.product.nutriments[0].carbohydrates_100g}}</b></span>
-          </mat-list-item>
-
-        </mat-list>
+      </mat-list>
 
 
       <div fxLayout="column" fxFlexAlign="50">
-        <ngx-charts-pie-chart
-          [view]="view"
-          [scheme]="colorScheme"
-          [results]="scoreStat"
-          [legend]="showLegend"
-          [explodeSlices]="explodeSlices"
-          [labels]="showLabels"
-          [doughnut]="doughnut"
-          [gradient]="gradient">
-        </ngx-charts-pie-chart>
+        <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="scoreStat" [legend]="showLegend"
+          [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient"></ngx-charts-pie-chart>
       </div>
-      </div>
-
-      <mat-divider></mat-divider>
-      <div fxLayout="row" fxflexalign="center space-around">
-        <div fxLayout="column" fxFlexAlign="50">
-          <strong>Valeur nutitionnelle apportée: </strong>
-          <mat-list role="list">
-
-            <mat-list-item role="listitem">
-              <span>sugars serving: <b>{{data.product.nutriments[0].sugars_serving}}</b></span>
-            </mat-list-item>
-
-            <mat-list-item role="listitem">
-              <span>salt serving: <b>{{data.product.nutriments[0].salt_serving}}</b></span>
-            </mat-list-item>
-
-            <mat-list-item role="listitem">
-              <span>carbohydrates serving: <b>{{data.product.nutriments[0].carbohydrates_serving}}</b></span>
-            </mat-list-item>
-
-            <mat-list-item role="listitem">
-              <span>fat serving: <b>{{data.product.nutriments[0].fat_serving}}</b></span>
-            </mat-list-item>
-
-            <mat-list-item role="listitem">
-              <span>proteins serving: <b>{{data.product.nutriments[0].proteins_serving}}</b></span>
-            </mat-list-item>
-
-
-
-          </mat-list>
-        </div>
-        <div fxLayout="column" fxFlexAlign="50">
-          <ngx-charts-pie-chart
-            [view]="view"
-            [scheme]="colorScheme"
-            [results]="ServingNutriments"
-            [legend]="showLegend"
-            [explodeSlices]="explodeSlices"
-            [labels]="showLabels"
-            [doughnut]="doughnut"
-            [gradient]="gradient"
-            >
-          </ngx-charts-pie-chart>
-        </div>
-      </div>
-
-
     </div>
 
+    <mat-divider></mat-divider>
 
+    <div fxLayout="row" fxflexalign="center space-around">
+      <div fxLayout="column" fxFlexAlign="50">
+        <strong>Valeur nutitionnelle apportée: </strong>
+        <mat-list role="list">
+
+          <mat-list-item role="listitem">
+            <span>sugars serving: <b>{{data.product.nutriments[0].sugars_serving}}</b></span>
+          </mat-list-item>
+
+          <mat-list-item role="listitem">
+            <span>salt serving: <b>{{data.product.nutriments[0].salt_serving}}</b></span>
+          </mat-list-item>
+
+          <mat-list-item role="listitem">
+            <span>carbohydrates serving: <b>{{data.product.nutriments[0].carbohydrates_serving}}</b></span>
+          </mat-list-item>
+
+          <mat-list-item role="listitem">
+            <span>fat serving: <b>{{data.product.nutriments[0].fat_serving}}</b></span>
+          </mat-list-item>
+
+          <mat-list-item role="listitem">
+            <span>proteins serving: <b>{{data.product.nutriments[0].proteins_serving}}</b></span>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div fxLayout="column" fxFlexAlign="50">
+        <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="ServingNutriments" [legend]="showLegend"
+          [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient"></ngx-charts-pie-chart>
+      </div>
+    </div>
   </div>
-
-
-</div>
+</mat-dialog-content>

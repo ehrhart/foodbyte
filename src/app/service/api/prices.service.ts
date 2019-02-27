@@ -46,7 +46,7 @@ export class PricesService {
     return this.http.delete(this.endpoint +'/'+id, options).subscribe(
       (response) => {
         this.communicationService.filter('refreshPrices');
-        this.openSnackBar('Suppression du prix aved succée', 'succée');
+        this.openSnackBar('Suppression du prix avec succès', 'succès');
         // this.communicationService.filter('refresh');
       },
       response => {

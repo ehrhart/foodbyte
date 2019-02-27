@@ -1,48 +1,38 @@
-<div class="dialog-content-wrapper">
+<mat-toolbar matDialogTitle class="mat-accent m-0">
+  <span class="title dialog-title"><small>Créer une nouvelle recette</small></span>
+  <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
 
-  <mat-toolbar matDialogTitle class="mat-accent m-0">
-    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
-      <span class="title dialog-title"><small>Créer une nouvelle recette</small></span>
-      <button mat-button class="mat-icon-button"
-              (click)="dialogRef.close()"
-              aria-label="Close dialog">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-  </mat-toolbar>
+<mat-dialog-content class="mat-typography">
+  <form class="form-field" [formGroup]="data.form">
+    <div fxLayout="column" fxLayoutAlign="center space-between">
 
-  <div mat-dialog-content class="p-24 m-0">
-    <form class="form-field" [formGroup]="data.form">
-      <div fxLayout="column" fxLayoutAlign="center space-between">
+      <mat-card class="mat-elevation-z8 card-section">
+        <mat-label><strong>Nom de la recette: </strong></mat-label>
+        <div fxLayout="column">
+          <mat-form-field appearance="outline" fxFlex="100">
+            <mat-label>Nom de la recette</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="name" required>
+            <mat-icon matSuffix>fastfood</mat-icon>
+            <mat-hint>Veuillez saisir le nom de votre recette</mat-hint>
+          </mat-form-field>
+          <mat-error *ngIf="name.touched && name.hasError('required')">
+            Le nom de votre recette est obligatoire
+          </mat-error>
+        </div>
+      </mat-card>
 
+      <form class="form-field" [formGroup]="fileForm">
         <mat-card class="mat-elevation-z8 card-section">
-          <mat-label><strong>Nom de la recette: </strong></mat-label>
-          <div fxLayout="column">
-            <mat-form-field appearance="outline" fxFlex="100">
-              <mat-label>Nom de la recette</mat-label>
-              <input matInput placeholder="Placeholder" formControlName="name" required>
-              <mat-icon matSuffix>fastfood</mat-icon>
-              <mat-hint>Veuillez saisir le nom de votre recette</mat-hint>
-            </mat-form-field>
-            <mat-error *ngIf="name.touched && name.hasError('required')">
-              Le nom de votre recette est obligatoire
-            </mat-error>
-          </div>
-        </mat-card>
-
-        <form class="form-field" [formGroup]="fileForm">
-        <mat-card class="mat-elevation-z8 card-section">
-          <mat-label><strong>Nom de la recette: </strong></mat-label>
+          <mat-label><strong>Photo de la recette: </strong></mat-label>
           <div fxLayout="row" fxLayoutAlign="space-between center" fxFill="100">
 
             <div class="file-upload mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
               <em class="material-icons upload-icon">attachment</em>
-              <input type="file"
-                     (change)="onFileChange($event)"
-                     name="FileAttachment"
-                     id="FileAttachment"
-                     class="upload"
-                     #fileInput/>
+              <input type="file" (change)="onFileChange($event)" name="FileAttachment" id="FileAttachment" class="upload"
+                #fileInput />
             </div>
 
             <div class="close-icon">
@@ -54,79 +44,61 @@
           </div>
 
         </mat-card>
-        </form>
+      </form>
 
-        <!--<mat-card>-->
-        <!--<mat-form-field fxFlex="100">-->
-        <!--<mat-select placeholder="Selectioner vos ingredients" [formControl]="toppings" multiple>-->
-        <!--<mat-select-trigger>-->
-        <!--{{ingredientsList ? ingredientsList[0] : ''}}-->
-        <!--<span *ngIf="ingredientsList.length > 1"-->
-        <!--class="example-additional-selection">-->
-        <!--(+{{ingredientsList.length - 1}} {{ingredientsList.length === 2 ? 'other' : 'others'}})-->
-        <!--</span>-->
-        <!--</mat-select-trigger>-->
-        <!--<mat-option *ngFor="let topping of ingredientsList"-->
-        <!--[value]="topping">-->
-        <!--<strong>Nom:</strong> {{topping.text}}-->
-        <!--<span *ngIf="topping.rank"><span class="separator">|</span> <strong>Rang :</strong> {{topping.rank}}</span>-->
-        <!--<span *ngIf="topping.percent"><span class="separator">|</span><strong> Pourcentage : </strong>{{topping.percent}}%</span>-->
-        <!--</mat-option>-->
-        <!--</mat-select>-->
-        <!--</mat-form-field>-->
-        <!--</mat-card>-->
+      <!--<mat-card>
+        <mat-form-field fxFlex="100">
+          <mat-select placeholder="Selectioner vos ingredients" [formControl]="toppings" multiple>
+            <mat-select-trigger>
+              {{ingredientsList ? ingredientsList[0] : ''}}
+              <span *ngIf="ingredientsList.length > 1"
+                class="example-additional-selection">
+                (+{{ingredientsList.length - 1}} {{ingredientsList.length === 2 ? 'other' : 'others'}})
+              </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let topping of ingredientsList"
+            [value]="topping">
+            <strong>Nom:</strong> {{topping.text}}
+            <span *ngIf="topping.rank"><span class="separator">|</span> <strong>Rang :</strong> {{topping.rank}}</span>
+            <span *ngIf="topping.percent"><span class="separator">|</span><strong> Pourcentage : </strong>{{topping.percent}}%</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card>-->
 
-        <mat-card class="mat-elevation-z8" class="recipe-section card-section">
-          <mat-label class="custom-label"><strong> Recette de préparation: </strong></mat-label>
-          <div *ngFor="let recipeStep of recipeSteps;let i = index;">
-            <mat-form-field class="form__field" fxFlex="100">
-              <input matInput placeholder="Etape {{i+1}}" formControlName="desciption" required
-                     value="">
-              <mat-icon matSuffix>fastfood</mat-icon>
-              <mat-hint>Veuillez saisir l'étape {{i + 1}} de votre recette</mat-hint>
-              <mat-error *ngIf="recipeStep =='Etape'">
-                Ce champs ne peut pas étre vide
-              </mat-error>
+      <mat-card class="mat-elevation-z8" class="recipe-section card-section">
+        <mat-label class="custom-label"><strong> Recette de préparation: </strong></mat-label>
+        <div *ngFor="let recipeStep of recipeSteps;let i = index;">
+          <mat-form-field class="form__field" fxFlex="100">
+            <input matInput placeholder="Etape {{i+1}}" formControlName="desciption" required value="">
+            <mat-icon matSuffix>fastfood</mat-icon>
+            <mat-hint>Veuillez saisir l'étape {{i + 1}} de votre recette</mat-hint>
+            <mat-error *ngIf="recipeStep =='Etape'">
+              Ce champs ne peut pas étre vide
+            </mat-error>
 
-            </mat-form-field>
+          </mat-form-field>
 
-            <button mat-icon-button (click)='removeRecipeStep(recipeStep)'
-                    *ngIf="recipeSteps.length > 1">
-              <mat-icon matTooltip="Supprimer étape {{i+1}}" class="close">cancel</mat-icon>
-            </button>
+          <button mat-icon-button (click)='removeRecipeStep(recipeStep)' *ngIf="recipeSteps.length > 1">
+            <mat-icon matTooltip="Supprimer étape {{i+1}}" class="close">Annuler</mat-icon>
+          </button>
 
-            <button mat-icon-button
-                    (click)='addRecipeStep(i+1)'
-                    [disableRipple]="true"
-                    *ngIf="(i+1 == recipeSteps.length)">
-              <mat-icon matTooltip="Ajouter étape {{i+2}}" class="add">add</mat-icon>
-            </button>
-          </div>
-        </mat-card>
+          <button mat-icon-button (click)='addRecipeStep(i+1)' [disableRipple]="true" *ngIf="(i+1 == recipeSteps.length)">
+            <mat-icon matTooltip="Ajouter étape {{i+2}}" class="add">Ajouter</mat-icon>
+          </button>
+        </div>
+      </mat-card>
 
-      </div>
-    </form>
-
-
-  </div>
-
-  <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="center center">
-    <div>
-      <button mat-raised-button
-              (click)="addRecipe()"
-              class="save-button mat-accent"
-              aria-label="SAVE">
-        Créer
-      </button>
-
-
-      <button mat-button
-              (click)="onNoClick()"
-              class="save-button mat-accent"
-              aria-label="CLOSE">
-        Annuler
-      </button>
     </div>
+  </form>
+</mat-dialog-content>
 
-  </div>
-</div>
+<mat-dialog-actions align="end">
+  <button mat-raised-button (click)="addRecipe()" class="save-button mat-accent" aria-label="SAVE">
+    Créer
+  </button>
+
+  <button mat-button (click)="onNoClick()" class="save-button mat-accent" aria-label="CLOSE">
+    Annuler
+  </button>
+</mat-dialog-actions>

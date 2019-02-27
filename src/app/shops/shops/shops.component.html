@@ -67,14 +67,14 @@
 
           <div fxLayout="row" fxLayoutAlign="center space-between">
 
-            <button mat-button>
-              <mat-icon matTooltip="Consulter l'adresse du magasin" (click)="openShopAdressDialog(shop)"
+            <button mat-button (click)="openShopAdressDialog(shop)">
+              <mat-icon matTooltip="Consulter l'adresse du magasin"
                         style="color: blue">map
               </mat-icon>
             </button>
 
-            <button mat-button>
-              <mat-icon matTooltip="Localiser magasin" (click)="openShopGeolocalisationDialog(shop)"
+            <button mat-button (click)="openShopGeolocalisationDialog(shop)">
+              <mat-icon matTooltip="Localiser le magasin"
                         style="color: blue">place
               </mat-icon>
             </button>

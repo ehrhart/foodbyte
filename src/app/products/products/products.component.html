@@ -92,27 +92,26 @@
         <mat-card-actions class="custom-bar">
 
           <div fxLayout="row" fxLayoutAlign="center space-between">
-            <button mat-button>
+            <button mat-button (click)="openProductDetailDialog(product)">
               <mat-icon matTooltip="Afficher la description du produit"
-                        (click)="openProductDetailDialog(product)"
                         style="color: blue">info
               </mat-icon>
             </button>
 
-            <button mat-button>
-              <mat-icon matTooltip="Ajouter des informations" (click)="addProductDialog(product)"
+            <button mat-button (click)="addProductDialog(product)">
+              <mat-icon matTooltip="Ajouter des informations"
                         style="color: blue">edit
               </mat-icon>
             </button>
 
-            <button mat-button>
-              <mat-icon matTooltip="Composition du produit" (click)="openProductStatDialog(product)"
+            <button mat-button (click)="openProductStatDialog(product)">
+              <mat-icon matTooltip="Composition du produit"
                         style="color: blue">insert_chart
               </mat-icon>
             </button>
 
-            <button mat-button>
-              <mat-icon matTooltip="Consultez le prix chez plusieurs magasins" (click)="addProductPrices(product)"
+            <button mat-button (click)="addProductPrices(product)">
+              <mat-icon matTooltip="Consulter le prix chez plusieurs magasins"
                         style="color: blue">attach_money
               </mat-icon>
             </button>
