@@ -1,46 +1,42 @@
-@mixin md-icon-size($size: 24px) {
-  font-size: $size;
-  height: $size;
-  width: $size;
-  line-height: $size;
-}
+app-shop-geolocalisation {
+  @mixin md-icon-size($size: 24px) {
+    font-size: $size;
+    height: $size;
+    width: $size;
+    line-height: $size;
+  }
 
-.confirm-icon{
-  color: #2C93FF;
-  @include md-icon-size(35px);
-  background-size: 100% auto;
-  position: fixed;
-}
+  .confirm-icon{
+    color: #2C93FF;
+    @include md-icon-size(35px);
+    background-size: 100% auto;
+    position: fixed;
+  }
 
-/* Fullscreen map, remove dialog padding */
-.mat-dialog-container {
-  padding-bottom: 0;
-}
-.mat-dialog-container .mat-dialog-content {
-  padding: 0;
-}
+  /* Fullscreen map, remove dialog padding */
+  .mat-dialog-content {
+    padding: 0;
+    margin-bottom: -24px;
+  }
 
-agm-map {
-  height: 65vh;
-}
+  agm-map {
+    height: 65vh;
+  }
 
-.notif-text{
-  text-align: center;
-}
+  .notif-text{
+    text-align: center;
+  }
 
-img {
-  border-radius: 50%;
-}
+  .notif-container {
+    border: 2px solid #2C93FF;
+  }
 
-.notif-container {
-  border: 2px solid #2C93FF;
-}
+  .header-image {
+    display: block;
+    margin: 0 auto;
+  }
 
-.header-image {
-  display: block;
-  margin: 0 auto;
-}
-
-.step-container {
-  max-height: 700px;
+  .step-container {
+    max-height: 700px;
+  }
 }
