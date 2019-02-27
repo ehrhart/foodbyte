@@ -97,26 +97,26 @@
 
           <div fxLayout="row" fxLayoutAlign="center space-around">
 
-            <button mat-button>
-              <mat-icon matTooltip="Afficher préparation" (click)="openRecipeDetailDialog(recipe)"
+            <button mat-button (click)="openRecipeDetailDialog(recipe)">
+              <mat-icon matTooltip="Afficher préparation"
                         style="color: blue">fastfood
               </mat-icon>
             </button>
 
-            <button mat-button>
-              <mat-icon matTooltip="Editer la recette" (click)="openRecipeEditDialog(recipe)"
+            <button mat-button (click)="openRecipeEditDialog(recipe)">
+              <mat-icon matTooltip="Éditer la recette"
                         style="color: blue">edit
               </mat-icon>
             </button>
 
-            <button mat-button>
-              <mat-icon matTooltip="commentaire" (click)="openRecipeCommentDialog(recipe)"
+            <button mat-button (click)="openRecipeCommentDialog(recipe)">
+              <mat-icon matTooltip="Commentaires"
                         style="color: blue">forum
               </mat-icon>
             </button>
 
-            <button mat-button>
-              <mat-icon matTooltip="Statistique" (click)="openStatRecipeDialog(recipe)"
+            <button mat-button (click)="openStatRecipeDialog(recipe)">
+              <mat-icon matTooltip="Statistiques"
                         style="color: blue">insert_chart
               </mat-icon>
             </button>

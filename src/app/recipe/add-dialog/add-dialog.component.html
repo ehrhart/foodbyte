@@ -80,11 +80,11 @@
           </mat-form-field>
 
           <button mat-icon-button (click)='removeRecipeStep(recipeStep)' *ngIf="recipeSteps.length > 1">
-            <mat-icon matTooltip="Supprimer étape {{i+1}}" class="close">cancel</mat-icon>
+            <mat-icon matTooltip="Supprimer étape {{i+1}}" class="close">Annuler</mat-icon>
           </button>
 
           <button mat-icon-button (click)='addRecipeStep(i+1)' [disableRipple]="true" *ngIf="(i+1 == recipeSteps.length)">
-            <mat-icon matTooltip="Ajouter étape {{i+2}}" class="add">add</mat-icon>
+            <mat-icon matTooltip="Ajouter étape {{i+2}}" class="add">Ajouter</mat-icon>
           </button>
         </div>
       </mat-card>
