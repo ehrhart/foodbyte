@@ -122,7 +122,7 @@ export class ProductsService {
     this.http.post<Price>(this.endpoint + '/'+ id + '/price' , body , httpOptions).subscribe(
       (response) => {
         this.communicationService.filter('refreshRecipes');
-        this.openSnackBar('Ajout de la recette aved succée', price);
+        this.openSnackBar('Prix ajouté avec succès', price);
         // this.communicationService.filter('refresh');
       },
       response => {
@@ -143,7 +143,7 @@ export class ProductsService {
     return this.http.put<Price>(this.endpoint +'/'+productId +'/price/'+ priceId, body, httpOptions).subscribe(
       (response) => {
         this.communicationService.filter('refreshPrices');
-        this.openSnackBar('Mise à jour du prix aved succée', 'succée');
+        this.openSnackBar('Prix mis à jour avec succès', 'succès');
       },
       response => {
         this.communicationService.filter('refreshPrices');

@@ -45,10 +45,10 @@ export class CommentsService {
     this.http.post<Recipe>(this.endpoint+'/'+recipe._id+'/comments' , comment , httpOptions).subscribe(
       (response) => {
         this.communicationService.filter('refreshComments');
-        this.openSnackBar('Ajout du commentaire aved succée au recette', recipe.name);
+        this.openSnackBar('Commentaire ajouté avec succès sur la recette', recipe.name);
       },
       response => {
-        this.openSnackBar('Erreur lors de l ajout du commentaire au rectte', recipe.name);
+        this.openSnackBar('Erreur lors de l\'ajout du commentaire sur la recette', recipe.name);
       }
     );
   }
@@ -56,12 +56,12 @@ export class CommentsService {
   updateCommentOfRecipe(recipe: Recipe, comment: Comment) {
     this.http.put<Recipe>(this.endpoint+'/'+recipe._id+'/comments' , comment , httpOptions).subscribe(
       (response) => {
-        this.openSnackBar('Mise à jour terminée', recipe.name);
+        this.openSnackBar('Commentaire mis à jour avec succès sur la recette', recipe.name);
         //  this.communicationService.filter('refresh');
 
       },
       response => {
-        this.openSnackBar('Erreur lors de la mise à jour de la rectte', recipe.name);
+        this.openSnackBar('Erreur lors de la mise à jour du commentaire de la recette', recipe.name);
       }
     );
   }

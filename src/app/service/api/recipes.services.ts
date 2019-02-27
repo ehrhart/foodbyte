@@ -102,7 +102,7 @@ export class RecipesService {
     this.http.post<Recipe>(this.endpoint , recipe , httpOptions).subscribe(
       (response) => {
         this.communicationService.filter('refreshRecipes');
-        this.openSnackBar('Ajout de la recette aved succée', recipe.name);
+        this.openSnackBar('Recette ajoutée avec succès', recipe.name);
        // this.communicationService.filter('refresh');
       },
       response => {
@@ -124,7 +124,7 @@ export class RecipesService {
     this.http.put<Recipe>(this.endpoint + '/'+ recipe._id , body , httpOptions).subscribe(
       (response) => {
         this.communicationService.filter('refreshRecipes');
-        this.openSnackBar('Mise à jour de la recette aved succée', recipe.name);
+        this.openSnackBar('Recette mise à jour avec succès', recipe.name);
       },
       response => {
         this.communicationService.filter('refreshRecipes');
@@ -151,7 +151,7 @@ export class RecipesService {
     }).subscribe(
       (response) => {
         this.communicationService.filter('refreshRecipes');
-        this.openSnackBar('Evaluation aved succée', 'succée');
+        this.openSnackBar('Évaluation ajoutée avec succès', 'succès');
       },
       response => {
         this.communicationService.filter('refreshRecipes');
