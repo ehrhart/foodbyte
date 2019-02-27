@@ -12,8 +12,16 @@
   position: fixed;
 }
 
+/* Fullscreen map, remove dialog padding */
+.mat-dialog-container {
+  padding-bottom: 0;
+}
+.mat-dialog-container .mat-dialog-content {
+  padding: 0;
+}
+
 agm-map {
-  height: 700px;
+  height: 65vh;
 }
 
 .notif-text{
@@ -26,10 +34,6 @@ img {
 
 .notif-container {
   border: 2px solid #2C93FF;
-}
-
-.mat-dialog-container {
-  padding: 0px !important;
 }
 
 .header-image {

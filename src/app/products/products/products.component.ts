@@ -76,32 +76,28 @@ export class ProductsComponent implements OnInit, AfterViewInit {
 
   addProductDialog(product: Product) {
     this.dialog.open(AddProductsDetailsComponent, {
-      width: '900px',
-      height: '500px',
+      width: '80%',
       data: {product: product, form: this.genrateProductForm()}
     });
   }
 
   addProductPrices(product: Product) {
     this.dialog.open(ProductPricesComponent, {
-      width: '900px',
-      height: '500px',
+      width: '80%',
       data: {product: product}
     });
   }
 
   public openProductDetailDialog(product: Product) {
     this.dialog.open(ProductDetailsDialogComponent, {
-      width: '1000px',
-      height: '800px',
+      width: '80%',
       data: {product: product}
     });
   }
 
   public openProductStatDialog(product: Product) {
     this.dialog.open(ProductStatComponent, {
-      width: '1000px',
-      height: '800px',
+      width: '80%',
       data: {product: product}
     });
   }

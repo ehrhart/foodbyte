@@ -54,16 +54,14 @@ export class ShopsComponent implements OnInit, AfterViewInit {
 
   public openShopAdressDialog(shop: Shop) {
     this.dialog.open(ShopDetailComponent, {
-      width: '900px',
-      height: '400px',
+      width: '80%',
       data: {shop: shop}
     });
   }
 
   public openShopGeolocalisationDialog(shop: Shop) {
     this.dialog.open(ShopGeolocalisationComponent, {
-      width: '1000px',
-      height: '700px',
+      width: '80%',
       data: {shop: shop}
     })
   }

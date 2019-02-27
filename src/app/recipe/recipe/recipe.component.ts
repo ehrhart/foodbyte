@@ -97,32 +97,28 @@ export class RecipeComponent implements OnInit, AfterViewInit {
 
   public openRecipeDetailDialog(recipe: Recipe) {
     this.dialog.open(RecipeDetailsDialogComponent, {
-      width: '1000px',
-      height: '800px',
+      width: '80%',
       data: {recipe: recipe}
     });
   }
 
   public openRecipeCommentDialog(recipe: Recipe) {
     this.dialog.open(RecipeCommentComponent, {
-      width: '1000px',
-      height: '800px',
+      width: '80%',
       data: {recipe: recipe, form: this.generateCommentForm()}
     });
   }
 
   public openRecipeEditDialog(recipe: Recipe) {
     this.dialog.open(RecipeEditComponent, {
-      width: '1000px',
-      height: '800px',
+      width: '80%',
       data: {recipe: recipe, form: this.generateRecipeForm()}
     });
   }
 
   public openAddRecipeDialog() {
     this.dialog.open(AddDialogComponent, {
-      width: '1000px',
-      height: '800px',
+      width: '80%',
       data: {form: this.generateRecipeForm()}
     })
   }
