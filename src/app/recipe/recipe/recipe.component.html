@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="center center" class="wrapper">
   <div fxLayout="row" fxLayoutAlign="space-between center" fxFill>
     <mat-form-field class="table-search-input">
-      <input matInput placeholder="Rechercher votre recette" aria-label="Rechercher votre recette"
+      <input matInput placeholder="Rechercher une recette" aria-label="Rechercher une recette"
              (keyup)="searchRecipe()"
              [matAutocomplete]="auto" [formControl]="recipeSearch">
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchRecipe()">
