@@ -1,5 +1,5 @@
 # foodByte
-foodByte is a [MEAN](https://github.com/linnovate/mean) stack based web application that enables the user to search for food related products, share their recipes, and compare prices. It relies on the data from [OpenFoodFacts](https://openfoodfacts.org/).
+foodByte is a web application that enables the user to search for food related products, share their recipes, and compare prices. It is based on [MEAN](https://github.com/linnovate/mean) stack and relies on the data from [OpenFoodFacts](https://openfoodfacts.org/).
 
 A live demo is available at: http://foodbyte-app.herokuapp.com/. It uses Heroku and mLab MongoDB.
 
@@ -48,6 +48,7 @@ List of the main technologies used on the back-end:
 * [Express](http://expressjs.com/) - fast Node.js network app framework
 * [Mocha](https://mochajs.org/) - feature rich Node.js test framework
 * [Mongoose](https://mongoosejs.com/) - elegant MongoDB object modeling for Node.js
+* [compromise](https://github.com/spencermountain/compromise) - modest natural-language processing in javascript
 
 # Installation
 
