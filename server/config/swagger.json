@@ -1,64 +1,84 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "version": "1.0.0",
-      "title": "Mean Application API",
-      "description": "Mean Application API",
-      "license": {
-        "name": "MIT",
-        "url": "https://opensource.org/licenses/MIT"
-      }
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "foodByte API",
+    "description": "foodByte API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "",
+  "basePath": "/api/",
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "API for auth in the system"
     },
-    "host": "localhost:4040",
-    "basePath": "/api/",
-    "tags": [
-      {
-        "name": "Users",
-        "description": "API for users in the system"
-      },
-      {
-        "name": "Auth",
-        "description": "API for auth in the system"
-      }
-    ],
-    "schemes": [
-      "http"
-    ],
-    "consumes": [
-      "application/json"
-    ],
-    "produces": [
-      "application/json"
-    ],
-    "securityDefinitions": {
-      "AuthHeader": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "Authorization"
-      }
+    {
+      "name": "Prices",
+      "description": "API for prices"
     },
-    "paths": {
-      "/auth/login": {
-        "post": {
-          "tags": ["Auth"],
-          "description": "Login to the system",
-        "parameters": [{
-          "name": "auth",
-          "in": "body",
-          "description": "User auth details",
-          "schema": {
-            "type": "object",
-            "required": ["email", "password"],
-            "properties": {
-              "email": {
-                "type": "string"
-              },
-              "password": {
-                "type": "string"
+    {
+      "name": "Products",
+      "description": "API for products"
+    },
+    {
+      "name": "Recipes",
+      "description": "API for recipes"
+    },
+    {
+      "name": "Shops",
+      "description": "API for shops"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "AuthHeader": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Login to the system",
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "body",
+            "description": "User auth details",
+            "schema": {
+              "type": "object",
+              "required": [
+                "email",
+                "password"
+              ],
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
               }
             }
           }
-        }],
+        ],
         "produces": [
           "application/json"
         ],
@@ -71,51 +91,426 @@
           }
         }
       }
-      }
     },
-    "definitions": {
-      "User": {
-        "required": [
-          "email",
-          "fullname"
+    "/auth/me": {
+      "post": {
+        "tags": [
+          "Auth"
         ],
-        "properties": {
-          "_id": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "email": {
-            "type": "string",
-            "uniqueItems": true
-          },
-          "fullname": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string"
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "type": "string"
+        "description": "Return user profile informations",
+        "parameters": [
+          {
+            "name": "me",
+            "in": "body",
+            "description": "User auth details"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile informations",
+            "schema": {
+              "$ref": "#/definitions/User"
             }
           }
         }
-      },
-      "Users": {
-        "type": "array",
-        "$ref": "#/definitions/User"
-      },
-      "Auth": {
-        "type": "object",
-        "properties": [{
-          "token": {
-            "type": "string"
-          },
-          "user": {
-            "$ref": "#/definitions/User"
-          }
-        }]
       }
+    },
+    "/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Get products",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Search keywords",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of products",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "description": "Get details of a product",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of a product",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        }
+      }
+    },
+    "/recipes": {
+      "get": {
+        "tags": [
+          "Recipes"
+        ],
+        "description": "Get recipes",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Search keywords",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of recipes",
+            "schema": {
+              "$ref": "#/definitions/Recipe"
+            }
+          }
+        }
+      }
+    },
+    "/recipes/{id}": {
+      "get": {
+        "tags": [
+          "Recipes"
+        ],
+        "description": "Get the details of a recipe",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Recipe ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of a recipe",
+            "schema": {
+              "$ref": "#/definitions/Recipe"
+            }
+          }
+        }
+      }
+    },
+    "/shops": {
+      "get": {
+        "tags": [
+          "Shops"
+        ],
+        "description": "Get shops",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Search keywords",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of shops",
+            "schema": {
+              "$ref": "#/definitions/Shop"
+            }
+          }
+        }
+      }
+    },
+    "/shops/{id}": {
+      "get": {
+        "tags": [
+          "Shops"
+        ],
+        "description": "Get the details of a shop",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Shop ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of a shop",
+            "schema": {
+              "$ref": "#/definitions/Shop"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "required": [
+        "email",
+        "fullname"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "fullname": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Price": {
+      "required": [
+        "shopId",
+        "productId",
+        "date",
+        "price"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "shopId": {
+          "type": "string"
+        },
+        "productId": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        }
+      }
+    },
+    "Product": {
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "off_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "score": {
+          "type": "string"
+        },
+        "nutrition_grade": {
+          "type": "string"
+        },
+        "brands": {
+          "type": "string"
+        },
+        "ingredients_text": {
+          "type": "string"
+        },
+        "nutriments": {
+          "type": "string"
+        },
+        "avgPrice": {
+          "type": "string"
+        },
+        "prices": {
+          "type": "string"
+        },
+        "images": {
+          "type": "string"
+        },
+        "image_url": {
+          "type": "string"
+        },
+        "image_thumb_url": {
+          "type": "string"
+        }
+      }
+    },
+    "Recipe": {
+      "required": [
+        "name",
+        "text"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "image_url": {
+          "type": "string"
+        },
+        "image_thumb_url": {
+          "type": "string"
+        },
+        "products": {
+          "type": "string"
+        },
+        "comments": {
+          "type": "string"
+        },
+        "ratings": {
+          "type": "string"
+        },
+        "avgRating": {
+          "type": "string"
+        }
+      }
+    },
+    "Shop": {
+      "required": [
+        "name",
+        "address",
+        "location"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        }
+      }
+    }
   }
 }
